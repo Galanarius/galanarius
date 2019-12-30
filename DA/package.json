@@ -1,7 +1,7 @@
 {
   "name": "galanarius",
   "version": "0.0.1",
-  "description": "A compound RPG system utilizing a desktop application and discord utility to be accesible nearly anywhere.",
+  "description": "A compound RPG system utilizing a desktop application and discord utility to be accessible nearly anywhere.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
