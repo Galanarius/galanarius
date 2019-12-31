@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require('electron')
-let win
+const { app, BrowserWindow, Menu } = require('electron');
+const path = require('path');
+const url = require('url');
+let win;
 
 function createWindow () {
   // Create the browser window.
@@ -21,6 +23,29 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+  var menu = Menu.buildFromTemplate([
+  {
+    label: 'Menu',
+    submenu: [
+        {
+          label:'Home',
+          click: async() => {
+
+          }
+        },
+        {
+          label:'About'
+        },
+        {
+          label:'Profile'
+        },
+        {
+          label: 'Stats'
+        }
+    ]
+  }
+  ]);
+  Menu.setApplicationMenu(menu);
 }
 //Runs on full load
 app.on('ready', createWindow)
