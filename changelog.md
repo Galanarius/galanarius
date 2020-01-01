@@ -2,16 +2,14 @@
 
 ## DA
 
-### page framework
-
-### page basic implementation
+### none
 
 ## DI
 
-### none
+### Implemented whitelist functionality, and dice rolling, as well as a catch for when the prefix is found in a whitelisted channel, but no command is found
 
 ## Overall
 
-### Informational markdown files added (changelog, ISSUES, README, and TODO)
+### Began package scripts' implementation
 
-### Began global resource implementation
+### Updated TODO.md with a more detailed layout for the nearest milestones

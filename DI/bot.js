@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const misc = require('../packages/misc.js')
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -10,6 +11,12 @@ client.on('message', msg => {
   if(msg.content == null) return;
   if(msg.content == 'test'){
     msg.reply(`\`\`\`I here you loud and clear!\`\`\``);
+  }
+  else if(msg.content.substring(0,msg.content.indexOf(' ')) == 'roll'){
+    roll(msg, msg.content.substring(5,msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
+  }
+  else{
+    msg.channel.send('Command not found');
   }
 });
 
@@ -31,6 +38,43 @@ function whitelist(msg){
   var channellist = ['600805783088660563'];
   for(var k = 0; k < channellist.length; k++) 
     if(msg.channel.id == channellist[k]) return true;
+}
+
+function roll(msg, numofdice, numofsides){
+  numofdice = new Number(numofdice);
+  numofsides = new Number(numofsides);
+  //console.log(`Number of dice: ${numofdice}`);
+  //console.log(`Number of sides: ${numofsides}`);
+  var result = 0;
+  try{
+      var resultarr = new Array(numofdice);
+  }
+  catch{
+      msg.channel.send('ERR too many dice!');
+      return;
+  }
+  try{
+      for(var roll = 1; roll <= numofdice; roll++){
+      resultarr[roll] = misc.randomnum(numofsides, 1);
+      //console.log(resultarr[roll]);
+      result += resultarr[roll];
+      }
+  }
+  catch{
+      msg.channel.send('ERR too many sides!');
+      return;
+  }
+  result = 'Total: ' + result + '     Rolls: '
+  for(var roll = 1; roll <= numofdice; roll++){
+      if(roll != numofdice){
+          result = result + resultarr[roll] + ', ';
+      }
+      else{
+          result = result + resultarr[roll];
+      }
+  }
+  //console.log(result);
+  msg.channel.send(result.toString());
 }
 
 client.login('NjA3NzA1MjYwMDAxMTk4MDkw.XgqIgw.SZzXU0-5bMe502Kg23EmgeoWbJo');
