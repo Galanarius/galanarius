@@ -1,3 +1,0 @@
-function fade(){}
-
-function linkedButton(){}
