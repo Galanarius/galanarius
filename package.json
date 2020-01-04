@@ -4,7 +4,7 @@
   "description": "A compound RPG system utilizing a desktop application and discord utility to be accessible nearly anywhere.",
   "main": "bot.js",
   "scripts": {
-    "start": "node ."
+    "start": "node start.js"
   },
   "repository": {
     "type": "git",
@@ -26,11 +26,15 @@
   },
   "homepage": "https://github.com/Queejon/galanarius#readme",
   "devDependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "node-cmd": "^3.0.0"
   },
   "dependencies": {
     "copy-dir": "^1.2.0",
     "fs": "0.0.1-security",
-    "mkdir": "0.0.2"
+    "mkdir": "0.0.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0"
   }
 }
