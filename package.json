@@ -2,9 +2,10 @@
   "name": "galanarius",
   "version": "0.0.2",
   "description": "A compound RPG system utilizing a desktop application and discord utility to be accessible nearly anywhere.",
-  "main": "bot.js",
+  "main": "start.js",
   "scripts": {
-    "start": "node start.js"
+    "di": "cd di && node bot.js",
+    "da": "cd da && index.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/Queejon/galanarius#readme",
   "devDependencies": {
     "discord.js": "^11.5.1",
+    "electron": "^7.1.7",
     "node-cmd": "^3.0.0"
   },
   "dependencies": {
