@@ -1,5 +1,11 @@
 # To Do
 
+## Implement profile display command
+
+### Implement profile read/write functions
+
+### Implement a call to these functions in DI
+
 ## Implement commander generation scripts
 
 ### Develop commander template
@@ -12,11 +18,7 @@
 
 ### Develop and implement failsafes into master script
 
-## Implement profile management scripts
-
 ## Implement resource gathering scripts
-
-## Implement universal scripts to DI
 
 ## Begin implementation of star system generation scripts
 
