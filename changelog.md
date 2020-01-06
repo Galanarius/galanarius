@@ -4,16 +4,8 @@
 
 ## DI
 
-### Implemented character creation
+### Added character creation failsafe to avoid overwriting existing characters
 
 ## Overall
 
-### Changed the package used for file system work
-
-### Added non-guild messages as a bypass to the channel whitelist (i.e. direct messages or group messages) 
-
-### Developed templates for player and commander profiles
-
-### Developed character creation function
-
-### Added profiles folder to gitignore file
+### Fixed random number generator function

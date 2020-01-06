@@ -18,7 +18,7 @@ client.on('message', msg => {
     roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
   }
   else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'create' || msg.content == 'create'){
-    if(!fs.exists(`../profiles/${userID}`){
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){
       msg.channel.send(`You already have a character!`);
       return;
     }
@@ -67,7 +67,7 @@ function roll(msg, numofdice, numofsides){
   }
   try{
       for(var roll = 1; roll <= numofdice; roll++){
-      resultarr[roll] = misc.randomnum(numofsides, 1);
+      resultarr[roll] = misc.randomnum(1, numofsides);
       //console.log(resultarr[roll]);
       result += resultarr[roll];
       }
