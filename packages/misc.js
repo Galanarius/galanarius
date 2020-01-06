@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('graceful-fs');
 const mkdirp = require('mkdirp');
 const copydir = require('copy-dir');
 

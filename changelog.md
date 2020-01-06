@@ -4,8 +4,16 @@
 
 ## DI
 
+### Implemented character creation
+
 ## Overall
 
-### Condensed the projects into a single npm project
+### Changed the package used for file system work
 
-### Developed and implemented a new starting script for starting any of the programs in the project
+### Added non-guild messages as a bypass to the channel whitelist (i.e. direct messages or group messages) 
+
+### Developed templates for player and commander profiles
+
+### Developed character creation function
+
+### Added profiles folder to gitignore file

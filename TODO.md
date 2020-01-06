@@ -1,15 +1,5 @@
 # To Do
 
-## Begin implementation of profile creation scripts
-
-### Develop profile template
-
-### Develop profile copy/fill function
-
-### Implement function into Discord bot
-
-### Develop and implement failsafes into the copy/fill function
-
 ## Implement commander generation scripts
 
 ### Develop commander template

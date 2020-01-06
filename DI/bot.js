@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const misc = require('../packages/misc.js')
+const fs = require('graceful-fs');
+const misc = require('../packages/misc.js');
+const profile = require(`../packages/profile.js`);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -12,8 +14,16 @@ client.on('message', msg => {
   if(msg.content == 'test'){
     msg.reply(`\`\`\`I here you loud and clear!\`\`\``);
   }
-  else if(msg.content.substring(0,msg.content.indexOf(' ')) == 'roll'){
-    roll(msg, msg.content.substring(5,msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
+  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'roll'){
+    roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
+  }
+  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'create' || msg.content == 'create'){
+    if(!fs.exists(`../profiles/${userID}`){
+      msg.channel.send(`You already have a character!`);
+      return;
+    }
+    profile.create(msg.author.username, msg.author.id);
+    msg.reply(`character made successfully!`);
   }
   else{
     msg.channel.send('Command not found');
@@ -38,6 +48,8 @@ function whitelist(msg){
   var channellist = ['600805783088660563'];
   for(var k = 0; k < channellist.length; k++) 
     if(msg.channel.id == channellist[k]) return true;
+  if(msg.guild === null)
+    return true;
 }
 
 function roll(msg, numofdice, numofsides){
