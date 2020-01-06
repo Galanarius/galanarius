@@ -5,7 +5,8 @@
   "main": "start.js",
   "scripts": {
     "di": "cd di && node bot.js",
-    "da": "cd da && index.js"
+    "da": "cd da && electron .",
+    "test": "cd packages && node test.js"
   },
   "repository": {
     "type": "git",

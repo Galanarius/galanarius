@@ -1,11 +1,5 @@
 # To Do
 
-## Implement profile display command
-
-### Implement profile read/write functions
-
-### Implement a call to these functions in DI
-
 ## Implement commander generation scripts
 
 ### Develop commander template

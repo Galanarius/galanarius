@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports ={
    create: function(user, userID){
-      copydir('../ref/profile-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
+      copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
       setTimeout(function(){
          var c = JSON.parse(fs.readFileSync(`../profiles/${userID}/profile.json`));
       c.username = user;

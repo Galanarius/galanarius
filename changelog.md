@@ -4,8 +4,12 @@
 
 ## DI
 
-### Implemented character location display
-
-### Documented else if cases by their corresponding command aliases and arguments if applicable
-
 ## Overall
+
+### Matched required modules between global scripts to make developement easier (will remove unused and/or unneccesary modules from files at a later time)
+
+### Began implementation of commander generation by creating a new scripts package 'npc.js'
+
+### Reworked reference templates for players and npcs
+
+### Continued use of 'test.js' script and therefore added it as an npm script
