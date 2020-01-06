@@ -3,16 +3,16 @@
    "ID": -1,
    "level": 0,
    "xp": 0,
-   "credits": 0,
+   "credits": 1000,
    "faction": "undecided",
    "rank": "newbie",
-   "location": null,
+   "location": "AFC-5KZJ",
    "coords": [0,0,0],
    "resources": {
-      "personnel": 0,
+      "personnel": [10,10],
       
       "nat_mat": 0,
-      "tera_mat": 0,
+      "ore": 0,
       
       "seed": 0,
       "crop": 0,
@@ -25,12 +25,12 @@
       
       "stone": 0,
       "slag": 0,
-      "oreI": 0,
-      "oreII": 0,
-      "oreIII": 0,
-      "oreIV": 0,
+      "metalI": 0,
+      "metalII": 0,
+      "metalIII": 0,
+      "metalIV": 0,
       
-      "relic_token": 0,
+      "relic_token": 2,
       
       "research_point": 10,
       "skill_point": 0,

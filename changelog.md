@@ -4,8 +4,10 @@
 
 ## DI
 
-### Added character creation failsafe to avoid overwriting existing characters
+### Implemented character display function
 
 ## Overall
 
-### Fixed random number generator function
+### Developed character display functions
+
+### Reworked player profile template/defaults

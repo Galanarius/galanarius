@@ -11,12 +11,15 @@ client.on('ready', () => {
 client.on('message', msg => {
   msg.content = msgprecon(msg);
   if(msg.content == null) return;
+  //test
   if(msg.content == 'test'){
     msg.reply(`\`\`\`I here you loud and clear!\`\`\``);
   }
+  //roll (number of dice)d(number of sides)
   else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'roll'){
     roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
   }
+  //character create
   else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'create' || msg.content == 'create'){
     if(fs.existsSync(`../profiles/${msg.author.id}`)){
       msg.channel.send(`You already have a character!`);
@@ -25,6 +28,17 @@ client.on('message', msg => {
     profile.create(msg.author.username, msg.author.id);
     msg.reply(`character made successfully!`);
   }
+  //display character
+  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'profile' || msg.content.substring(0, msg.content.indexOf(' ')) == 'display' || msg.content == 'profile' || msg.content == 'display'){
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+      var c = profile.getprofile(msg.author.id);
+      msg.channel.send(`**Profile:**\n\n\n**Basic:**\n\`\`\`${profile.displayprofile.basic(c)}\`\`\`\n\n**Resources:**\n\`\`\`${profile.displayprofile.resources(c)}\`\`\`\n\n**Skills:**\n\`\`\`${profile.displayprofile.skills(c)}\`\`\``);
+    }
+    else{
+      msg.channel.send(`You need to make a character first`);
+    }
+  }
+  //no command found
   else{
     msg.channel.send('Command not found');
   }
