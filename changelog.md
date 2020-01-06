@@ -4,10 +4,8 @@
 
 ## DI
 
-### Implemented character display function
+### Implemented character location display
+
+### Documented else if cases by their corresponding command aliases and arguments if applicable
 
 ## Overall
-
-### Developed character display functions
-
-### Reworked player profile template/defaults

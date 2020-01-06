@@ -16,11 +16,11 @@ client.on('message', msg => {
     msg.reply(`\`\`\`I here you loud and clear!\`\`\``);
   }
   //roll (number of dice)d(number of sides)
-  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'roll'){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'roll'){
     roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
   }
   //character create
-  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'create' || msg.content == 'create'){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'create' || msg.content.toLowerCase() == 'create'){
     if(fs.existsSync(`../profiles/${msg.author.id}`)){
       msg.channel.send(`You already have a character!`);
       return;
@@ -29,13 +29,20 @@ client.on('message', msg => {
     msg.reply(`character made successfully!`);
   }
   //display character
-  else if(msg.content.substring(0, msg.content.indexOf(' ')) == 'profile' || msg.content.substring(0, msg.content.indexOf(' ')) == 'display' || msg.content == 'profile' || msg.content == 'display'){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'profile' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'display' || msg.content.toLowerCase() == 'profile' || msg.content.toLowerCase() == 'display'){
     if(fs.existsSync(`../profiles/${msg.author.id}`)){
       var c = profile.getprofile(msg.author.id);
       msg.channel.send(`**Profile:**\n\n\n**Basic:**\n\`\`\`${profile.displayprofile.basic(c)}\`\`\`\n\n**Resources:**\n\`\`\`${profile.displayprofile.resources(c)}\`\`\`\n\n**Skills:**\n\`\`\`${profile.displayprofile.skills(c)}\`\`\``);
     }
     else{
       msg.channel.send(`You need to make a character first`);
+    }
+  }
+  //where am I/location
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'whereami' || msg.content.toLowerCase() == 'whereami' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'location' || msg.content.toLowerCase() == 'location'){
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+      var c = profile.getprofile(msg.author.id);
+      msg.channel.send(profile.displayprofile.location(c));
     }
   }
   //no command found
