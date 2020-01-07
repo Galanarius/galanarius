@@ -7,7 +7,7 @@
    "location": null,
    "coords": [0,0,0],
    "resources": {
-      "personnel": 0,
+      "personnel": [0,0],
       
       "nat_mat": 0,
       "tera_mat": 0,

@@ -13,3 +13,5 @@
 ### Reworked reference templates for players and npcs
 
 ### Continued use of 'test.js' script and therefore added it as an npm script
+
+### Implemented npc generation as a class in the npc.js file

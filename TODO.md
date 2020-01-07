@@ -2,15 +2,9 @@
 
 ## Implement commander generation scripts
 
-### Develop commander template
+### Weight the tier generation
 
-### Develop generation scripts
-
-### Implement generation scripts into a single master script
-
-### Implement master script to the Discord Bot
-
-### Develop and implement failsafes into master script
+### Develop sub-commander generation
 
 ## Implement resource gathering scripts
 
