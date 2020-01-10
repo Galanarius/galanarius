@@ -15,3 +15,7 @@
 ### Continued use of 'test.js' script and therefore added it as an npm script
 
 ### Implemented npc generation as a class in the npc.js file
+
+### Continued development of npc generation by beginning development of sub npcs
+
+### Updated ISSUES.md with the project's current related whereabouts

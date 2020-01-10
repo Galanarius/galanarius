@@ -7,9 +7,11 @@ const misc = require('./misc.js');
 const names = JSON.parse(fs.readFileSync('../ref/names.json'));
 
 class NPC{
-   constructor(x, y, loc, ldr, amt){
+   constructor(x, y, loc, ldr, amt, t, path){
       this.state = {
          leader: ldr,
+         commanders: [],
+         tier: t,
          coorX: x,
          coorY: y,
          location: loc,
@@ -23,26 +25,32 @@ class NPC{
       for(var k = 0; k < amt; k++){
          this.generate();
          this.save();
+         this.state.commanders = null;
       }
       //console.log(this.state.n2);
+   }
+   async subNPC(ldr, t){
+      return new NPC(ldr.state.coorX, ldr.state.coorY, ldr.state.location, ldr.state.npcID, 1, t);
    }
    async generate(){
       //console.log(`starting phase 1`);
       //Tier
-      var tier = misc.randomnum(1,100);
-      if(tier <= 5){
-         tier = 4;
+      if(this.state.tier != null){
+         this.state.tier = misc.randomnum(1,100);
+         if(this.state.tier <= 5){
+            this.state.tier = 4;
+         }
+         else if(this.state.tier > 5 && this.state.tier <= 24){
+            this.state.tier = 3;
+         }
+         else if(this.state.tier > 24 && this.state.tier <=48){
+            this.state.tier = 2;
+         }
+         else{
+            this.state.tier = 1;
+         }
       }
-      else if(tier > 5 && tier <= 24){
-         tier = 3;
-      }
-      else if(tier > 24 && tier <=48){
-         tier = 2;
-      }
-      else{
-         tier = 1;
-      }
-      //console.log(`tier: ${tier}`);
+      //console.log(`this.state.tier: ${this.state.tier}`);
       //ID
       for(var k = 0; k < 9; k++){
          if(k == 0)
@@ -79,7 +87,7 @@ class NPC{
       this.state.n.location = this.state.location;
       this.state.n.coords = [this.state.coorX, this.state.coorY];
       //Level
-      switch(tier){
+      switch(this.state.tier){
          case 1:
             this.state.n.level = misc.randomnum(1,8);
             break;
@@ -139,15 +147,15 @@ class NPC{
       result = Math.round(result*(1+(0.5*this.state.n.level)));
       this.state.n.skills[this.state.priority[4]] = result;
       //console.log(`${this.state.priority[4]}: ${this.state.n.skills[this.state.priority[4]]}`);
-      this.state.n.skills[this.state.priority[5]] = (misc.randomnum(1,4))*(1+(0.5*tier));
+      this.state.n.skills[this.state.priority[5]] = (misc.randomnum(1,4))*(1+(0.5*this.state.tier));
 
       result = new Number(0);
-      for(var k = 0; k < tier; k++){
+      for(var k = 0; k < this.state.tier; k++){
          result += misc.randomnum(1,500)-250
       }
       this.state.n.skills['honor'] = result;
       result = new Number(0);
-      for(var k = 0; k < tier; k++){
+      for(var k = 0; k < this.state.tier; k++){
          result += new Number(misc.randomnum(1,1250)); 
       }
       this.state.n.skills['renown'] = result;
@@ -203,32 +211,32 @@ class NPC{
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.2*(tier-3))*this.state.n.skills['cooking'])));
+      result = Math.round(result*(1+((0.2*(this.state.tier-3))*this.state.n.skills['cooking'])));
       this.state.n.resources['food'] = result;
 
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.4*tier)*this.state.n.skills['synthesizing'])));
+      result = Math.round(result*(1+((0.4*this.state.tier)*this.state.n.skills['synthesizing'])));
       this.state.n.resources['synthI'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.4*(tier-1))*this.state.n.skills['synthesizing'])));
+      result = Math.round(result*(1+((0.4*(this.state.tier-1))*this.state.n.skills['synthesizing'])));
       this.state.n.resources['synthII'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.4*(tier-2))*this.state.n.skills['synthesizing'])));
+      result = Math.round(result*(1+((0.4*(this.state.tier-2))*this.state.n.skills['synthesizing'])));
       this.state.n.resources['synthIII'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.4*(tier-3))*this.state.n.skills['synthesizing'])));
+      result = Math.round(result*(1+((0.4*(this.state.tier-3))*this.state.n.skills['synthesizing'])));
       this.state.n.resources['synthIV'] = result;
 
       result = new Number(0);
@@ -247,25 +255,25 @@ class NPC{
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.3*tier)*this.state.n.skills['refining'])));
+      result = Math.round(result*(1+((0.3*this.state.tier)*this.state.n.skills['refining'])));
       this.state.n.resources['oreI'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.3*(tier-1))*this.state.n.skills['refining'])));
+      result = Math.round(result*(1+((0.3*(this.state.tier-1))*this.state.n.skills['refining'])));
       this.state.n.resources['oreII'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.3*(tier-2))*this.state.n.skills['refining'])));
+      result = Math.round(result*(1+((0.3*(this.state.tier-2))*this.state.n.skills['refining'])));
       this.state.n.resources['oreIII'] = result;
       result = new Number(0);
       for(var k = 0; k < this.state.n.level; k++){
          result += misc.randomnum(1,32);
       }
-      result = Math.round(result*(1+((0.3*(tier-3))*this.state.n.skills['refining'])));
+      result = Math.round(result*(1+((0.3*(this.state.tier-3))*this.state.n.skills['refining'])));
       this.state.n.resources['oreIV'] = result;
 
       result = new Number(0);
@@ -292,6 +300,43 @@ class NPC{
       }
       result = Math.round(result*(1+(0.2*this.state.n.skills['researching'])));
       this.state.n.resources['tech_point'] = result;
+      //Sub-commanders
+      if(misc.randomnum(1,100) <= 25*this.state.tier){
+         for(var k = 0; k < Math.floor(this.state.n.level/4*this.state.tier); k++){
+            var temp = misc.randomnum(1,100/4*this.state.tier);
+            console.log(temp);
+            if(temp<=15){
+               var atemp = this.state.commanders;
+               atemp[atemp.length] = this.subNPC(this, this.state.tier);
+               this.state.commanders = atemp;               
+            }
+            else if(15<temp<=45){
+               var atemp = this.state.commanders;
+               temp = this.state.tier-2;
+               if(temp>0){
+               atemp[atemp.length] = this.subNPC(this, temp);
+               this.state.commanders = atemp;
+               }  
+            }
+            else if(45<temp<=90){
+               var atemp = this.state.commanders;
+               temp = this.state.tier-1;
+               if(temp>0){
+               atemp[atemp.length] = this.subNPC(this, temp);
+               this.state.commanders = atemp;
+               }  
+            }
+            else{
+               var atemp = this.state.commanders;
+               temp = this.state.tier-3;
+               if(temp>0){
+                  atemp[atemp.length] = this.subNPC(this, temp);
+                  this.state.commanders = atemp;
+               }
+            }
+         }
+      }
+      
    }
    async save(){
       var temp = [];
@@ -306,11 +351,31 @@ class NPC{
       }
       this.state.n2 = temp;
    }
-   async write(){
-      var n2 = this.state.n2;
-      for(var k = 0; k < n2.length; k++){
-         fs.writeFileSync(`../npcs/${n2[k].desig}/profile.json`, JSON.stringify(n2[k]));
+   async write(bool){
+      if(!bool){
+         var n2 = this.state.n2;
+         for(var k = 0; k < n2.length; k++){
+            fs.writeFileSync(`../npcs/${n2[k].desig}/profile.json`, JSON.stringify(n2[k]));
+         }
       }
+   }
+   async writeCom(){
+      for(var k = 0; k < this.state.n2; k++){
+         com = this.state.n2[k].commanders;
+         for(var i = 0; i < com.length; i++){
+            await com[i].generate();
+         }
+         for(var i = 0; i < com.length; i++){
+            await copydir('../ref/npc-template', `../npcs/${this.state.n2[k].desig}/commanders/${com[i].state.n.desig}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
+            fs.writeFileSync(`../npcs/${this.state.n2[k].desig}/commanders/${com[i].state.n.desig}/profile.json`, JSON.stringify(com[i]));
+         }
+      }
+   }
+   move(){
+
+   }
+   act(){
+
    }
 }
 
