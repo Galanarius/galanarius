@@ -8,10 +8,10 @@ const npc = require('./npc.js')
 const profile = require('./profile.js');
 const resources = require('./resources.js');
 
-var test = new npc.npc(27,100, "here", "self", 5);
+var test = [];
+for(var k = 0; k < 5; k++){
+   test[k] = new npc.npc(27,100, "here", "self");
+}
 setTimeout(function(){
-   test.write();
-   setTimeout(function(){
-      test.writeCom();
-   }, 1000);
+   npc.write(test);
 }, 1000);

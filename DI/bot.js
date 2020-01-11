@@ -3,6 +3,7 @@ const client = new Discord.Client();
 const fs = require('graceful-fs');
 const misc = require('../packages/misc.js');
 const profile = require(`../packages/profile.js`);
+const config = JSON.parse(fs.readFileSync('../ref/config.json'));
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -66,9 +67,8 @@ function msgprecon(msg){
 }
 
 function whitelist(msg){
-  var channellist = ['600805783088660563'];
-  for(var k = 0; k < channellist.length; k++) 
-    if(msg.channel.id == channellist[k]) return true;
+  for(var k = 0; k < config.whitelist.length; k++) 
+    if(msg.channel.id == config.whitelist[k]) return true;
   if(msg.guild === null)
     return true;
 }
@@ -110,4 +110,4 @@ function roll(msg, numofdice, numofsides){
   msg.channel.send(result.toString());
 }
 
-client.login('NjA3NzA1MjYwMDAxMTk4MDkw.XgqIgw.SZzXU0-5bMe502Kg23EmgeoWbJo');
+client.login(config.login);
