@@ -35,3 +35,9 @@
 ### Began reimplementation of npc generation by reusing basic information generation
 
 ### Created scripts for generating every skill, and began work on the same for resources
+
+### Fixed file path issues in the DI area of the project
+
+### Moved config.json to a more accurately reflective location
+
+### Updated .gitignore to accomodate moved files

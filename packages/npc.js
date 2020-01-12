@@ -3,6 +3,7 @@ const mkdirp = require('mkdirp');
 const copydir = require('copy-dir');
 const path = require('path');
 const misc = require('./misc.js');
+const actions = require('./actions.js')
 
 const names = JSON.parse(fs.readFileSync('../ref/names.json'));
 
@@ -43,7 +44,7 @@ class NPC{
       }
       //console.log(`this.state.tier: ${this.state.tier}`);
       //ID
-      for(var k = 0; k < 9; k++){
+      for(var k = 0; k < 8; k++){
          if(k == 0)
             this.state.ID = `${misc.randomnum(1,10)-1}`;
          else
@@ -121,7 +122,7 @@ class NPC{
       n.skills['sifting'] = this.genSifting(n);
 
       //Resources
-
+      n.resources['personnel'] = this.genPersonnel(n);
       //Saving
       this.state.n = n;
       fs.writeFileSync(`../npcs/${n.ID}.json`, JSON.stringify(n), (err) =>{if(err) throw err});
@@ -136,15 +137,15 @@ class NPC{
       return Math.round(misc.randomnum(1,1000)*(this.state.tier/4));
    }
    genRecruiting(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('recruiting')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('recruiting')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genResearching(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('researching')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('researching')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
 
    //--Attacking--
    genAttacking(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('attacking')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('attacking')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genRecon(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,20));
@@ -161,7 +162,7 @@ class NPC{
 
    //--Defending--
    genDefending(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('defending')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('defending')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genPatroling(n){
       return Math.round(n.skills.defending*misc.randomnum(1,20));
@@ -175,7 +176,7 @@ class NPC{
 
    //--Natural--
    genHarvesting(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('harvesting')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('harvesting')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genFarming(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,20));
@@ -189,7 +190,7 @@ class NPC{
 
    //--Terra--
    genExcavation(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavation')+1))*misc.randomnum(1,20));
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavation')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genRefining(n){
       return Math.round(n.skills.excavating*misc.randomnum(1,20));
@@ -201,81 +202,87 @@ class NPC{
    //---Resources---
    //--Personnel--
    genPersonnel(n){
-
+      var result = Math.round(n.lvl*misc.randomnum(1,20)*n.skills.recruiting/10);
+      return [result, result];
    }
 
    //--Materials--
    genNatMat(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.harvesting/3)
    }
    genTeraMat(n){
-
+      return Math.round(Math.round(n.lvl*misc.randomnum(1,20)*n.skills.excavting/3));
    }
    
    //--Crops--
    genSeed(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/3)
    }
    genCrop(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/3)
    }
    genFood(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.cooking/3)
    }
 
    //--Synthetics--
    genSynthI(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/2)
    }
    genSynthII(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/3)
    }
    genSynthIII(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/5)
    }
    genSynthIV(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/8)
    }
 
    //--Stone--
    genStone(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.excavating);
    }
    genSlag(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.sifting/2);
    }
    genOreI(n){
-      
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/2);
    }
    genOreII(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/3);
    }
    genOreIII(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/5);
    }
    genOreIV(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/8);
    }
 
    //--Relics--
    genRelicTokens(n){
-
+      return this.state.tier+(misc.randomnum(1,5)-3);
    }
 
    //--Points--
    genResearchPoint(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.researching/5);
    }
    genSkillPoint(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources.research_points/3);
    }
    genTechPoint(n){
-
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources.research_points/3);
    }
 
    //--Exotic--
    genAntimatter(n){
-      
+      if(this.state.tier >= 3){
+         return misc.randomnum(1,10)*(this.state.tier-2);
+      }
+      else{
+         return 0;
+      }
    }
 
 

@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const fs = require('graceful-fs');
 const misc = require('../packages/misc.js');
 const profile = require(`../packages/profile.js`);
-const config = JSON.parse(fs.readFileSync('../ref/config.json'));
+const config = JSON.parse(fs.readFileSync('./config.json'));
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

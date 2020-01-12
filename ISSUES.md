@@ -1,3 +1,3 @@
 # Known issues
 
-## Reworking npc generation
+## Add resource generation calls

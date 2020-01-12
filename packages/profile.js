@@ -7,13 +7,13 @@ module.exports ={
    create: function(user, userID){
       copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
       setTimeout(function(){
-         var c = JSON.parse(fs.readFileSync(`../profiles/${userID}/profile.json`));
+      var c = JSON.parse(fs.readFileSync(`../ref/player-template/profile.json`));
       c.username = user;
       c.ID = userID;
       setTimeout(function(){
          fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
-      }, 500);
-      }, 500);
+      }, 1000);
+      }, 1000);
       
    },
    getprofile: function(userID){

@@ -1,7 +1,7 @@
 {
    "username": null,
    "ID": -1,
-   "lvl": 0,
+   "lvl": 1,
    "xp": 0,
    "credits": 1000,
    "faction": "undecided",
@@ -62,9 +62,5 @@
       "excavation": 0,
       "refining": 0,
       "sifting": 0
-   },
-   "buildings": [],
-   "commanders": [],
-   "relics": [],
-   "ships": []
+   }
 }

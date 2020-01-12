@@ -6,6 +6,6 @@ const path = require('path');
 const misc = require('./misc.js');
 const npc = require('./npc.js')
 const profile = require('./profile.js');
-const action = require('./action.js');
+const actions = require('./actions.js');
 
 var test = new npc.npc(27,100, "here", "self");
