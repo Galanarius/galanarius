@@ -94,18 +94,21 @@ class NPC{
             n.lvl = 0;
          
       }
-      //console.log(`lvl: ${.n.lvl}`);
+      //console.log(`lvl: ${n.lvl}`);
       //Skills
+      this.state.n = n;
       n.skills['honor'] = this.genHonor();
       n.skills['renown'] = this.genRenown();
       
+      this.state.n = n;
       n.skills['attacking'] = this.genAttacking();
       n.skills['defending'] = this.genDefending();
       n.skills['recruiting'] = this.genRecruiting();
       n.skills['researching'] = this.genResearching();
       n.skills['harvesting'] = this.genHarvesting();
-      n.skills['excavation'] = this.genExcavation();
+      n.skills['excavating'] = this.genExcavation();
 
+      this.state.n = n;
       n.skills['recon'] = this.genRecon(n);
       n.skills['boarding'] = this.genBoarding(n);
       n.skills['seiging'] = this.genSeiging(n);
@@ -114,15 +117,44 @@ class NPC{
       n.skills['barricading'] = this.genBarricading(n);
       n.skills['guerilla'] = this.genGuerilla(n);
       
+      this.state.n = n;
       n.skills['farming'] = this.genFarming(n);
       n.skills['cooking'] = this.genCooking(n);
       n.skills['synthesizing'] = this.genSynthesizing(n);
 
+      this.state.n = n;
       n.skills['refining'] = this.genRefining(n);
       n.skills['sifting'] = this.genSifting(n);
 
       //Resources
       n.resources['personnel'] = this.genPersonnel(n);
+
+      n.resources['nat_mat'] = this.genNatMat(n);
+      n.resources['tera_mat'] = this.genTeraMat(n);
+
+      n.resources['seed'] = this.genSeed(n);
+      n.resources['crop'] = this.genCrop(n);
+      n.resources['food'] = this.genFood(n);
+
+      n.resources['synthI'] = this.genSynthI(n);
+      n.resources['synthII'] = this.genSynthII(n);
+      n.resources['synthIII'] = this.genSynthIII(n);
+      n.resources['synthIV'] = this.genSynthIV(n);
+
+      n.resources['stone'] = this.genStone(n);
+      n.resources['slag'] = this.genSlag(n);
+      n.resources['oreI'] = this.genOreI(n);
+      n.resources['oreII'] = this.genOreII(n);
+      n.resources['oreIII'] = this.genOreIII(n);
+      n.resources['oreIV'] = this.genOreIV(n);
+
+      n.resources['relic_token'] = this.genRelicToken(n);
+
+      n.resources['research_point'] = this.genResearchPoint(n);
+      n.resources['skill_point'] = this.genSkillPoint(n);
+      n.resources['tech_point'] = this.genTechPoint(n);
+
+      n.resources['antimatter'] = this.genAntimatter(n);
       //Saving
       this.state.n = n;
       fs.writeFileSync(`../npcs/${n.ID}.json`, JSON.stringify(n), (err) =>{if(err) throw err});
@@ -208,18 +240,18 @@ class NPC{
 
    //--Materials--
    genNatMat(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.harvesting/3)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.harvesting/6)
    }
    genTeraMat(n){
-      return Math.round(Math.round(n.lvl*misc.randomnum(1,20)*n.skills.excavting/3));
+      return Math.round(Math.round(n.lvl*misc.randomnum(1,20)*n.skills.excavting/6));
    }
    
    //--Crops--
    genSeed(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/3)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/6)
    }
    genCrop(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/3)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.farming/9)
    }
    genFood(n){
       return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.cooking/3)
@@ -227,16 +259,16 @@ class NPC{
 
    //--Synthetics--
    genSynthI(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/2)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/6)
    }
    genSynthII(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/3)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/9)
    }
    genSynthIII(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/5)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/15)
    }
    genSynthIV(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/8)
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.synthesizing/24)
    }
 
    //--Stone--
@@ -244,35 +276,35 @@ class NPC{
       return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.excavating);
    }
    genSlag(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.sifting/2);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.sifting/6);
    }
    genOreI(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/2);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/6);
    }
    genOreII(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/3);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/9);
    }
    genOreIII(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/5);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/15);
    }
    genOreIV(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/8);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.refining/24);
    }
 
    //--Relics--
-   genRelicTokens(n){
+   genRelicToken(n){
       return this.state.tier+(misc.randomnum(1,5)-3);
    }
 
    //--Points--
    genResearchPoint(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.researching/5);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.skills.researching/10);
    }
    genSkillPoint(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources.research_points/3);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources['research_point']/3);
    }
    genTechPoint(n){
-      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources.research_points/3);
+      return Math.round(n.lvl*misc.randomnum(1,20)*n.resources['research_point']/3);
    }
 
    //--Exotic--

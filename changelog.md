@@ -41,3 +41,7 @@
 ### Moved config.json to a more accurately reflective location
 
 ### Updated .gitignore to accomodate moved files
+
+### Finished npc generation script (with current feature implementation)
+
+### Rebalanced starting resources for npcs
