@@ -27,3 +27,11 @@
 ### PUBLIC REPOSITORY, added ability for respository to public by storing sensitive information such as keys in files included in the gitignore
 
 ### Deleted npc generation script to do a complete rework to allow for sub commanders
+
+### Changed resources.js to actions.js
+
+### Added new resources of antimatter and fuel types
+
+### Began reimplementation of npc generation by reusing basic information generation
+
+### Created scripts for generating every skill, and began work on the same for resources

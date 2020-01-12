@@ -1,10 +1,13 @@
 {
+   "ldrID": -1,
    "name": null,
-   "npcID": -1,
-   "level": 1,
-   "exp": 0,
-   "leader": null,
-   "location": null,
+   "ID": -1,
+   "lvl": 1,
+   "xp": 0,
+   "credits": 0,
+   "faction": "undecided",
+   "rank": "newbie",
+   "loc": null,
    "coords": [0,0,0],
    "resources": {
       "personnel": [0,0],
@@ -32,7 +35,9 @@
       
       "research_point": 10,
       "skill_point": 0,
-      "tech_point": 0
+      "tech_point": 0,
+
+      "antimatter": 0
    },
    "skills": {
       "honor": 0,
@@ -56,12 +61,12 @@
       "cooking": 0,
       "synthesizing": 0,
       
-      "excavation": 0,
+      "excavating": 0,
       "refining": 0,
       "sifting": 0
    },
    "buildings": [],
-   "commanders": {},
+   "commanders": [],
    "relics": [],
    "ships": []
 }

@@ -1,15 +1,18 @@
 {
    "username": null,
    "ID": -1,
-   "level": 0,
+   "lvl": 0,
    "xp": 0,
    "credits": 1000,
    "faction": "undecided",
    "rank": "newbie",
-   "location": "AFC-5KZJ",
+   "loc": "AFC-5KZJ",
    "coords": [0,0,0],
    "resources": {
       "personnel": [10,10],
+
+      "ftl_fuel": 0,
+      "sublight_fuel": 0,
       
       "nat_mat": 0,
       "ore": 0,
@@ -34,7 +37,9 @@
       
       "research_point": 10,
       "skill_point": 0,
-      "tech_point": 0
+      "tech_point": 0,
+
+      "antimatter": 0
    },
    "skills": {
       "honor": 0,
@@ -45,6 +50,9 @@
       
       "recruiting": 0,
       "researching": 0,
+
+      "sublight_piloting": 0,
+      "ftl_piloting": 0,
       
       "harvesting": 0,
       "farming": 0,
@@ -54,5 +62,9 @@
       "excavation": 0,
       "refining": 0,
       "sifting": 0
-   }
+   },
+   "buildings": [],
+   "commanders": [],
+   "relics": [],
+   "ships": []
 }
