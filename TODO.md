@@ -1,11 +1,5 @@
 # To Do
 
-## Implement commander generation scripts
-
-### Weight the tier generation
-
-### Develop sub-commander generation
-
 ## Implement resource gathering scripts
 
 ## Begin implementation of star system generation scripts

@@ -36,6 +36,8 @@
 
 ### Created scripts for generating every skill, and began work on the same for resources
 
+### Better documented npc.js
+
 ### Fixed file path issues in the DI area of the project
 
 ### Moved config.json to a more accurately reflective location
@@ -45,3 +47,9 @@
 ### Finished npc generation script (with current feature implementation)
 
 ### Rebalanced starting resources for npcs
+
+### Finished subcommander generation and reference structuring
+
+### Rebalanced subcommander spawning mechanics to make it more reasonable
+
+### Rebalanced starting skills and resources for npcs (again)
