@@ -2,6 +2,7 @@ const fs = require('graceful-fs');
 const mkdirp = require('mkdirp');
 const copydir = require('copy-dir');
 const path = require('path');
+const misc = require('./misc.js');
 
 module.exports ={
    create: function(user, userID){
@@ -23,18 +24,22 @@ module.exports ={
    displayprofile: {
       basic: function(c){
          var result =      `username:           ${c.username}\n`;
-         result +=         `xp-level:           ${c.xp}-${c.level}\n`;
+         result +=         `level-exp:           ${c.lvl}-${c.xp}\n`;
          result +=         `credits:            ${c.credits}\n`;
          result +=         `faction-rank:       ${c.faction}-${c.rank}`;
          return result;
       },
       location: function(c){
-         return            `location:           ${c.location}, [${c.coords[1]},${c.coords[2]}]`;
+         return            `location:           ${c.loc}, [${c.coords[0]},${c.coords[1]}]`;
       },
       resources: function(c){
-         var result =      `personnel:          ${c.resources.personnel[0]}/${c.resources.personnel[1]}\n`;
+         var result =      `personnel:          ${c.resources.personnel[0]}/${c.resources.personnel[1]}\n\n`;
+
+         result +=         `ftl fuel:           ${c.resources.ftl_fuel}\n`;
+         result +=         `sublight fuel:      ${c.resources.sublight_fuel}\n\n`;
+
          result +=         `natural materials:  ${c.resources.nat_mat}\n`;
-         result +=         `ore:                ${c.resources.tera_mat}\n`;
+         result +=         `tera materials:     ${c.resources.tera_mat}\n`;
          result +=         `seeds:              ${c.resources.seed}\n`;
          result +=         `stone:              ${c.resources.stone}\n\n`;
 
@@ -47,16 +52,18 @@ module.exports ={
          result +=         `T4 synthetics:      ${c.resources.synthIV}\n\n`;
 
          result +=         `slag:               ${c.resources.slag}\n`;
-         result +=         `T1 metals:          ${c.resources.metalI}\n`;
-         result +=         `T2 metals:          ${c.resources.metalII}\n`;
-         result +=         `T3 metals:          ${c.resources.metalIII}\n`;
-         result +=         `T4 metals:          ${c.resources.metalIV}\n\n`;
+         result +=         `T1 ore:             ${c.resources.oreI}\n`;
+         result +=         `T2 ore:             ${c.resources.oreII}\n`;
+         result +=         `T3 ore:             ${c.resources.oreIII}\n`;
+         result +=         `T4 ore:             ${c.resources.oreIV}\n\n`;
          
          result +=         `relic tokens:       ${c.resources.relic_token}\n\n`;
 
          result +=         `research points:    ${c.resources.research_point}\n`;
          result +=         `skill points:       ${c.resources.skill_point}\n`;
-         result +=         `tech points:        ${c.resources.tech_point}`;
+         result +=         `tech points:        ${c.resources.tech_point}\n\n`;
+
+         result +=         `antimatter:         ${c.resources.antimatter}`;
          return result;
       },
       skills: function(c){
@@ -65,6 +72,9 @@ module.exports ={
          
          result +=         `recruiting:         ${c.skills.recruiting}\n`;
          result +=         `researching:        ${c.skills.researching}\n\n`;
+
+         result +=         `ftl piloting:       ${c.skills.ftl_piloting}\n`;
+         result +=         `sublight piloting:  ${c.skills.sublight_piloting}\n\n`;
          
          result +=         `harvesting:         ${c.skills.harvesting}\n`;
          result +=         `farming:            ${c.skills.farming}\n`;

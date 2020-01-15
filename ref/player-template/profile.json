@@ -15,7 +15,7 @@
       "sublight_fuel": 0,
       
       "nat_mat": 0,
-      "ore": 0,
+      "tera_mat": 0,
       
       "seed": 0,
       "crop": 0,
@@ -28,10 +28,10 @@
       
       "stone": 0,
       "slag": 0,
-      "metalI": 0,
-      "metalII": 0,
-      "metalIII": 0,
-      "metalIV": 0,
+      "oreI": 0,
+      "oreII": 0,
+      "oreIII": 0,
+      "oreIV": 0,
       
       "relic_token": 2,
       
@@ -51,8 +51,8 @@
       "recruiting": 0,
       "researching": 0,
 
-      "sublight_piloting": 0,
       "ftl_piloting": 0,
+      "sublight_piloting": 0,
       
       "harvesting": 0,
       "farming": 0,

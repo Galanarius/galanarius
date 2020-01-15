@@ -3,7 +3,7 @@ const mkdirp = require('mkdirp');
 const copydir = require('copy-dir');
 const path = require('path');
 const misc = require('./misc.js');
-const actions = require('./actions.js')
+const actions = require('./actions.js');
 
 const names = JSON.parse(fs.readFileSync('../ref/names.json'));
 

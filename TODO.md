@@ -1,5 +1,15 @@
 # To Do
 
+## Faction choice implementation
+
+### Create faction set method
+
+### Implement faction set to DI area of the project
+
+### Add failsafes for using the command under special circumstances
+
+## Implement a pre-run check for when server-end programs are run (checking to ensure folders exist, and ensure no tampering has occured since last uptime)
+
 ## Implement resource gathering scripts
 
 ## Begin implementation of star system generation scripts
