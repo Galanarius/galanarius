@@ -6,6 +6,8 @@ const profile = require(`../packages/profile.js`);
 const config = JSON.parse(fs.readFileSync('./config.json'));
 
 client.on('ready', () => {
+  if(!fs.existsSync('../npcs') || !fs.existsSync('../profiles'))
+    throw new Error('One or more referenced directories is missing');
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
