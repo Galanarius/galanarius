@@ -86,5 +86,34 @@ module.exports ={
          result +=         `sifting:            ${c.skills.refining}\n`;
          return result;
       }
+   },
+   chooseFaction: function(userID, choice){
+      var c = this.getprofile(userID);
+      choice = choice.toLowerCase();
+      switch(choice){
+         case 'symbic':
+         case 'symbic-foundation':
+         case 'symbic_foundation':
+         case 'symbic foundation':
+            c.faction = 'symbic';
+            fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
+            return 'Symbic Foundation';
+         case 'regalia':
+         case 'regalia-court':
+         case 'regalia_court':
+         case 'regalia court':
+            c.faction = 'regalia';
+            fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
+            return 'Regalia Court';
+         case 'empirus':
+         case 'empirus-confederation':
+         case 'empirus_confederation':
+         case 'empirus confederation':
+            c.faction = 'empirus';
+            fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
+            return 'Empirus Confederation';
+         default:
+            return 'ERR';
+      }
    }
 }

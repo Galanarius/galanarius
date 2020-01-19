@@ -45,10 +45,29 @@ client.on('message', msg => {
       var c = profile.getprofile(msg.author.id);
       msg.channel.send(profile.displayprofile.location(c));
     }
+    else{
+      msg.reply(`you need to make a character to be able to use this command.`);
+    }
+  }
+  //faction choice
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'faction' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'choose'){
+    var c = profile.getprofile(msg.author.id);
+    if(c.faction == 'undecided'){
+      var temp = profile.chooseFaction(msg.author.id, msg.content.substring(msg.content.indexOf(' ')+1));
+      if(temp == 'ERR')
+        msg.channel.send(`There are no factions under the alias \`${msg.content.substring(msg.content.indexOf(' '))}\`.`);
+      else
+        msg.channel.send(`Welcome to the \`${temp}\`, <@${msg.author.id}>!`);
+    }
+    else
+      msg.channel.send(`You are already a lifelong member of ${c.faction}, <@${msg.author.id}>.`)
   }
   //no command found
   else{
-    msg.channel.send('Command not found');
+    if(msg.content.indexOf(' ') >= 0)
+      msg.channel.send(`Command \`${msg.content.substring(0, msg.content.indexOf(' '))}\` not found`);
+    else
+      msg.channel.send(`Command \`${msg.content}\` not found`);
   }
 });
 
