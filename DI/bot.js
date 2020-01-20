@@ -53,16 +53,20 @@ client.on('message', msg => {
   }
   //faction choice
   else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'faction' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'choose'){
-    var c = profile.getprofile(msg.author.id);
-    if(c.faction == 'undecided'){
-      var temp = profile.chooseFaction(msg.author.id, msg.content.substring(msg.content.indexOf(' ')+1));
-      if(temp == 'ERR')
-        msg.channel.send(`There are no factions under the alias \`${msg.content.substring(msg.content.indexOf(' '))}\`.`);
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){ 
+      var c = profile.getprofile(msg.author.id);
+      if(c.faction == 'undecided'){
+        var temp = profile.chooseFaction(msg.author.id, msg.content.substring(msg.content.indexOf(' ')+1));
+        if(temp == 'ERR')
+          msg.channel.send(`There are no factions under the alias \`${msg.content.substring(msg.content.indexOf(' '))}\`.`);
+        else
+          msg.channel.send(`Welcome to the \`${temp}\`, <@${msg.author.id}>!`);
+      }
       else
-        msg.channel.send(`Welcome to the \`${temp}\`, <@${msg.author.id}>!`);
+        msg.channel.send(`You are already a lifelong member of ${c.faction}, <@${msg.author.id}>.`)
     }
     else
-      msg.channel.send(`You are already a lifelong member of ${c.faction}, <@${msg.author.id}>.`)
+      msg.reply(`you need to make a character to be able to use this command.`);
   }
   //no command found
   else{

@@ -2,7 +2,9 @@ const fs = require('graceful-fs');
 const mkdirp = require('mkdirp');
 const copydir = require('copy-dir');
 const path = require('path');
+
 const misc = require('./misc.js');
+const npc = require('./npc.js');
 
 class Galaxy{
    constructor(x, y){
@@ -46,7 +48,7 @@ class System{
          y_coord = y,
          classif = this.genClassif(),
          planets = this.genPlanets(),
-         planetoids = [],
+         planetoids = this.genPlanetoids()
       }
    }
 
@@ -92,7 +94,7 @@ class System{
          }
       });
       for(var k = 0; k < result.length; k++){
-         result[k] = new Planet(`${this.state.x_coord}${this.state.y_coord}`);
+         result[k] = new Planet(`${this.state.x_coord},${this.state.y_coord}`);
       }
       return result;
    }
@@ -135,17 +137,15 @@ class Planet{
       capacity = this.genCapacity(),
       //Not Implemented
       terrain_type = this.genTerrain(),
-      //Not Implemented
+      //Implemented
       inhabitants = this.genInhabitants(),
-      //Not Implemented
-      buildable = this.isBuildable(),
       //Not Implemented
       restrictions = this.genRestrictions(),
       //Not Implemented
       accomodations = this.genAccomodations(),
-      //Not Implemented
+      //Implemented
       node_base = this.genNodeBase(),
-      //Not Implemented
+      //Implemented
       nodes = this.genNodes()
    }
 
@@ -201,11 +201,15 @@ class Planet{
    }
 
    genInhabitants(){
-      //Not yet implemented
-   }
-
-   isBuildable(){
-      //Not yet implemented
+      var temp = misc.randomnum(1,100);
+      if(temp >= 30){
+         var c = new Array(this.state.size*misc.randomnum(1,5));
+         for(var k = 0; k < c.length; k++){
+            c[k] = new npc.npc(this.state.par_id.substring(0, this.state.par_id.indexOf(',')), this.state.par_id.subtring(this.state.par_id.indexOf(',')+1), this.state.id);
+         }
+      }
+      else
+         return [];
    }
 
    genRestrictions(){
@@ -259,7 +263,25 @@ class Planet{
    }
 
    genNodes(){
-      //Not yet implemented
+      var temp = 0;
+      switch(this.state.size){
+         case 1:
+            temp =misc.randomnum(2,5);
+         case 2:
+            temp = misc.randomnum(3,8);
+         case 3:
+            temp = misc.randomnum(5,13);
+         case 4:
+            temp = misc.randomnum(8,21);
+         case 5:
+            temp = misc.randomnum(13,34);
+         default:
+            temp = 1;
+      }
+      var result = new Array(temp);
+      for(var k = 0; k < result.length; k++){
+         result[k] = new ResourceNode(this.state.id);
+      }
    }
 }
 
@@ -273,7 +295,7 @@ class Planetoid{
       size = this.genSize(),
       //Not Implemented
       type = this.genType(),
-      //Not Implemented
+      //Implemented
       nodes = this.genNodes(),
       //Implemented
       node_base = this.genNodeBase()
@@ -306,6 +328,27 @@ class Planetoid{
 
    genType(){
       //Not yet implemented
+   }
+
+   genNodes(){
+      var temp = 0;
+      switch(this.state.size){
+         case 1:
+            temp =misc.randomnum(1,3);
+            break;
+         case 2:
+            temp = misc.randomnum(2,5);
+            break;
+         case 3:
+            temp = misc.randomnum(3,8);
+            break;
+         default:
+            temp = 1;
+      }
+      var result = new Array(temp);
+      for(var k = 0; k < result.length; k++){
+         result[k] = new ResourceNode(this.state.id);
+      }
    }
 
    genNodeBase(){

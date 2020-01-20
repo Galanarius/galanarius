@@ -106,7 +106,7 @@ class NPC{
       n.skills['recruiting'] = this.genRecruiting();
       n.skills['researching'] = this.genResearching();
       n.skills['harvesting'] = this.genHarvesting();
-      n.skills['excavating'] = this.genExcavation();
+      n.skills['excavating'] = this.genExcavating();
 
       this.state.n = n;
       n.skills['recon'] = this.genRecon(n);
@@ -255,8 +255,8 @@ class NPC{
    }
 
    //--Terra--
-   genExcavation(){
-      return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavation')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
+   genExcavating(){
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavating')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    genRefining(n){
       return Math.round(n.skills.excavating*misc.randomnum(1,100)/100);

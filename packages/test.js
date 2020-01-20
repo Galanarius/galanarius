@@ -8,4 +8,3 @@ const npc = require('./npc.js')
 const profile = require('./profile.js');
 const actions = require('./actions.js');
 
-var test = new npc.npc(27,100, "here", "self");
