@@ -6,6 +6,12 @@ const misc = require('./misc.js');
 
 module.exports = {
    gather:{
+      /**
+       * Determines the resource being gathered and returns how much is gained based off the profile calling it.
+       * @param {Profile} p The profile referenced.
+       * @param {String} res The resource gathered. 
+       * @returns {Number} The amount of the resource gained.
+       */
       gather: function(p, res){
          res = res.toLowerCase();
          switch(res){
@@ -71,38 +77,95 @@ module.exports = {
                return 'ERR';
          }
       },
+      /**
+       * Determines the number of personnel gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of personnel gained.
+       */
       personnel: function(p){
          return Math.floor(Math.random()*50*Math.log(p.skills.recruiting))+1;
       },
+      /**
+       * Determines the number of nat_mat gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of nat_mat gained.
+       */
       nat_mat: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.harvesting/2));
       },
+      /**
+       * Determines the number of tera_mat gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of tera_mat gained.
+       */
       tera_mat: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.excavating/1.5));
       },
+      /**
+       * Determines the number of seed gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of seed gained.
+       */
       seed: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.harvesting/3));
       },
+      /**
+       * Determines the number of crop gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of crop gained.
+       */
       crop: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.farming/3));
       },
+      /**
+       * Determines the number of stone gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of stone gained.
+       */
       stone: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.excavating));
       },
+      /**
+       * Determines the number of stone gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of stone gained.
+       */
       slag: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.excavating));
       },
+      /**
+       * Determines the number of stone gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of stone gained.
+       */
       relic: function(p){
          //Not yet implemented
       },
+      /**
+       * Determines the number of research_point gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of research_point gained.
+       */
       research: function(p){
          return Math.round(misc.randomnum(1,16)*50*Math.log(p.skills.researching/8));
       },
+      /**
+       * Determines the number of antimatter gain.
+       * @param {Profile} p The profile referenced.
+       * @returns {Number} The amount of antimatter gained.
+       */
       antimatter: function(p){
          return Math.floor(misc.randomnum(1,2)/2);
       }
    },
    purifying:{
+      /**
+       * Used to determine the purifying function needed to be called, and returns the products of that function.
+       * @param {Profile} p The edited profile.
+       * @param {String} res The name of the resource being purified.
+       * @param {Number} amt The amount of the resource being purified.
+       * @returns {Profile} A modified version of the given profile.
+       */
       purifying: function(p, res, amt){
          res = res.toLowerCase();
          switch(res){
@@ -133,6 +196,12 @@ module.exports = {
                return 'ERR';
          }
       },
+      /**
+       * Calculates and adds the resources purified, and subtracts the resources used.
+       * @param {Profile} p The edited profile.
+       * @param {Number} amt The amount of tera_mat being smelted.
+       * @returns {Profile} A modified version of the given profile.
+       */
       smelt: function(p, amt){
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.smelting);
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.smelting);
@@ -147,6 +216,12 @@ module.exports = {
 
          return p;
       },
+      /**
+       * Calculates and adds the resources purified, and subtracts the resources used.
+       * @param {Profile} p The edited profile.
+       * @param {Number} amt The amount of nat_mat being synthesized.
+       * @returns {Profile} A modified version of the given profile.
+       */
       synthesize: function(p, amt){
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.synthesizing);
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.synthesizing);
@@ -161,6 +236,12 @@ module.exports = {
 
          return p;
       },
+      /**
+       * Calculates and adds the resources purified, and subtracts the resources used.
+       * @param {Profile} p The edited profile.
+       * @param {Number} amt The amount of slag being sifted.
+       * @returns {Profile} A modified version of the given profile.
+       */
       sift: function(p, amt){
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.sifting/5);
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.sifting/5);
@@ -175,6 +256,12 @@ module.exports = {
 
          return p;
       },
+      /**
+       * Calculates and adds the resources purified, and subtracts the resources used.
+       * @param {Profile} p The edited profile.
+       * @param {Number} amt The amount of crop being cooked.
+       * @returns {Profile} A modified version of the given profile.
+       */
       cook: function(p, amt){
          p.resources.food += amt*Math.random()*p.skills.cooking;
 

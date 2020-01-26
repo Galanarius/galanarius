@@ -9,6 +9,14 @@ const names = JSON.parse(fs.readFileSync('../ref/names.json'));
 
 class NPC{
    //---Generation---
+   /**
+    * Creates an NPC profile and saves it to a json file in the npcs folder at root level of the project.
+    * @param {Number} x The x-coordinate where the NPC is to reside upon creation.
+    * @param {Number} y The y-coordinate where the NPC is to reside upon creation.
+    * @param {String} loc The name of the planet or planetoid the NPC is to reside at upon creation.
+    * @param {String} ldr The name of the NPC leading this NPC (pass 'self' to make it its own leader).
+    * @param {Number} t The tier (1,2,3, or 4) of the NPC, will be randomly selected if not specified.
+    */
    constructor(x, y, loc, ldr, t){
       this.state = {
          leader: ldr,
@@ -24,6 +32,9 @@ class NPC{
       }
       this.generate();
    }
+   /**
+    * Fills the details of the NPC, called from the constructor.
+    */
    async generate(){
       //console.log(`starting phase 1`);
       //Tier
@@ -51,7 +62,7 @@ class NPC{
             this.state.ID += `${misc.randomnum(1,10)-1}`;
       }
       //Leader
-      if(this.state.leader == 'self'){
+      if(this.state.leader == 'self' || this.state.leader == undefined || this.state.leader == null){
          this.state.leader = this.state.ID;
       }
       //Name & Gender
@@ -183,7 +194,11 @@ class NPC{
       this.state.n = n;
       fs.writeFileSync(`../npcs/${n.ID}.json`, JSON.stringify(n), (err) =>{if(err) throw err});
    }
-
+   /**
+    * 
+    * @param {NPC} n The NPC object of the leader whom the NPC created will be under. 
+    * @param {Number} t The tier (1,2,3, or 4) of the NPC to be generated. 
+    */
    async genSubCom(n, t){
       if(t == 0)
          t = 1;
@@ -196,77 +211,138 @@ class NPC{
    //---Skill Generation---
 
    //--Misc--
+   /**
+    * Generates the honor score based off of previously generated stats.
+    */
    genHonor(){
       return Math.round(((Math.random()-0.25)*2)*(misc.randomnum(1,1000))*(this.state.tier/4));
    }
+   /**
+    * Generates the renown score based off of previously generated stats.
+    */
    genRenown(){
       return Math.round(misc.randomnum(1,750)*(this.state.tier/4));
    }
+   /**
+    * Generates the recruiting score based off of previously generated stats.
+    */
    genRecruiting(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('recruiting')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
    }
+   /**
+    * Generates the researching score based off of previously generated stats.
+    */
    genResearching(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('researching')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
    }
 
    //--Attacking--
+   /**
+    * Generates the attacking score based off of previously generated stats.
+    */
    genAttacking(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('attacking')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
+   /**
+    * Generates the recon score based off previously generated attacking score.
+    */
    genRecon(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the boarding score based off previously generated attacking score.
+    */
    genBoarding(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the seiging score based off previously generated attacking score.
+    */
    genSeiging(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the invading score based off previously generated attacking score.
+    */
    genInvading(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
 
    //--Defending--
+   /**
+    * Generates the defending score based off of previously generated stats.
+    */
    genDefending(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('defending')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
+   /**
+    * Generates the patroling score based off previously generated defending score.
+    */
    genPatroling(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the barricading score based off previously generated defending score.
+    */
    genBarricading(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the guerilla score based off previously generated defending score.
+    */
    genGuerilla(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
    }
 
    //--Natural--
+   /**
+    * Generates the harvesting score based off previously generated stats.
+    */
    genHarvesting(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('harvesting')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
+   /**
+    * Generates the farming score based off previously generated harvesting score.
+    */
    genFarming(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the cooking score based off previously generated harvesting score.
+    */
    genCooking(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the synthesizing score based off previously generated harvesting score.
+    */
    genSynthesizing(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
    }
 
    //--Terra--
+   /**
+    * Generates the excavating score based off previously generated stats.
+    */
    genExcavating(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavating')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
-   genRefining(n){
-      return Math.round(n.skills.excavating*misc.randomnum(1,100)/100);
+   /**
+    * Generates the refining score based off previously generated excavating score.
+    */
+   genSmelting(n){
+      return Math.round(n.skills.smelting*misc.randomnum(1,100)/100);
    }
+   /**
+    * Generates the sifting score based off previously generated excavating score.
+    */
    genSifting(n){
       return Math.round(n.skills.excavating*misc.randomnum(1,100)/100);
    }
 
    //---Resources---
    //--Personnel--
+   
    genPersonnel(n){
       var result = Math.round(n.lvl*misc.randomnum(1,20)*n.skills.recruiting/10);
       return [result, result];

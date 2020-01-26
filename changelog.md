@@ -33,3 +33,9 @@
 ### Developed resource gathering framework (not yet implemented into DI)
 
 ### Continued development of map generation, specifically the Planet and Node classes
+
+### Tweaked resource gathering functions to better balance larger skill numbers
+
+### Began implementation of jsdoc documentation for all functions
+
+### Began reimplementation of new resources and skills
