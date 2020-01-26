@@ -2,6 +2,8 @@
 
 ## Implement resource gathering scripts
 
+### Implement resource gathering scripts to a DI command call
+
 ## Begin implementation of star system generation scripts
 
 ### Finish brainstorming node types

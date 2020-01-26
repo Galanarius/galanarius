@@ -11,6 +11,10 @@
    "resources": {
       "personnel": [10,10],
 
+      "helium": 0,
+      "hydrogen": 0,
+      "water": 0,
+
       "ftl_fuel": 0,
       "sublight_fuel": 0,
       
@@ -42,25 +46,28 @@
       "antimatter": 0
    },
    "skills": {
-      "honor": 0,
-      "renown": 0,
+      "honor": 1,
+      "renown": 1,
 
-      "attacking": 0,
-      "defending": 0,
+      "attacking": 1,
+      "defending": 1,
       
-      "recruiting": 0,
-      "researching": 0,
+      "recruiting": 1,
+      "researching": 1,
 
-      "ftl_piloting": 0,
-      "sublight_piloting": 0,
+      "ftl_piloting": 1,
+      "sublight_piloting": 1,
       
-      "harvesting": 0,
-      "farming": 0,
-      "cooking": 0,
-      "synthesizing": 0,
+      "harvesting": 1,
+      "farming": 1,
+      "cooking": 1,
+      "synthesizing": 1,
+
+      "siphoning": 1,
+      "filtration": 1,
       
-      "excavating": 0,
-      "refining": 0,
-      "sifting": 0
+      "excavating": 1,
+      "smelting": 1,
+      "sifting": 1
    }
 }
