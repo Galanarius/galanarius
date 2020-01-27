@@ -8,6 +8,19 @@ The main program will run natively on any desktop as an Electron app, while some
 be available everywhere through Discord. The program boasts few features currently,
 but that will change with continued development.
 
+### Discord Bot
+
+The Discord Bot (DI) is a portal to access the Galanarius system in a basic form anywhere 
+thanks to Discord's versatility. The actions taken using this access are limited to purely text based 
+commands and actions. These actions include things such as creating your character, choosing a faction, 
+moving your character or commanders, and basic actions such as gathering or refining resources.
+
+### Desktop Application
+
+The Desktop Application (DA) gives the full experience of the Galanarius system, 
+with an accompanying GUI, allowing for more complex actions such as battles, and crafting. 
+This platform has not yet been fully developed, and is still in its beginning stages as a feature.
+
 ## About the developer
 
 This project is a way for me as a programmer to test my skills in new languages and/or frameworks,
@@ -16,3 +29,10 @@ This project is meant to put all the skills I have learned and am still learning
 Any feedback is welcome, as I only have a few close friends reviewing the code when they can.
 Any contribution is accepted gladly, though it may not be used if it does not align with
 the overall vision of the project.
+
+
+
+
+## Miscellaneous Info
+
+*Updated 1/27/2019*
