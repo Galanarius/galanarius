@@ -203,14 +203,14 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       smelt: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.smelting);
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.smelting);
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*p.skills.smelting);
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*p.skills.smelting);
-         p.resources.oreI += amt*temp1;
-         p.resources.oreII += amt*temp2;
-         p.resources.oreIII += amt*temp3;
-         p.resources.oreIV += amt*temp4;
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*50*Math.log(p.skills.smelting));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*50*Math.log(p.skills.smelting));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*50*Math.log(p.skills.smelting));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*50*Math.log(p.skills.smelting));
+         p.resources.oreI += amt*temp1/100;
+         p.resources.oreII += amt*temp2/100;
+         p.resources.oreIII += amt*temp3/100;
+         p.resources.oreIV += amt*temp4/100;
 
          p.resources.tera_mat -= amt;
 
@@ -223,14 +223,14 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       synthesize: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.synthesizing);
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.synthesizing);
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*p.skills.synthesizing);
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*p.skills.synthesizing);
-         p.resources.synthI += amt*temp1;
-         p.resources.synthII += amt*temp2;
-         p.resources.synthIII += amt*temp3;
-         p.resources.synthIV += amt*temp4;
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*50*Math.log(p.skills.synthesizing));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*50*Math.log(p.skills.synthesizing));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*50*Math.log(p.skills.synthesizing));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*50*Math.log(p.skills.synthesizing));
+         p.resources.synthI += amt*temp1/100;
+         p.resources.synthII += amt*temp2/100;
+         p.resources.synthIII += amt*temp3/100;
+         p.resources.synthIV += amt*temp4/100;
 
          p.resources.nat_mat -= amt;
 
@@ -243,14 +243,14 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       sift: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*p.skills.sifting/5);
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*p.skills.sifting/5);
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*p.skills.sifting/5);
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*p.skills.sifting/5);
-         p.resources.oreI += amt*temp1;
-         p.resources.oreII += amt*temp2;
-         p.resources.oreIII += amt*temp3;
-         p.resources.oreIV += amt*temp4;
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*50*Math.log(p.skills.sifting));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*50*Math.log(p.skills.sifting));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*50*Math.log(p.skills.sifting));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*50*Math.log(p.skills.sifting/5));
+         p.resources.oreI += amt*temp1/100;
+         p.resources.oreII += amt*temp2/100;
+         p.resources.oreIII += amt*temp3/100;
+         p.resources.oreIV += amt*temp4/100;
 
          p.resources.slag -= amt;
 
@@ -263,7 +263,7 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       cook: function(p, amt){
-         p.resources.food += amt*Math.random()*p.skills.cooking;
+         p.resources.food += amt*Math.random()*50*Math.log(p.skills.cooking);
 
          p.resources.crop -= amt;
          

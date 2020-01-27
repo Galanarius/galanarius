@@ -2,7 +2,11 @@
 
 ## Implement resource gathering scripts
 
-### Implement resource gathering scripts to a DI command call
+### Test purifying functions
+
+### Implement resource gathering and purifying scripts to a DI command call
+
+## Update NPC generation and display functions with new resources and skills
 
 ## Begin implementation of star system generation scripts
 

@@ -5,6 +5,11 @@ const path = require('path');
 const misc = require('./misc.js');
 
 module.exports ={
+   /**
+    * Copies the player profile template into a new directory based off the given parameters.
+    * @param {String} user The current username of the player.
+    * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
+    */
    create: function(user, userID){
       copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
       setTimeout(function(){
@@ -17,11 +22,23 @@ module.exports ={
       }, 1000);
       
    },
+   /**
+    * Retrieves the profile.json file from the referenced user's files.
+    * @param {String} userID A numerical 14 digit value that is the reference to the player for the system.
+    * @returns {JSON} The player's profile.json
+    */
    getprofile: function(userID){
       //console.log(fs.existsSync(`../profiles/${userID}/profile.json`));
       return JSON.parse(fs.readFileSync(`../profiles/${userID}/profile.json`));
    },
+   /**
+    * Functions for displaying attributes of the player's profile via text.
+    */
    displayprofile: {
+      /**
+       * Displays the basic, general information about the player.
+       * @param {Profile} c The player's profile.
+       */
       basic: function(c){
          var result =      `username:           ${c.username}\n`;
          result +=         `level-exp:           ${c.lvl}-${c.xp}\n`;
@@ -29,9 +46,17 @@ module.exports ={
          result +=         `faction-rank:       ${c.faction}-${c.rank}`;
          return result;
       },
+      /**
+       * Displays the coordinates and name of the location of the player's current position.
+       * @param {Profile} c The player's profile.
+       */
       location: function(c){
          return            `location:           ${c.loc}, [${c.coords[0]},${c.coords[1]}]`;
       },
+      /**
+       * Displays the player's current resource amounts.
+       * @param {Profile} c The player's profile.
+       */
       resources: function(c){
          var result =      `personnel:          ${c.resources.personnel[0]}/${c.resources.personnel[1]}\n\n`;
 
@@ -66,6 +91,10 @@ module.exports ={
          result +=         `antimatter:         ${c.resources.antimatter}`;
          return result;
       },
+      /**
+       * Displays the player's current skill values.
+       * @param {Profile} c The player's profile.
+       */
       skills: function(c){
          var result =      `attacking:          ${c.skills.attacking}\n`;
          result +=         `defending:          ${c.skills.defending}\n\n`;
@@ -87,6 +116,11 @@ module.exports ={
          return result;
       }
    },
+   /**
+    * Determines which faction the player is joining, then assigns the appropriate value to their profile.json file.
+    * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
+    * @param {String} choice The faction the player is choosing to join.
+    */
    chooseFaction: function(userID, choice){
       var c = this.getprofile(userID);
       choice = choice.toLowerCase();

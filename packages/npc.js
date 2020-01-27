@@ -11,6 +11,7 @@ class NPC{
    //---Generation---
    /**
     * Creates an NPC profile and saves it to a json file in the npcs folder at root level of the project.
+    * @constructor
     * @param {Number} x The x-coordinate where the NPC is to reside upon creation.
     * @param {Number} y The y-coordinate where the NPC is to reside upon creation.
     * @param {String} loc The name of the planet or planetoid the NPC is to reside at upon creation.
@@ -195,7 +196,7 @@ class NPC{
       fs.writeFileSync(`../npcs/${n.ID}.json`, JSON.stringify(n), (err) =>{if(err) throw err});
    }
    /**
-    * 
+    * Generates and returns an NPC object whose leader is whichever NPC object calls this method.
     * @param {NPC} n The NPC object of the leader whom the NPC created will be under. 
     * @param {Number} t The tier (1,2,3, or 4) of the NPC to be generated. 
     */
@@ -213,24 +214,28 @@ class NPC{
    //--Misc--
    /**
     * Generates the honor score based off of previously generated stats.
+    * @returns {Number} The degree of the honor skill of the NPC.
     */
    genHonor(){
       return Math.round(((Math.random()-0.25)*2)*(misc.randomnum(1,1000))*(this.state.tier/4));
    }
    /**
     * Generates the renown score based off of previously generated stats.
+    * @returns {Number} The degree of the renown skill of the NPC.
     */
    genRenown(){
       return Math.round(misc.randomnum(1,750)*(this.state.tier/4));
    }
    /**
     * Generates the recruiting score based off of previously generated stats.
+    * @returns {Number} The degree of the recruiting skill of the NPC.
     */
    genRecruiting(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('recruiting')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
    }
    /**
     * Generates the researching score based off of previously generated stats.
+    * @returns {Number} The degree of the researching skill of the NPC.
     */
    genResearching(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('researching')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
@@ -239,30 +244,39 @@ class NPC{
    //--Attacking--
    /**
     * Generates the attacking score based off of previously generated stats.
+    * @returns {Number} The degree of the attacking skill of the NPC.
     */
    genAttacking(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('attacking')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    /**
     * Generates the recon score based off previously generated attacking score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the recon skill of the NPC.
     */
    genRecon(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the boarding score based off previously generated attacking score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the boarding skill of the NPC.
     */
    genBoarding(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the seiging score based off previously generated attacking score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the seiging skill of the NPC.
     */
    genSeiging(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the invading score based off previously generated attacking score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the invading skill of the NPC.
     */
    genInvading(n){
       return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
@@ -271,24 +285,31 @@ class NPC{
    //--Defending--
    /**
     * Generates the defending score based off of previously generated stats.
+    * @returns {Number} The degree of the defending skill of the NPC.
     */
    genDefending(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('defending')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    /**
     * Generates the patroling score based off previously generated defending score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the patroling skill of the NPC.
     */
    genPatroling(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the barricading score based off previously generated defending score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the barricading skill of the NPC.
     */
    genBarricading(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the guerilla score based off previously generated defending score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the guerilla skill of the NPC.
     */
    genGuerilla(n){
       return Math.round(n.skills.defending*misc.randomnum(1,100)/100);
@@ -297,24 +318,31 @@ class NPC{
    //--Natural--
    /**
     * Generates the harvesting score based off previously generated stats.
+    * @returns {Number} The degree of the harvesting skill of the NPC.
     */
    genHarvesting(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('harvesting')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    /**
     * Generates the farming score based off previously generated harvesting score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the farming skill of the NPC.
     */
    genFarming(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the cooking score based off previously generated harvesting score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the cooking skill of the NPC.
     */
    genCooking(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the synthesizing score based off previously generated harvesting score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the synthesizing skill of the NPC.
     */
    genSynthesizing(n){
       return Math.round(n.skills.harvesting*misc.randomnum(1,100)/100);
@@ -323,18 +351,23 @@ class NPC{
    //--Terra--
    /**
     * Generates the excavating score based off previously generated stats.
+    * @returns {Number} The degree of the excavating skill of the NPC.
     */
    genExcavating(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavating')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    /**
     * Generates the refining score based off previously generated excavating score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the smelting skill of the NPC.
     */
    genSmelting(n){
       return Math.round(n.skills.smelting*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the sifting score based off previously generated excavating score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the sifting skill of the NPC.
     */
    genSifting(n){
       return Math.round(n.skills.excavating*misc.randomnum(1,100)/100);
@@ -342,82 +375,186 @@ class NPC{
 
    //---Resources---
    //--Personnel--
-   
+   /**
+    * Generates the number of personnel based of the previously generated level and recruiting skill.
+    * @param {NPC} n The NPC the personnel are being generated for.
+    * @returns {Array} The number of personnel the NPC currently has unused out of its maximum number of personnel at its start.
+    */
    genPersonnel(n){
       var result = Math.round(n.lvl*misc.randomnum(1,20)*n.skills.recruiting/10);
       return [result, result];
    }
 
    //--Materials--
+   /**
+    * Generates the number of nat_mat based of the previously generated harvesting skill.
+    * @param {NPC} n The NPC the nat_mat is being generated for.
+    * @returns {Number} The amount of nat_mat the NPC starts out with.
+    */
    genNatMat(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.harvesting/6)
    }
+   /**
+    * Generates the number of tera_mat based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the tera_mat is being generated for.
+    * @returns {Number} The amount of tera_mat the NPC has.
+    */
    genTeraMat(n){
       return Math.round(Math.round(n.lvl*misc.randomnum(1,16)*n.skills.excavting/6));
    }
    
    //--Crops--
+   /**
+    * Generates the number of seed based of the previously generated farming skill.
+    * @param {NPC} n The NPC the seed is being generated for.
+    * @returns {Number} The amount of seed the NPC has.
+    */
    genSeed(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.farming/6)
    }
+   /**
+    * Generates the number of crop based of the previously generated farming skill.
+    * @param {NPC} n The NPC the crop is being generated for.
+    * @returns {Number} The amount of crop the NPC has.
+    */
    genCrop(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.farming/9)
    }
+   /**
+    * Generates the number of food based of the previously generated cooking skill.
+    * @param {NPC} n The NPC the food is being generated for.
+    * @returns {Number} The amount of food the NPC has.
+    */
    genFood(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.cooking/3)
    }
 
    //--Synthetics--
+   /**
+    * Generates the number of synthI based of the previously generated synthesizing skill.
+    * @param {NPC} n The NPC the synthI is being generated for.
+    * @returns {Number} The amount of synthI the NPC has.
+    */
    genSynthI(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.synthesizing/6)
    }
+   /**
+    * Generates the number of synthII based of the previously generated synthesizing skill.
+    * @param {NPC} n The NPC the synthII is being generated for.
+    * @returns {Number} The amount of synthII the NPC has.
+    */
    genSynthII(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.synthesizing/9)
    }
+   /**
+    * Generates the number of synthIII based of the previously generated synthesizing skill.
+    * @param {NPC} n The NPC the synthIII is being generated for.
+    * @returns {Number} The amount of synthIII the NPC has.
+    */
    genSynthIII(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.synthesizing/15)
    }
+   /**
+    * Generates the number of synthIV based of the previously generated synthesizing skill.
+    * @param {NPC} n The NPC the synthIV is being generated for.
+    * @returns {Number} The amount of synthIV the NPC has.
+    */
    genSynthIV(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.synthesizing/24)
    }
 
    //--Stone--
+   /**
+    * Generates the number of stone based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the stone is being generated for.
+    * @returns {Number} The amount of stone the NPC has.
+    */
    genStone(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.excavating);
    }
+   /**
+    * Generates the number of slag based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the slag is being generated for.
+    * @returns {Number} The amount of slag the NPC has.
+    */
    genSlag(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.sifting/6);
    }
+   /**
+    * Generates the number of oreI based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the oreI is being generated for.
+    * @returns {Number} The amount of oreI the NPC has.
+    */
    genOreI(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/6);
    }
+   /**
+    * Generates the number of oreII based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the oreII is being generated for.
+    * @returns {Number} The amount of oreII the NPC has.
+    */
    genOreII(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/9);
    }
+   /**
+    * Generates the number of oreIII based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the oreIII is being generated for.
+    * @returns {Number} The amount of oreIII the NPC has.
+    */
    genOreIII(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/15);
    }
+   /**
+    * Generates the number of oreIV based of the previously generated excavating skill.
+    * @param {NPC} n The NPC the oreIV is being generated for.
+    * @returns {Number} The amount of oreIV the NPC has.
+    */
    genOreIV(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/24);
    }
 
    //--Relics--
+   /**
+    * Generates the number of relics the NPC has.
+    * @param {NPC} n The NPC the relics are being generated for.
+    * @returns {Number} The amount of relics the NPC has.
+    */
    genRelicToken(n){
       return this.state.tier+(misc.randomnum(1,5)-3);
    }
 
    //--Points--
+   /**
+    * Generates the number of research_points based of the previously generated researching skill.
+    * @param {NPC} n The NPC the research_points is being generated for.
+    * @returns {Number} The amount of research_points the NPC has.
+    */
    genResearchPoint(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.researching/10);
    }
+   /**
+    * Generates the number of skill_point based of the previously generated research_point resource.
+    * @param {NPC} n The NPC the skill_point is being generated for.
+    * @returns {Number} The amount of skill_point the NPC has.
+    */
    genSkillPoint(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.resources['research_point']/3);
    }
+   /**
+    * Generates the number of tech_point based of the previously generated research_point resource.
+    * @param {NPC} n The NPC the tech_point is being generated for.
+    * @returns {Number} The amount of tech_point the NPC has.
+    */
    genTechPoint(n){
       return Math.round(n.lvl*misc.randomnum(1,16)*n.resources['research_point']/3);
    }
 
    //--Exotic--
+   /**
+    * Generates the number of antimatter the NPC has.
+    * @param {NPC} n The NPC the antimatter is being generated for.
+    * @returns {Number} The amount of antimatter the NPC has.
+    */
    genAntimatter(n){
       if(this.state.tier >= 3){
          return misc.randomnum(1,10)*(this.state.tier-2);
@@ -429,8 +566,12 @@ class NPC{
 
 
    //---Actions---
+   /**
+    * NOT YET IMPLEMENTED
+    * Moves the NPC between planets, planetoids, and/or systems.
+    */
    async move(){
-
+      //Not yet implemented
    }
 }
 

@@ -39,3 +39,5 @@
 ### Began implementation of jsdoc documentation for all functions
 
 ### Began reimplementation of new resources and skills
+
+### Finished jsdoc documentation of all currently implemented functions
