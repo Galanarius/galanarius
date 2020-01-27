@@ -1,6 +1,6 @@
 # Galanarius
 
-![alt text](https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwinkvShu6TnAhWTB80KHd0hBuMQjRx6BAgBEAQ&url=https%3A%2F%2Fen.wiktionary.org%2Fwiki%2FG&psig=AOvVaw25JTj1tK3miUw9gmzYqdUj&ust=1580237953892700)
+![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
 A scifi RPG Resource Management Game.
 
 ## About this program
