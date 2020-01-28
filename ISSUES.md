@@ -1,5 +1,3 @@
 # Known issues
 
-## Profile display
-
-Profile display causes runtime errors due to changed variable names, same for many other character based functions
+## NPCs do not generate newly added skills and resources
