@@ -28,7 +28,7 @@ class NPC{
          ID: null,
          name: null,
          gender: null,
-         priority: ["attacking", "defending", "recruiting", "researching", "harvesting", "excavation"],
+         priority: ["attacking", "defending", "recruiting", "researching", "harvesting", "excavating", "siphoning"],
          n: null
       }
       this.generate();
@@ -119,6 +119,7 @@ class NPC{
       n.skills['researching'] = this.genResearching();
       n.skills['harvesting'] = this.genHarvesting();
       n.skills['excavating'] = this.genExcavating();
+      n.skills['siphoning'] = this.genSiphoning();
 
       this.state.n = n;
       n.skills['recon'] = this.genRecon(n);
@@ -134,8 +135,10 @@ class NPC{
       n.skills['cooking'] = this.genCooking(n);
       n.skills['synthesizing'] = this.genSynthesizing(n);
 
+      n.skills['filtration'] = this.genFiltration(n);
+
       this.state.n = n;
-      n.skills['refining'] = this.genRefining(n);
+      n.skills['smelting'] = this.genSmelting(n);
       n.skills['sifting'] = this.genSifting(n);
 
       //Resources
@@ -167,6 +170,7 @@ class NPC{
       n.resources['tech_point'] = this.genTechPoint(n);
 
       n.resources['antimatter'] = this.genAntimatter(n);
+      this.state.n = n;
 
       //Sub Commanders
       for(var k = 0; k < Math.ceil(n.lvl/8); k++){
@@ -239,6 +243,21 @@ class NPC{
     */
    genResearching(){
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('researching')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
+   }
+   /**
+    * Generates the siphoning score based off of previously generated stats.
+    * @returns {Number} The degree of the siphoning skill of the NPC.
+    */
+   genSiphoning(){
+      return Math.round((this.state.priority.length/(this.state.priority.indexOf('siphoning')+1))*misc.randomnum(1,8)*this.state.n.lvl/10);
+   }
+   /**
+    * Generates the filtration score based off previously generated attacking score.
+    * @param {NPC} n The NPC the skill is being generated for.
+    * @returns {Number} The degree of the filtration skill of the NPC.
+    */
+   genFiltration(n){
+      return Math.round(n.skills.attacking*misc.randomnum(1,100)/100);
    }
 
    //--Attacking--
@@ -357,12 +376,12 @@ class NPC{
       return Math.round((this.state.priority.length/(this.state.priority.indexOf('excavating')+1))*misc.randomnum(1,20)*this.state.n.lvl/10);
    }
    /**
-    * Generates the refining score based off previously generated excavating score.
+    * Generates the smelting score based off previously generated excavating score.
     * @param {NPC} n The NPC the skill is being generated for.
     * @returns {Number} The degree of the smelting skill of the NPC.
     */
    genSmelting(n){
-      return Math.round(n.skills.smelting*misc.randomnum(1,100)/100);
+      return Math.round(n.skills.excavating*misc.randomnum(1,100)/100);
    }
    /**
     * Generates the sifting score based off previously generated excavating score.
@@ -385,6 +404,48 @@ class NPC{
       return [result, result];
    }
 
+   //--Misc--
+   /**
+    * Generates the number of oil based of the previously generated siphoning skill.
+    * @param {NPC} n The NPC the oil is being generated for.
+    * @returns {Number} The amount of oil the NPC has.
+    */
+   genOil(n){
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.siphoning);
+   }
+   /**
+    * Generates the number of hydrogen based of the previously generated siphoning skill.
+    * @param {NPC} n The NPC the hydrogen is being generated for.
+    * @returns {Number} The amount of hydrogen the NPC has.
+    */
+   genHydrogen(n){
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.siphoning);
+   }
+   /**
+    * Generates the number of heliumI based of the previously generated siphoning and filtration skills.
+    * @param {NPC} n The NPC the heliumI is being generated for.
+    * @returns {Number} The amount of heliumI the NPC has.
+    */
+   genHeliumI(n){
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.siphoning+n.skills.filtration/6);
+   }
+   /**
+    * Generates the number of heliumII based of the previously generated siphoning and filtration skills.
+    * @param {NPC} n The NPC the heliumII is being generated for.
+    * @returns {Number} The amount of heliumII the NPC has.
+    */
+   genHeliumII(n){
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.siphoning+n.skills.filtration/9);
+   }
+   /**
+    * Generates the number of heliumIII based of the previously generated siphoning and filtration skills.
+    * @param {NPC} n The NPC the heliumIII is being generated for.
+    * @returns {Number} The amount of heliumIII the NPC has.
+    */
+   genHeliumIII(n){
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.siphoning+n.skills.filtration/20);
+   }
+
    //--Materials--
    /**
     * Generates the number of nat_mat based of the previously generated harvesting skill.
@@ -400,7 +461,7 @@ class NPC{
     * @returns {Number} The amount of tera_mat the NPC has.
     */
    genTeraMat(n){
-      return Math.round(Math.round(n.lvl*misc.randomnum(1,16)*n.skills.excavting/6));
+      return Math.round(Math.round(n.lvl*misc.randomnum(1,16)*n.skills.excavating/6));
    }
    
    //--Crops--
@@ -486,7 +547,7 @@ class NPC{
     * @returns {Number} The amount of oreI the NPC has.
     */
    genOreI(n){
-      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/6);
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.smelting/6);
    }
    /**
     * Generates the number of oreII based of the previously generated excavating skill.
@@ -494,7 +555,7 @@ class NPC{
     * @returns {Number} The amount of oreII the NPC has.
     */
    genOreII(n){
-      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/9);
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.smelting/9);
    }
    /**
     * Generates the number of oreIII based of the previously generated excavating skill.
@@ -502,7 +563,7 @@ class NPC{
     * @returns {Number} The amount of oreIII the NPC has.
     */
    genOreIII(n){
-      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/15);
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.smelting/15);
    }
    /**
     * Generates the number of oreIV based of the previously generated excavating skill.
@@ -510,7 +571,7 @@ class NPC{
     * @returns {Number} The amount of oreIV the NPC has.
     */
    genOreIV(n){
-      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.refining/24);
+      return Math.round(n.lvl*misc.randomnum(1,16)*n.skills.smelting/24);
    }
 
    //--Relics--

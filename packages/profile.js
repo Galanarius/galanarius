@@ -60,6 +60,12 @@ module.exports ={
       resources: function(c){
          var result =      `personnel:          ${c.resources.personnel[0]}/${c.resources.personnel[1]}\n\n`;
 
+         result +=         `helium 1:           ${c.resources.heliumI}\n`;
+         result +=         `helium 2:           ${c.resources.heliumII}\n`;
+         result +=         `helium 3:           ${c.resources.heliumIII}\n`;
+         result +=         `hydrogen:           ${c.resources.hydrogen}\n`;
+         result +=         `oil:                ${c.resources.oil}\n\n`;
+
          result +=         `ftl fuel:           ${c.resources.ftl_fuel}\n`;
          result +=         `sublight fuel:      ${c.resources.sublight_fuel}\n\n`;
 
@@ -110,9 +116,12 @@ module.exports ={
          result +=         `cooking:            ${c.skills.cooking}\n`;
          result +=         `synthesizing:       ${c.skills.synthesizing}\n\n`;
 
-         result +=         `excavation:         ${c.skills.excavation}\n`;
-         result +=         `refining:           ${c.skills.refining}\n`;
-         result +=         `sifting:            ${c.skills.refining}\n`;
+         result +=         `siphoning:          ${c.skills.siphoning}\n`;
+         result +=         `filtration:         ${c.skills.filtration}\n\n`;
+
+         result +=         `excavation:         ${c.skills.excavating}\n`;
+         result +=         `smelting:           ${c.skills.smelting}\n`;
+         result +=         `sifting:            ${c.skills.sifting}\n`;
          return result;
       }
    },
