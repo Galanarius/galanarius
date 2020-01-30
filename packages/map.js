@@ -202,7 +202,6 @@ class Planet{
          fs.write('../0PlanetGenerated.json', temp2, (err) => {if(err) throw err});
          return 0;
       }
-      return temp;
    }
    /**
     * Returns the capacity of the planet based off of its previously generated size.
@@ -326,14 +325,19 @@ class Planet{
       switch(this.state.size){
          case 1:
             temp = misc.randomnum(2,5);
+            break;
          case 2:
             temp = misc.randomnum(3,8);
+            break;
          case 3:
             temp = misc.randomnum(5,13);
+            break;
          case 4:
             temp = misc.randomnum(8,21);
+            break;
          case 5:
             temp = misc.randomnum(13,34);
+            break;
          default:
             temp = 1;
       }
@@ -341,6 +345,7 @@ class Planet{
       for(var k = 0; k < result.length; k++){
          result[k] = new ResourceNode(this);
       }
+      return result;
    }
 }
 
