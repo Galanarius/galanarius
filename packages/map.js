@@ -1,7 +1,4 @@
 const fs = require('graceful-fs');
-const mkdirp = require('mkdirp');
-const copydir = require('copy-dir');
-const path = require('path');
 
 const misc = require('./misc.js');
 const npc = require('./npc.js');
@@ -600,7 +597,6 @@ class ResourceNode{
     */
    getResource(p, res){
       let temp = '';
-      let temp2 = misc.randomnum(1,100);
       switch(this.state.type){
          case 'cave':
             p.resources.stone += Math.ceil(actions.gather.stone(p)*.3);
