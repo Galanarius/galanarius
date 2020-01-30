@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom';
    }
  }
 
- class Page extends React.Component{
+ /*class Page extends React.Component{
    constructor(props){
       super(props);
       this.state = {
@@ -38,7 +38,7 @@ import ReactDOM from 'react-dom';
 
    }
 
- }
+ }*/
 
  ReactDOM.render(
    <App />,

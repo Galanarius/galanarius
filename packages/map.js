@@ -355,7 +355,7 @@ class Planetoid{
          //Implemented
          parent_ID: par_id,
          //Implemented
-         id: this.genID();
+         id: this.genID(),
          //Implemented
          size: this.genSize(),
          //Not Implemented
