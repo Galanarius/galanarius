@@ -1,9 +1,5 @@
 const fs = require('graceful-fs');
-const mkdirp = require('mkdirp');
-const copydir = require('copy-dir');
-const path = require('path');
 const misc = require('./misc.js');
-const actions = require('./actions.js');
 
 const names = JSON.parse(fs.readFileSync('../ref/names.json'));
 
@@ -39,7 +35,7 @@ class NPC{
    async generate(){
       //console.log(`starting phase 1`);
       //Tier
-      if(this.state.tier == null || this.state.tier == undefined){
+      if(this.state.tier == null){
          this.state.tier = misc.randomnum(1,100);
          if(this.state.tier <= 10){
             this.state.tier = 4;
@@ -63,7 +59,7 @@ class NPC{
             this.state.ID += `${misc.randomnum(1,10)-1}`;
       }
       //Leader
-      if(this.state.leader == 'self' || this.state.leader == undefined || this.state.leader == null){
+      if(this.state.leader == 'self' ||  this.state.leader == null){
          this.state.leader = this.state.ID;
       }
       //Name & Gender
@@ -188,9 +184,11 @@ class NPC{
                temp = await this.genSubCom(n, this.state.tier-3);
             
          }
-         if(temp != null && temp != undefined){
-            if(n.commanders == null || n.commanders == undefined)
+         if(temp != null){
+            if(n.commanders == null){
+               n.commanders = new Array(1);
                n.commanders[0] = temp;
+            }
             else
                n.commanders[n.commanders.length] = temp;
          }

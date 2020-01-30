@@ -112,10 +112,10 @@ function roll(msg, numofdice, numofsides){
       return;
   }
   try{
-      for(var roll = 1; roll <= numofdice; roll++){
-      resultarr[roll] = misc.randomnum(1, numofsides);
-      //console.log(resultarr[roll]);
-      result += resultarr[roll];
+      for(let roll = 1; roll <= numofdice; roll++){
+        resultarr[roll] = misc.randomnum(1, numofsides);
+        //console.log(resultarr[roll]);
+        result += resultarr[roll];
       }
   }
   catch{
@@ -123,7 +123,7 @@ function roll(msg, numofdice, numofsides){
       return;
   }
   result = 'Total: ' + result + '     Rolls: '
-  for(var roll = 1; roll <= numofdice; roll++){
+  for(let roll = 1; roll <= numofdice; roll++){
       if(roll != numofdice){
           result = result + resultarr[roll] + ', ';
       }

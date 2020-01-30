@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(
-   <App />,
-   document.getElementById('root')
- );
-
  class App extends React.Component{
    constructor(props){
       super(props);
@@ -44,3 +39,8 @@ ReactDOM.render(
    }
 
  }
+
+ ReactDOM.render(
+   <App />,
+   document.getElementById('root')
+ );

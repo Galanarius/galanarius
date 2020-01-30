@@ -15,10 +15,10 @@ class Galaxy{
     */
    constructor(x, y){
       this.state = {
-         galaxyID = this.genID(),
-         x_size = x,
-         y_size = y,
-         systems = this.genSystems(),
+         galaxyID: this.genID(),
+         x_size: x,
+         y_size: y,
+         systems: this.genSystems(),
       }
    }
    /**
@@ -61,11 +61,11 @@ class System{
     */
    constructor(x, y){
       this.state = {
-         x_coord = x,
-         y_coord = y,
-         classif = this.genClassif(),
-         planets = this.genPlanets(),
-         planetoids = this.genPlanetoids()
+         x_coord: x,
+         y_coord: y,
+         classif: this.genClassif(),
+         planets: this.genPlanets(),
+         planetoids: this.genPlanetoids()
       }
    }
    /**
@@ -158,26 +158,28 @@ class Planet{
     * @param {String} sys_id The coordinates of the system containing the planet in the form of 'x,y'.
     */
    constructor(sys_id){
-      //Implemented
-      parent_ID = par_id,
-      //Implemented
-      id = genID();
-      //Implemented
-      size = this.genSize(),
-      //Implemented
-      capacity = this.genCapacity(),
-      //Not Implemented
-      terrain_type = this.genTerrain(),
-      //Implemented
-      inhabitants = this.genInhabitants(),
-      //Not Implemented
-      restrictions = this.genRestrictions(),
-      //Not Implemented
-      accomodations = this.genAccomodations(),
-      //Implemented
-      node_base = this.genNodeBase(),
-      //Implemented
-      nodes = this.genNodes()
+      this.state = {
+         //Implemented
+         parent_ID: sys_id,
+         //Implemented
+         id: genID(),
+         //Implemented
+         size: this.genSize(),
+         //Implemented
+         capacity: this.genCapacity(),
+         //Not Implemented
+         terrain_type: this.genTerrain(),
+         //Implemented
+         inhabitants: this.genInhabitants(),
+         //Not Implemented
+         restrictions: this.genRestrictions(),
+         //Not Implemented
+         accomodations: this.genAccomodations(),
+         //Implemented
+         node_base: this.genNodeBase(),
+         //Implemented
+         nodes: this.genNodes()
+      }
    }
    /**
     * Uses a weighted generation algorithm to obtain the size ID of the planet.
@@ -349,18 +351,20 @@ class Planetoid{
     * @param {String} sys_id The coordinates of the system containing the planetoid in the form of 'x,y'.
     */
    constructor(par_id){
-      //Implemented
-      parent_ID = par_id,
-      //Implemented
-      id = this.genID();
-      //Implemented
-      size = this.genSize(),
-      //Not Implemented
-      type = this.genType(),
-      //Implemented
-      nodes = this.genNodes(),
-      //Implemented
-      node_base = this.genNodeBase()
+      this.state ={
+         //Implemented
+         parent_ID: par_id,
+         //Implemented
+         id: this.genID();
+         //Implemented
+         size: this.genSize(),
+         //Not Implemented
+         type: this.genType(),
+         //Implemented
+         nodes: this.genNodes(),
+         //Implemented
+         node_base: this.genNodeBase()
+      }
    }
    /**
     * Generates the planetoid's 5 digit ID.
