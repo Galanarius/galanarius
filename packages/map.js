@@ -33,7 +33,7 @@ class Galaxy{
          else
             temp += `${misc.randomnum(1,10)-1}`;
       }
-      return 
+      return temp;
    }
    /**
     * Creates and stores the system objects in the galaxy's matrix of systems.
@@ -432,6 +432,7 @@ class Planetoid{
       for(var k = 0; k < result.length; k++){
          result[k] = new ResourceNode(this);
       }
+      return result;
    }
    /**
     * Determines the node_base based off of the planetoid's size.
