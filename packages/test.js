@@ -9,5 +9,3 @@ const profile = require('./profile.js');
 const actions = require('./actions.js');
 
 //var p = profile.getprofile('327925541556453398');
-
-var test = new npc.npc(0,0,"Nexus");

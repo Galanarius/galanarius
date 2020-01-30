@@ -10,6 +10,8 @@ proto-master 1.0
 
 ## Overall
 
-Resolved outdated resource and skill references in player utilized functions and NPC generation.
+Updated actions.js with new resources for gathering and purifying.
 
-Implemented new resources and skills to player utilized functions and NPC generation.
+Implemented the rest of the ResourceNode class as it stands for its intial version.
+
+Fixed numerous DeepScan found issues.

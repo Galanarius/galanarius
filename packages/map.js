@@ -5,6 +5,7 @@ const path = require('path');
 
 const misc = require('./misc.js');
 const npc = require('./npc.js');
+const actions = require('./actions.js');
 
 class Galaxy{
    /**
@@ -168,7 +169,7 @@ class Planet{
          //Implemented
          capacity: this.genCapacity(),
          //Not Implemented
-         terrain_type: this.genTerrain(),
+         type: this.genType(),
          //Implemented
          inhabitants: this.genInhabitants(),
          //Not Implemented
@@ -239,9 +240,9 @@ class Planet{
    }
    /**
     * NOT YET IMPLEMENTED
-    * Randomly selects the terrain-type of the planet.
+    * Randomly selects the type of the planet.
     */
-   genTerrain(){
+   genType(){
       //Not yet implemented
    }
    /**
@@ -463,10 +464,12 @@ class ResourceNode{
          parent_ID: par.state.id,
          //Implemented
          id: this.genID(),
+         //Implemented
+         type: this.genType(`${par.state.type}`),
          //Not Yet Implemented
-         type: this.genType(),
-         //Not Yet Implemented
-         modules: []
+         modules: [],
+         mod: 1,
+         base: par.state.node_base,
       }
    }
    /**
@@ -486,9 +489,168 @@ class ResourceNode{
    /**
     * NOT YET IMPLEMENTED
     * Randomly selects the type of node based off of its parent's type.
+    * @param {String} ter The terrain type of the parent.
     * @returns {String} The name of the node's type.
     */
-   genType(){
-      //Not yet implemented
+   genType(ter){
+      ter = ter.toLowerCase();
+      let temp = misc.randomnum(1,100);
+      switch(ter){
+         case 'barren':
+            if(temp <= 40)
+               return 'cave';
+            else if(temp <= 60)
+               return 'oil_field';
+            else
+               return 'ruin';
+         case 'lush':
+            if(temp <= 40)
+               return 'wood';
+            else if(temp <= 50)
+               return 'city';
+            else if(temp <= 60)
+               return 'field';
+            else if(temp <= 70)
+               return 'cave';
+            else if(temp <= 80)
+               return 'ruin';
+            else
+               return 'oil_field';
+         case 'aquatic':
+            if(temp <= 10)
+               return 'ruin';
+            else if(temp <= 30)
+               return 'city';
+            else if(temp <= 70)
+               return 'ocean';
+            else if(temp <= 90)
+               return 'cave';
+            else
+            return 'oil_field';
+         case 'gas':
+            if(temp <= 30)
+               return 'city';
+            else
+               return 'gas_cloud';
+         case 'rocky':
+            if(temp <= 50)
+               return 'cave';
+            else if(temp <= 60)
+               return 'city';
+            else if(temp <= 80)
+               return 'ruin';
+            else
+               return 'oil_field';
+         case 'plains':
+            if(temp <= 50)
+               return 'field';
+            else if(temp <= 70)
+               return 'city';
+            else if(temp <= 80)
+               return 'wood';
+            else
+               return 'lake';
+         case 'polis':
+            if(temp <= 80)
+               return 'city';
+            else
+               return 'ruins';
+         case 'asteroid_belt':
+            if(temp <= 90)
+               return 'cave';
+            else if(temp <= 95)
+               return 'city';
+            else
+               return 'ruin';
+         case 'comet':
+            if(temp <= 20)
+               return 'cave';
+            else if(temp <= 60)
+               return 'gas_cloud';
+            else
+               return 'oil_field';
+         case 'asteroid':
+            if(temp <= 80)
+               return 'cave';
+            else
+               return 'oil_field';
+         case 'mooon':
+            if(temp <= 40)
+               return 'cave';
+            else if(temp <= 70)
+               return 'oil_field';
+            else if(temp <= 90)
+               return 'city';
+            else
+               return 'ruins';
+         case 'ring':
+            if(temp <= 40)
+               return 'gas_cloud';
+            else if(temp <= 80)
+               return 'oil_field';
+            else
+               return 'cave';
+         default:
+            return 'ERR'; 
+      }
    }
+   /**
+    * Calls the appropriate gather methods for the resource selected to be gather from the node.
+    * @param {String} res Optional parameter if a specific resource is gathered.
+    */
+   getResource(p, res){
+      let temp = '';
+      let temp2 = misc.randomnum(1,100);
+      switch(this.state.type){
+         case 'cave':
+            p.resources.stone += Math.ceil(actions.gather.stone(p)*.3);
+            p.resources.slag += Math.ceil(actions.gather.slag(p)*.05);
+            p.resources.tera_mat += Math.ceil(actions.gather.tera_mat(p)*.65);
+            break;
+         case 'wood':
+            p.resources.nat_mat += Math.ceil(actions.gather.nat_mat(p)*.9);
+            p.resources.seed += Math.ceil(actions.gather.seed(p)*.1);
+            break;
+         case 'field':
+            p.resources.seed += Math.ceil(actions.gather.seed(p)*.7);
+            p.resources.crop += Math.ceil(actions.gather.crop(p)*.3);
+            break;
+         case 'city':
+            p.resources.personnel += Math.ceil(actions.gather.personnel(p)*1);
+            break;
+         case 'dark_star':
+            p.resources.antimatter += actions.gather.antimatter(p);
+            p.resources.relic_token += actions.gather.relic(p);
+            p.resources.research_point += Math.ceil(actions.gather.research(p)*.9);
+            break;
+         case 'ruin':
+            p.resources.research_point += Math.ceil(actions.gather.research(p)*.9);
+            p.resources.relic_token += actions.gather.relic(p);
+            break;
+         case 'ocean':
+            p.resources.food += Math.ceil(p.resources.food += misc.randomnum(1,p.resources.personnel/4)*Math.random()*50*Math.log(p.skills.cooking)*1);
+            break;
+         case 'gas_cloud':
+            p.resources.hydrogen += Math.ceil(actions.gather.hydrogen(p)*.45);
+            p.resources.heliumI += Math.ceil(actions.gather.heliumI(p)*.35);
+            p.resources.heliumII += Math.ceil(actions.gather.heliumII(p)*.15);
+            p.resources.heliumIII += Math.ceil(actions.gather.heliumIII(p)*.05);
+            break;
+         case 'lake':
+            p.resources.food += Math.ceil(p.resources.food += misc.randomnum(1,p.resources.personnel/8)*Math.random()*50*Math.log(p.skills.cooking)*1);
+            break;
+         case 'oil_field':
+            p.resources.oil += Math.ceil(actions.gather.oil(p)*.9);
+            p.resources.hydrogen += Math.ceil(actions.gather.hydrogen(p)*.1);
+            break;
+      }
+   }
+}
+
+module.exports = {
+   galaxy: Galaxy,
+   system: System,
+   planet: Planet,
+   planetoid: Planetoid,
+   resource_node: ResourceNode
 }
