@@ -2,7 +2,7 @@
 
 ## Build version
 
-proto-master 1.0
+proto-master 2.0
 
 ## DA
 
@@ -10,8 +10,4 @@ proto-master 1.0
 
 ## Overall
 
-Updated actions.js with new resources for gathering and purifying.
-
-Implemented the rest of the ResourceNode class as it stands for its intial version.
-
-Fixed numerous DeepScan found issues.
+Finished Planet and Planetoid implementation, and succesfully tested map generation with varying sized galaxies.
