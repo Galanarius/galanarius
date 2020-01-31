@@ -70,8 +70,7 @@ module.exports = {
                return this.research(p);
             case 'anti':
             case 'antimatter':
-            case 'animatter':
-            case 'anti':        
+            case 'animatter':      
             case 'antimater':
                return this.antimatter(p);
             default:
@@ -147,8 +146,7 @@ module.exports = {
                 return 'research_point';
             case 'anti':
             case 'antimatter':
-            case 'animatter':
-            case 'anti':        
+            case 'animatter':     
             case 'antimater':
               return 'antimatter';
             default:
