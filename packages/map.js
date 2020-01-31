@@ -1,10 +1,8 @@
 const fs = require('graceful-fs');
-const mkdirp = require('mkdirp');
-const copydir = require('copy-dir');
-const path = require('path');
 
 const misc = require('./misc.js');
 const npc = require('./npc.js');
+const actions = require('./actions.js');
 
 class Galaxy{
    /**
@@ -15,11 +13,14 @@ class Galaxy{
     */
    constructor(x, y){
       this.state = {
-         galaxyID: this.genID(),
+         galaxyID: null,
          x_size: x,
          y_size: y,
-         systems: this.genSystems(),
+         systems: null,
       }
+      this.state.galaxyID = this.genID();
+      this.state.systems = this.genSystems();
+      fs.writeFileSync(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
    }
    /**
     * Generates the galaxy's 10 digit code
@@ -34,6 +35,12 @@ class Galaxy{
             temp += `${misc.randomnum(1,10)-1}`;
       }
       return temp;
+   }
+   /**
+    * @returns the galaxy's ID
+    */
+   getID(){
+      return this.state.galaxyID;
    }
    /**
     * Creates and stores the system objects in the galaxy's matrix of systems.
@@ -63,10 +70,13 @@ class System{
       this.state = {
          x_coord: x,
          y_coord: y,
-         classif: this.genClassif(),
-         planets: this.genPlanets(),
-         planetoids: this.genPlanetoids()
+         classif: null,
+         planets: null,
+         planetoids: null,
       }
+      this.state.classif = this.genClassif();
+      this.state.planetoids = this.genPlanetoids();
+      this.state.planets = this.genPlanets();
    }
    /**
     * Uses a weighted generation algorithm to generate the size-classificaiton of the system.
@@ -159,27 +169,26 @@ class Planet{
     */
    constructor(sys_id){
       this.state = {
-         //Implemented
          parent_ID: sys_id,
-         //Implemented
-         id: genID(),
-         //Implemented
-         size: this.genSize(),
-         //Implemented
-         capacity: this.genCapacity(),
-         //Not Implemented
-         terrain_type: this.genTerrain(),
-         //Implemented
-         inhabitants: this.genInhabitants(),
-         //Not Implemented
-         restrictions: this.genRestrictions(),
-         //Not Implemented
-         accomodations: this.genAccomodations(),
-         //Implemented
-         node_base: this.genNodeBase(),
-         //Implemented
-         nodes: this.genNodes()
+         id: -1,
+         size: -1,
+         capacity: -1,
+         type: null,
+         restrictions: null,
+         accomodations: null,
+         node_base: -1,
+         nodes: null,
+         inhabitants: null,
       }
+      this.state.id = this.genID();
+      this.state.size = this.genSize();
+      this.state.capacity = this.genCapacity();
+      this.state.type = this.genType();
+      //this.state.accomodations = this.genAccomodations();
+      //this.state.restrictions = this.genRestrictions();
+      this.state.node_base = this.genNodeBase();
+      this.state.nodes = this.genNodes();
+      //this.state.inhabitants = this.genInhabitants();
    }
    /**
     * Uses a weighted generation algorithm to obtain the size ID of the planet.
@@ -238,11 +247,26 @@ class Planet{
       return result;
    }
    /**
-    * NOT YET IMPLEMENTED
-    * Randomly selects the terrain-type of the planet.
+    * Randomly selects the type of the planet.
+    * @returns the type of the planet.
     */
-   genTerrain(){
-      //Not yet implemented
+   genType(){
+      switch(misc.randomnum(1,7)){
+         case 1:
+            return 'barren';
+         case 2:
+            return 'lush';
+         case 3:
+            return 'aquatic';
+         case 4:
+            return 'gas';
+         case 5:
+            return 'rocky';
+         case 6:
+            return 'plains';
+         case 7:
+            return 'polis';
+      }
    }
    /**
     * NOT YET FULLY IMPLEMENTED
@@ -343,7 +367,7 @@ class Planet{
       }
       var result = new Array(temp);
       for(var k = 0; k < result.length; k++){
-         result[k] = new ResourceNode(this);
+         result[k] = new ResourceNode(this.state.id, this.state.type, this.state.node_base);
       }
       return result;
    }
@@ -356,20 +380,19 @@ class Planetoid{
     * @param {String} sys_id The coordinates of the system containing the planetoid in the form of 'x,y'.
     */
    constructor(par_id){
-      this.state ={
-         //Implemented
+      this.state = {
          parent_ID: par_id,
-         //Implemented
-         id: this.genID(),
-         //Implemented
-         size: this.genSize(),
-         //Not Implemented
-         type: this.genType(),
-         //Implemented
-         nodes: this.genNodes(),
-         //Implemented
-         node_base: this.genNodeBase()
+         id: -1,
+         size: -1,
+         type: null,
+         node_base: null,
+         nodes: null,
       }
+      this.state.id = this.genID();
+      this.state.size = this.genSize();
+      this.state.type = this.genType();
+      this.state.node_base = this.genNodeBase();
+      this.state.nodes = this.genNodes();
    }
    /**
     * Generates the planetoid's 5 digit ID.
@@ -403,11 +426,22 @@ class Planetoid{
       return 0;
    }
    /**
-    * NOT YET IMPLEMENTED
     * Randomly selects the type of the planetoid.
+    * @returns {String} the type of the planetoid.
     */
    genType(){
-      //Not yet implemented
+      switch(misc.randomnum(1,5)){
+         case 1:
+            return 'asteroid_belt';
+         case 2:
+            return 'comet';
+         case 3:
+            return 'asteroid';
+         case 4:
+            return 'moon';
+         case 5:
+            return 'ring';
+      }
    }
    /**
     * Randomly generates the number of nodes the planetoid has, and then generates the nodes.
@@ -430,7 +464,7 @@ class Planetoid{
       }
       var result = new Array(temp);
       for(var k = 0; k < result.length; k++){
-         result[k] = new ResourceNode(this);
+         result[k] = new ResourceNode(this.state.id, this.state.type, this.state.node_base);
       }
       return result;
    }
@@ -455,19 +489,20 @@ class ResourceNode{
    /**
     * Procedurally generates a node for its parent planet or planetoid.
     * @constructor
-    * @param {String} par_id The ID of the planet or planetoid at which the node it located. 
+    * @param {String} par_id The ID of the planet or planetoid at which the node is located. 
+    * @param {String} par_type The type of the planet or planetoid at which the node is located.
     */
-   constructor(par){
+   constructor(par_id, par_type, par_base){
       this.state = {
-         //Implemented
-         parent_ID: par.state.id,
-         //Implemented
-         id: this.genID(),
-         //Not Yet Implemented
-         type: this.genType(),
-         //Not Yet Implemented
-         modules: []
+         parent_ID: par_id,
+         id: -1,
+         type: null,
+         modules: [],
+         mod: 1,
+         base: par_base,
       }
+      this.state.id = this.genID();
+      this.state.type = this.genType(`${par_type}`);
    }
    /**
     * Generates the node's 8 digit ID .
@@ -484,11 +519,168 @@ class ResourceNode{
       return result;
    }
    /**
-    * NOT YET IMPLEMENTED
     * Randomly selects the type of node based off of its parent's type.
+    * @param {String} ter The terrain type of the parent.
     * @returns {String} The name of the node's type.
     */
-   genType(){
-      //Not yet implemented
+   genType(ter){
+      ter = ter.toLowerCase();
+      let temp = misc.randomnum(1,100);
+      switch(ter){
+         case 'barren':
+            if(temp <= 40)
+               return 'cave';
+            else if(temp <= 60)
+               return 'oil_field';
+            else
+               return 'ruin';
+         case 'lush':
+            if(temp <= 40)
+               return 'wood';
+            else if(temp <= 50)
+               return 'city';
+            else if(temp <= 60)
+               return 'field';
+            else if(temp <= 70)
+               return 'cave';
+            else if(temp <= 80)
+               return 'ruin';
+            else
+               return 'oil_field';
+         case 'aquatic':
+            if(temp <= 10)
+               return 'ruin';
+            else if(temp <= 30)
+               return 'city';
+            else if(temp <= 70)
+               return 'ocean';
+            else if(temp <= 90)
+               return 'cave';
+            else
+            return 'oil_field';
+         case 'gas':
+            if(temp <= 30)
+               return 'city';
+            else
+               return 'gas_cloud';
+         case 'rocky':
+            if(temp <= 50)
+               return 'cave';
+            else if(temp <= 60)
+               return 'city';
+            else if(temp <= 80)
+               return 'ruin';
+            else
+               return 'oil_field';
+         case 'plains':
+            if(temp <= 50)
+               return 'field';
+            else if(temp <= 70)
+               return 'city';
+            else if(temp <= 80)
+               return 'wood';
+            else
+               return 'lake';
+         case 'polis':
+            if(temp <= 80)
+               return 'city';
+            else
+               return 'ruins';
+         case 'asteroid_belt':
+            if(temp <= 90)
+               return 'cave';
+            else if(temp <= 95)
+               return 'city';
+            else
+               return 'ruin';
+         case 'comet':
+            if(temp <= 20)
+               return 'cave';
+            else if(temp <= 60)
+               return 'gas_cloud';
+            else
+               return 'oil_field';
+         case 'asteroid':
+            if(temp <= 80)
+               return 'cave';
+            else
+               return 'oil_field';
+         case 'moon':
+            if(temp <= 40)
+               return 'cave';
+            else if(temp <= 70)
+               return 'oil_field';
+            else if(temp <= 90)
+               return 'city';
+            else
+               return 'ruins';
+         case 'ring':
+            if(temp <= 40)
+               return 'gas_cloud';
+            else if(temp <= 80)
+               return 'oil_field';
+            else
+               return 'cave';
+         default:
+            return 'ERR'; 
+      }
    }
+   /**
+    * Calls the appropriate gather methods for the resource selected to be gather from the node.
+    * @param {String} res Optional parameter if a specific resource is gathered.
+    */
+   getResource(p, res){
+      let temp = '';
+      switch(this.state.type){
+         case 'cave':
+            p.resources.stone += Math.ceil(actions.gather.stone(p)*.3);
+            p.resources.slag += Math.ceil(actions.gather.slag(p)*.05);
+            p.resources.tera_mat += Math.ceil(actions.gather.tera_mat(p)*.65);
+            break;
+         case 'wood':
+            p.resources.nat_mat += Math.ceil(actions.gather.nat_mat(p)*.9);
+            p.resources.seed += Math.ceil(actions.gather.seed(p)*.1);
+            break;
+         case 'field':
+            p.resources.seed += Math.ceil(actions.gather.seed(p)*.7);
+            p.resources.crop += Math.ceil(actions.gather.crop(p)*.3);
+            break;
+         case 'city':
+            p.resources.personnel += Math.ceil(actions.gather.personnel(p)*1);
+            break;
+         case 'dark_star':
+            p.resources.antimatter += actions.gather.antimatter(p);
+            p.resources.relic_token += actions.gather.relic(p);
+            p.resources.research_point += Math.ceil(actions.gather.research(p)*.9);
+            break;
+         case 'ruin':
+            p.resources.research_point += Math.ceil(actions.gather.research(p)*.9);
+            p.resources.relic_token += actions.gather.relic(p);
+            break;
+         case 'ocean':
+            p.resources.food += Math.ceil(p.resources.food += misc.randomnum(1,p.resources.personnel/4)*Math.random()*50*Math.log(p.skills.cooking)*1);
+            break;
+         case 'gas_cloud':
+            p.resources.hydrogen += Math.ceil(actions.gather.hydrogen(p)*.45);
+            p.resources.heliumI += Math.ceil(actions.gather.heliumI(p)*.35);
+            p.resources.heliumII += Math.ceil(actions.gather.heliumII(p)*.15);
+            p.resources.heliumIII += Math.ceil(actions.gather.heliumIII(p)*.05);
+            break;
+         case 'lake':
+            p.resources.food += Math.ceil(p.resources.food += misc.randomnum(1,p.resources.personnel/8)*Math.random()*50*Math.log(p.skills.cooking)*1);
+            break;
+         case 'oil_field':
+            p.resources.oil += Math.ceil(actions.gather.oil(p)*.9);
+            p.resources.hydrogen += Math.ceil(actions.gather.hydrogen(p)*.1);
+            break;
+      }
+   }
+}
+
+module.exports = {
+   galaxy: Galaxy,
+   system: System,
+   planet: Planet,
+   planetoid: Planetoid,
+   resource_node: ResourceNode
 }

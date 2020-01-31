@@ -7,7 +7,7 @@ const misc = require('./misc.js');
 const npc = require('./npc.js')
 const profile = require('./profile.js');
 const actions = require('./actions.js');
+const map = require('./map.js');
 
 //var p = profile.getprofile('327925541556453398');
-
-var test = new npc.npc(0,0,"Nexus");
+var test = new map.galaxy(100, 100);

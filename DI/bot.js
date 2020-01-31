@@ -98,9 +98,13 @@ function whitelist(msg){
     return true;
 }
 
+/**
+ * Simulates rolling 'numofdice' many dice with 'numofsides' many sides.
+ * @param {MessageEvent} msg 
+ * @param {Number} numofdice 
+ * @param {Number} numofsides 
+ */
 function roll(msg, numofdice, numofsides){
-  numofdice = new Number(numofdice);
-  numofsides = new Number(numofsides);
   //console.log(`Number of dice: ${numofdice}`);
   //console.log(`Number of sides: ${numofsides}`);
   var result = 0;
