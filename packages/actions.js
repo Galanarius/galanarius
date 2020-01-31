@@ -6,11 +6,12 @@ module.exports = {
        * Determines the resource being gathered and returns how much is gained based off the profile calling it.
        * @param {Profile} p The profile referenced.
        * @param {String} res The resource gathered. 
-       * @returns {Number} The amount of the resource gained.
+       * @returns {Number} The amount of the resource gained or -1 for ERR.
        */
       gather: function(p, res){
          res = res.toLowerCase();
          switch(res){
+            case 'pers':
             case 'personnel':
             case 'personel':
             case 'people':
@@ -20,11 +21,13 @@ module.exports = {
             case 'recruit':
             case 'recruitt':
                return this.personnel(p);
+            case 'nat':
             case 'nat_mat':
             case 'natmat':
             case 'nat mat':
             case 'wood':
                return this.nat_mat(p);
+            case 'tera':
             case 'tera_mat':
             case 'tera_mats':
             case 'teramat':
@@ -53,7 +56,8 @@ module.exports = {
             case 'gravvel':
             case 'slagging':    
             case 'slags':            
-               return this.slag(p);   
+               return this.slag(p);
+            case 'res': 
             case 'research':
             case 'reaserch':
             case 'reasearch':
@@ -63,15 +67,93 @@ module.exports = {
             case 'reserching':
             case 'reaserching':
             case 'researches':                  
-               return this.research(p);  
+               return this.research(p);
+            case 'anti':
             case 'antimatter':
             case 'animatter':
             case 'anti':        
             case 'antimater':
                return this.antimatter(p);
             default:
-               return 'ERR';
+               return -1;
          }
+      },
+      /**
+       * Give the matching resource for a given alias.
+       * @param {String} alias The alias to check for.
+       * @returns {String} The corresponding resource to the given alias.
+       */
+      aliasToRes: function(alias){
+         alias = alias.toLowerCase();
+         alias = alias.trim();
+         switch(alias){
+            case 'pers':
+            case 'personnel':
+            case 'personel':
+            case 'people':
+            case 'person':
+            case 'recruiting':
+            case 'recruitting': 
+            case 'recruit':
+            case 'recruitt':
+                return 'personnel';
+            case 'nat':
+            case 'nat_mat':
+            case 'natmat':
+            case 'nat mat':
+            case 'wood':
+                return 'nat_mat';
+            case 'tera':
+            case 'tera_mat':
+            case 'tera_mats':
+            case 'teramat':
+            case 'termats':
+            case 'tera mat':
+            case 'tera mats':
+            case 'mine':
+            case 'mining':
+                return 'tera_mat';
+            case 'seed':
+            case 'seeds':
+            case 'sowing':
+            case 'sow':
+                temp2 = 'seed';
+                break;
+            case 'crop':
+            case 'crops':
+            case 'produce':
+                return 'crop';
+            case 'stone':
+            case 'stones':
+            case 'rock':
+            case 'rocks':
+                return 'stone';
+            case 'slag':
+            case 'gravel':
+            case 'gravvel':
+            case 'slagging':    
+            case 'slags':            
+                return 'slag';
+            case 'res': 
+            case 'research':
+            case 'reaserch':
+            case 'reasearch':
+            case 'reserch':
+            case 'researching':
+            case 'reasearching':
+            case 'reserching':
+            case 'reaserching':
+            case 'researches':                  
+                return 'research_point';
+            case 'anti':
+            case 'antimatter':
+            case 'animatter':
+            case 'anti':        
+            case 'antimater':
+              return 'antimatter';
+            default:
+               return `no resource found for ${alias}`;
+          }
       },
       /**
        * Determines the number of personnel gain.

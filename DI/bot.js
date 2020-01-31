@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('graceful-fs');
+
 const misc = require('../packages/misc.js');
-const profile = require(`../packages/profile.js`);
+const profile = require('../packages/profile.js');
+const actions = require('../packages/actions.js');
 const config = JSON.parse(fs.readFileSync('./config.json'));
 
 client.on('ready', () => {
@@ -67,6 +69,33 @@ client.on('message', msg => {
     }
     else
       msg.reply(`you need to make a character to be able to use this command.`);
+  }
+  else if(msg.content.toLowerCase() == 'faction' || msg.content.toLowerCase() == 'choose'){
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+      msg.channel.send(`You must specify a faction to join (\`Empirus\`, \`Regalia\`, or \`Symbic\`)`);
+    }
+  }
+  //gather
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'gather' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'get'){
+    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+      let temp = actions.gather.gather(
+        profile.getprofile(msg.author.id), 
+        msg.content.substring(msg.content.indexOf(' ')+1)
+      );
+      if(temp != -1){
+        msg.channel.send(`Gathering \`${msg.content.substring(msg.content.indexOf(' ')+1)}\`...`);
+        let p = profile.getprofile(msg.author.id);
+        p.resources[actions.gather.aliasToRes(msg.content.substring(msg.content.indexOf(' ')+1))] += new Number(temp);
+        profile.saveprofile(p, msg.author.id);
+        msg.channel.send(`Gathered \`${temp} in ${actions.gather.aliasToRes(msg.content.substring(msg.content.indexOf(' ')+1))}\``)
+      }
+      else{
+        msg.channel.send(`Could not find the resource alias ${msg.content.substring(msg.content.indexOf(' ')+1)}`);
+      }
+    }
+    else{
+      msg.reply(`you need to make a character to be able to use this command.`);
+    }
   }
   //no command found
   else{

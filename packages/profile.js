@@ -29,6 +29,13 @@ module.exports ={
       return JSON.parse(fs.readFileSync(`../profiles/${userID}/profile.json`));
    },
    /**
+    * Saves the given profile to its appropriate json file.
+    * @param {Profile} p The profile to be saved.
+    */
+   saveprofile: function(p){
+      fs.writeFileSync(`../profiles/${p.ID}/profile.json`, JSON.stringify(p), (err) => {if(err) throw errr;});
+   },
+   /**
     * Functions for displaying attributes of the player's profile via text.
     */
    displayprofile: {
