@@ -1,5 +1,8 @@
 # Galanarius
 
+![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
+A scifi RPG Resource Management Game.
+
 ## About this program
 
 This program is a scifi resource management RPG, which strives to have quasi-cross-platform connectivity.
@@ -35,4 +38,8 @@ the overall vision of the project.
 
 ## Miscellaneous Info
 
+*Last commit: 1/28/2019*
+
 *Updated 1/27/2019*
+
+[![DeepScan grade](https://deepscan.io/api/teams/7180/projects/9329/branches/119610/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=7180&pid=9329&bid=119610)

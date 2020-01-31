@@ -2,7 +2,7 @@
 
 ## Build version
 
-proto-master 2.0
+master 1.0
 
 ## DA
 
