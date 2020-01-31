@@ -38,8 +38,12 @@ the overall vision of the project.
 
 ## Miscellaneous Info
 
-*Last commit: 1/28/2019*
+*Last commit: 1/31/2019*
 
-*Updated 1/27/2019*
+*Updated 1/31/2019*
 
-[![DeepScan grade](https://deepscan.io/api/teams/7180/projects/9329/branches/119610/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=7180&pid=9329&bid=119610)
+master branch:
+[![DeepScan grade](https://deepscan.io/api/teams/7180/projects/9353/branches/120736/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=7180&pid=9353&bid=120736)
+
+proto-master branch:
+[![DeepScan grade](https://deepscan.io/api/teams/7180/projects/9353/branches/120744/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=7180&pid=9353&bid=120744)
