@@ -1,4 +1,6 @@
 const misc = require('./misc.js');
+const profile = require('./profile.js');
+const map = require('./map.js');
 
 module.exports = {
    gather:{
@@ -159,7 +161,7 @@ module.exports = {
        * @returns {Number} The amount of personnel gained.
        */
       personnel: function(p){
-         return Math.floor(Math.random()*10*Math.log(p.skills.recruiting))+1;
+         return Math.floor(Math.random()*10*Math.log(p.skills.recruiting+1))+1;
       },
       /**
        * Determines the number of nat_mat gain.
@@ -167,7 +169,7 @@ module.exports = {
        * @returns {Number} The amount of nat_mat gained.
        */
       nat_mat: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.harvesting/2));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.harvesting+1));
       },
       /**
        * Determines the number of tera_mat gain.
@@ -175,7 +177,7 @@ module.exports = {
        * @returns {Number} The amount of tera_mat gained.
        */
       tera_mat: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.excavating/1.5));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
        * Determines the number of seed gain.
@@ -183,7 +185,7 @@ module.exports = {
        * @returns {Number} The amount of seed gained.
        */
       seed: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.harvesting/3));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.harvesting+1));
       },
       /**
        * Determines the number of crop gain.
@@ -191,7 +193,7 @@ module.exports = {
        * @returns {Number} The amount of crop gained.
        */
       crop: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.farming/3));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.farming+1));
       },
       /**
        * Determines the number of stone gain.
@@ -199,7 +201,7 @@ module.exports = {
        * @returns {Number} The amount of stone gained.
        */
       stone: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.excavating));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
        * Determines the number of slag gain.
@@ -207,7 +209,7 @@ module.exports = {
        * @returns {Number} The amount of slag gained.
        */
       slag: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.excavating));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
        * Determines if a relic token is awarded or not.
@@ -223,7 +225,7 @@ module.exports = {
        * @returns {Number} The amount of research_point gained.
        */
       research: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.researching));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.researching+1));
       },
       /**
        * Determines the number of antimatter gain.
@@ -239,7 +241,7 @@ module.exports = {
        * @returns {Number} The amount of hydrogen gained.
        */
       hydrogen: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.siphoning));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
        * Determines the number of oil gain.
@@ -247,7 +249,7 @@ module.exports = {
        * @returns {Number} The amount of oil gained.
        */
       oil: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.siphoning));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
        * Determines the number of heliumI gain.
@@ -255,7 +257,7 @@ module.exports = {
        * @returns {Number} The amount of heliumI gained.
        */
       heliumI: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.siphoning));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
        * Determines the number of heliumII gain.
@@ -263,7 +265,7 @@ module.exports = {
        * @returns {Number} The amount of heliumII gained.
        */
       heliumII: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.siphoning+p.skills.filtering));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+p.skills.filtering+1));
       },
       /**
        * Determines the number of heliumIII gain.
@@ -271,7 +273,7 @@ module.exports = {
        * @returns {Number} The amount of heliumIII gained.
        */
       heliumIII: function(p){
-         return Math.round(misc.randomnum(1,13)*10*Math.log(p.skills.researching+p.skills.filtering));
+         return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.researching+p.skills.filtering+1));
       }
    },
    purifying:{
@@ -319,10 +321,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       smelt: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.smelting));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.smelting));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.smelting));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.smelting));
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.smelting+1));
          p.resources.oreI += amt*temp1/100;
          p.resources.oreII += amt*temp2/100;
          p.resources.oreIII += amt*temp3/100;
@@ -339,10 +341,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       synthesize: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.synthesizing));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.synthesizing));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.synthesizing));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.synthesizing));
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
          p.resources.synthI += amt*temp1/100;
          p.resources.synthII += amt*temp2/100;
          p.resources.synthIII += amt*temp3/100;
@@ -359,10 +361,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       sift: function(p, amt){
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.sifting));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.sifting));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.sifting));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.sifting/5));
+         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.sifting+1));
          p.resources.oreI += amt*temp1/100;
          p.resources.oreII += amt*temp2/100;
          p.resources.oreIII += amt*temp3/100;
@@ -379,7 +381,7 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       cook: function(p, amt){
-         p.resources.food += amt*Math.random()*10*Math.log(p.skills.cooking);
+         p.resources.food += amt*Math.random()*10*Math.log(p.skills.cooking+1);
 
          p.resources.crop -= amt;
          
@@ -393,14 +395,14 @@ module.exports = {
        */
       filter: function(p, amt, lvl){
          if(lvl == 2){
-            p.resources.heliumII += amt*Math.random()*10*Math.log(p.skills.filtering);
+            p.resources.heliumII += amt*Math.random()*10*Math.log(p.skills.filtering+1);
 
             p.resources.heliumI -= amt;
          
             return p;
          }
          else if(lvl ==3){
-            p.resources.heliumIII += amt*Math.random()*10*Math.log(p.skills.filtering);
+            p.resources.heliumIII += amt*Math.random()*10*Math.log(p.skills.filtering+1);
 
             p.resources.heliumII -= amt;
          
@@ -409,6 +411,26 @@ module.exports = {
          else{
             return p;
          }
+      }
+   },
+   move:{
+      /**
+       * Moves the player's location based off a series of preconditions.
+       * @param {String} userID The user being moved.
+       * @param {String} id Where they wish to be moved.
+       */
+      sl: function(userID, id){
+         var p = profile.getprofile(userID);
+         var dest = map.getItem(userID, id);
+      },
+      /**
+       * Moves the player's coordinates based off a series of preconditions.
+       * @param {String} userID The user being moved.
+       * @param {String} id Where they wish to be moved.
+       */
+      ftl: function(userID, id){
+         var p = profile.getprofile(userID);
+         var dest = map.getItem(userID, id);
       }
    }
 }

@@ -24,6 +24,9 @@ client.on('message', msg => {
   else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'roll'){
     roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
   }
+  else if(msg.content.toLowerCase() == 'roll'){
+    msg.reply(`you need to specify a number of dice and sides (i.e. 1d6).`);
+  }
   //character create
   else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'create' || msg.content.toLowerCase() == 'create'){
     if(fs.existsSync(`../profiles/${msg.author.id}`)){
@@ -71,9 +74,10 @@ client.on('message', msg => {
       msg.reply(`you need to make a character to be able to use this command.`);
   }
   else if(msg.content.toLowerCase() == 'faction' || msg.content.toLowerCase() == 'choose'){
-    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+    if(fs.existsSync(`../profiles/${msg.author.id}`))
       msg.channel.send(`You must specify a faction to join (\`Empirus\`, \`Regalia\`, or \`Symbic\`)`);
-    }
+    else
+      msg.reply(`you need to make a character to be able to use this command.`);
   }
   //gather
   else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'gather' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'get'){
@@ -96,6 +100,12 @@ client.on('message', msg => {
     else{
       msg.reply(`you need to make a character to be able to use this command.`);
     }
+  }
+  else if(msg.content.toLowerCase() == 'gather' || msg.content.toLowerCase() == 'get'){
+    if(fs.existsSync(`../profiles/${msg.author.id}`))
+      msg.channel.send(`You must specify a resource to gather.`);
+    else
+      msg.reply(`you need to make a character to be able to use this command.`);
   }
   //no command found
   else{

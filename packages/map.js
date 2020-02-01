@@ -2,6 +2,7 @@ const fs = require('graceful-fs');
 
 const misc = require('./misc.js');
 const npc = require('./npc.js');
+const profile = require('./profile.js');
 const actions = require('./actions.js');
 
 class Galaxy{
@@ -10,15 +11,17 @@ class Galaxy{
     * @constructor
     * @param {Number} x The size of the galaxy on its x-axis. 
     * @param {Number} y The size of the galaxy on its y-axis.
+    * @param {String} id An optional parameter to create a galaxy with a predetermined ID.
     */
-   constructor(x, y){
+   constructor(x, y, id){
       this.state = {
-         galaxyID: null,
+         galaxyID: id,
          x_size: x,
          y_size: y,
          systems: null,
       }
-      this.state.galaxyID = this.genID();
+      if(this.state.galaxyID == null)
+         this.state.galaxyID = this.genID();
       this.state.systems = this.genSystems();
       fs.writeFileSync(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
    }
@@ -51,8 +54,8 @@ class Galaxy{
          s[k] = new Array(this.state.y_size);
       }
       for(var k = 0; k < this.state.x_size; k++){
-         for(var i = 0; i < this.state.y_size; i++){
-            s[k][i] = new System(k,i);
+         for(var i = 0; i < this.state.x_size; i++){
+            s[k][i] = new System(k-(this.state.x_size/2), i-(this.state.y_size/2));
          }
       }
       return s;
@@ -678,6 +681,15 @@ class ResourceNode{
 }
 
 module.exports = {
+   /**
+    * Finds the whereabouts of an item based off its ID.
+    * @param {String} userID The player's ID. 
+    * @param {String} id The ID of the item to be looked up.
+    */
+   getItem: function(userID, id){
+      var p = profile.getprofile(userID);
+      var g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));
+   },
    galaxy: Galaxy,
    system: System,
    planet: Planet,

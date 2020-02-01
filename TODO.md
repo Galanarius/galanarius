@@ -1,26 +1,8 @@
 # To Do
 
-## Implement resource gathering scripts
+## Implement map generation updates to allow for resource gathering to be dependent on current system and planet/planetoid
 
-### Test purifying functions
-
-### Implement resource gathering and purifying scripts to a DI command call
-
-## Update NPC generation and display functions with new resources and skills
-
-## Begin implementation of star system generation scripts
-
-### Finish brainstorming node types
-
-### Finish brainstorming terrain types of planets
-
-### Finish brainstorming types of planetoids
-
-### Finish generation of remaining fields for planets
-
-### Finish generation of remaining fields for planetoids
-
-### Finish implementation of resource node type generation
+## Add help command
 
 ## Begin implementation of icons
 
