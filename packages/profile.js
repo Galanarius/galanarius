@@ -8,7 +8,7 @@ module.exports ={
     * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
     */
    create: function(user, userID){
-      copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err; return;}});
+      copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err;}});
       setTimeout(function(){
       var c = JSON.parse(fs.readFileSync(`../ref/player-template/profile.json`));
       c.username = user;

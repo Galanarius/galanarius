@@ -687,8 +687,8 @@ module.exports = {
     * @param {String} id The ID of the item to be looked up.
     */
    getItem: function(userID, id){
-      var p = profile.getprofile(userID);
-      var g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));
+      /*var p = profile.getprofile(userID);
+      var g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));*/
    },
    galaxy: Galaxy,
    system: System,
