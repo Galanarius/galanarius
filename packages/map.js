@@ -345,30 +345,6 @@ class Planet{
       //Not yet implemented
    }
    /**
-    * Generates the number of planetoids based of the sector's size, and the generates the planetoids themselves.
-    * @returns {Array} The array holding the planet's planetoids.
-    */
-   async genPlanetoids(){
-      var result = new Array(() =>{
-         switch(this.state.size){
-            case '1':
-               return misc.randomnum(1,2);
-            case '2':
-               return misc.randomnum(3,8);
-            case '3':
-               return misc.randomnum(5,21);
-            case '4':
-               return misc.randomnum(8,34);
-            case '5':
-               return misc.randomnum(21,55);
-         }
-      });
-      for(var k = 0; k < result.length; k++){
-         result[k] = new Planetoid(`${this.state.parent_id}-${this.state.id}`);
-      }
-      return result
-   }
-   /**
     * Determines the node_base based off of the planet's size.
     */
    async genNodeBase(){
