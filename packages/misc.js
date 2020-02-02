@@ -7,7 +7,7 @@ module.exports ={
     * @param {Number} max The maximum value generated.
     * @returns {Number} A whole number value.
     */
-   randomnum: function(min, max){
+   randomnum: (min, max) => {
       return Math.floor(Math.random()*(max-min+1))+min;
    }
 }

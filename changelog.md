@@ -29,3 +29,23 @@ Implemented new ID override system for map generation.
 Reworked the map coordinate generation system.
 
 Began implementation of move functions for players and npcs, as well as map referencing functions.
+
+Began rework of map system to allow storage of child IDs to make map referencing better optimized.
+
+Added empty constructors for the object type of variables in the constructors of the map system to better define their type in case of errors.
+
+Removed planet `capacity`, meant to be the maximum number of buildings allowed on the planet in leu of buildings all being built at nodes.
+
+Added an Array of Planetoids to the Planet objects.
+
+Began to convert all generation functions to promise functions by starting with the map.Galaxy class.
+
+Began to implement arrow functions to replace all functions to reflect ES6 standards.
+
+Changed all var declerations in Galaxy to let declerations to better reflect their scopes.
+
+Changed all functions in map to be asynchronous to avoid compound data errors.
+
+Changed planetoid and planet generation to fix a bug which would only generate 1 instead of a randomly generated amount.
+
+Finished rework of map system adding child IDs for planets and planetoids to allow for searching commands to be implemented.

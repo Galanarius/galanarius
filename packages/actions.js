@@ -10,7 +10,7 @@ module.exports = {
        * @param {String} res The resource gathered. 
        * @returns {Number} The amount of the resource gained or -1 for ERR.
        */
-      gather: function(p, res){
+      gather: (p, res) => {
          res = res.toLowerCase();
          switch(res){
             case 'pers':
@@ -84,7 +84,7 @@ module.exports = {
        * @param {String} alias The alias to check for.
        * @returns {String} The corresponding resource to the given alias.
        */
-      aliasToRes: function(alias){
+      aliasToRes: (alias) => {
          alias = alias.toLowerCase();
          alias = alias.trim();
          switch(alias){
@@ -160,7 +160,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of personnel gained.
        */
-      personnel: function(p){
+      personnel: (p) => {
          return Math.floor(Math.random()*10*Math.log(p.skills.recruiting+1))+1;
       },
       /**
@@ -168,7 +168,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of nat_mat gained.
        */
-      nat_mat: function(p){
+      nat_mat: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.harvesting+1));
       },
       /**
@@ -176,7 +176,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of tera_mat gained.
        */
-      tera_mat: function(p){
+      tera_mat: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
@@ -184,7 +184,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of seed gained.
        */
-      seed: function(p){
+      seed: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.harvesting+1));
       },
       /**
@@ -192,7 +192,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of crop gained.
        */
-      crop: function(p){
+      crop: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.farming+1));
       },
       /**
@@ -200,7 +200,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of stone gained.
        */
-      stone: function(p){
+      stone: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
@@ -208,7 +208,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of slag gained.
        */
-      slag: function(p){
+      slag: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.excavating+1));
       },
       /**
@@ -216,7 +216,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} returns 1 or 0 relics.
        */
-      relic: function(p){
+      relic: (p) => {
          return Math.floor(Math.random()-.55);
       },
       /**
@@ -224,7 +224,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of research_point gained.
        */
-      research: function(p){
+      research: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.researching+1));
       },
       /**
@@ -232,7 +232,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of antimatter gained.
        */
-      antimatter: function(p){
+      antimatter: (p) => {
          return Math.round(Math.random);
       },
       /**
@@ -240,7 +240,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of hydrogen gained.
        */
-      hydrogen: function(p){
+      hydrogen: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
@@ -248,7 +248,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of oil gained.
        */
-      oil: function(p){
+      oil: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
@@ -256,7 +256,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of heliumI gained.
        */
-      heliumI: function(p){
+      heliumI: (p) =>{
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+1));
       },
       /**
@@ -264,7 +264,7 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of heliumII gained.
        */
-      heliumII: function(p){
+      heliumII: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.siphoning+p.skills.filtering+1));
       },
       /**
@@ -272,19 +272,19 @@ module.exports = {
        * @param {Profile} p The profile referenced.
        * @returns {Number} The amount of heliumIII gained.
        */
-      heliumIII: function(p){
+      heliumIII: (p) => {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.researching+p.skills.filtering+1));
       }
    },
    purifying:{
       /**
-       * Used to determine the purifying function needed to be called, and returns the products of that function.
+       * Used to determine the purifying Function needed to be called, and returns the products of that Function.
        * @param {Profile} p The edited profile.
        * @param {String} res The name of the resource being purified.
        * @param {Number} amt The amount of the resource being purified.
        * @returns {Profile} A modified version of the given profile.
        */
-      purifying: function(p, res, amt){
+      purifying: (p, res, amt) => {
          res = res.toLowerCase();
          switch(res){
             case 'nat_mat':
@@ -320,7 +320,7 @@ module.exports = {
        * @param {Number} amt The amount of tera_mat being smelted.
        * @returns {Profile} A modified version of the given profile.
        */
-      smelt: function(p, amt){
+      smelt: (p, amt) => {
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
          var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.smelting+1));
@@ -340,7 +340,7 @@ module.exports = {
        * @param {Number} amt The amount of nat_mat being synthesized.
        * @returns {Profile} A modified version of the given profile.
        */
-      synthesize: function(p, amt){
+      synthesize: (p, amt) => {
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
          var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
@@ -360,7 +360,7 @@ module.exports = {
        * @param {Number} amt The amount of slag being sifted.
        * @returns {Profile} A modified version of the given profile.
        */
-      sift: function(p, amt){
+      sift: (p, amt) => {
          var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
          var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
          var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.sifting+1));
@@ -380,7 +380,7 @@ module.exports = {
        * @param {Number} amt The amount of crop being cooked.
        * @returns {Profile} A modified version of the given profile.
        */
-      cook: function(p, amt){
+      cook: (p, amt) => {
          p.resources.food += amt*Math.random()*10*Math.log(p.skills.cooking+1);
 
          p.resources.crop -= amt;
@@ -393,7 +393,7 @@ module.exports = {
        * @param {Number} amt The amount of helium being filtered.
        * @returns {Profile} A modified version of the given profile.
        */
-      filter: function(p, amt, lvl){
+      filter: (p, amt, lvl) => {
          if(lvl == 2){
             p.resources.heliumII += amt*Math.random()*10*Math.log(p.skills.filtering+1);
 
@@ -419,7 +419,7 @@ module.exports = {
        * @param {String} userID The user being moved.
        * @param {String} id Where they wish to be moved.
        */
-      sl: function(userID, id){
+      sl: (userID, id) => {
          /*var p = profile.getprofile(userID);
          var dest = map.getItem(userID, id);*/
       },
@@ -428,7 +428,7 @@ module.exports = {
        * @param {String} userID The user being moved.
        * @param {String} id Where they wish to be moved.
        */
-      ftl: function(userID, id){
+      ftl: (userID, id) => {
          /*var p = profile.getprofile(userID);
          var dest = map.getItem(userID, id);*/
       }

@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Queejon/galanarius.git"
+    "url": "git+https://github.com/Galanarius/galanarius.git"
   },
   "keywords": [
     "RPG",
@@ -24,9 +24,9 @@
   "author": "Queejon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Queejon/galanarius/issues"
+    "url": "https://github.com/Galanarius/galanarius/issues"
   },
-  "homepage": "https://github.com/Queejon/galanarius#readme",
+  "homepage": "https://github.com/Galanarius/galanarius#readme",
   "devDependencies": {
     "discord.js": "^11.5.1",
     "electron": "^7.1.7",

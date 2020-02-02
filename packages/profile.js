@@ -7,13 +7,13 @@ module.exports ={
     * @param {String} user The current username of the player.
     * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
     */
-   create: function(user, userID){
+   create: (user, userID) => {
       copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err;}});
-      setTimeout(function(){
+      setTimeout(() => {
       var c = JSON.parse(fs.readFileSync(`../ref/player-template/profile.json`));
       c.username = user;
       c.ID = userID;
-      setTimeout(function(){
+      setTimeout(() => {
          fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
       }, 1000);
       }, 1000);
@@ -24,7 +24,7 @@ module.exports ={
     * @param {String} userID A numerical 14 digit value that is the reference to the player for the system.
     * @returns {JSON} The player's profile.json
     */
-   getprofile: function(userID){
+   getprofile: (userID) => {
       //console.log(fs.existsSync(`../profiles/${userID}/profile.json`));
       return JSON.parse(fs.readFileSync(`../profiles/${userID}/profile.json`));
    },
@@ -32,7 +32,7 @@ module.exports ={
     * Saves the given profile to its appropriate json file.
     * @param {Profile} p The profile to be saved.
     */
-   saveprofile: function(p){
+   saveprofile: (p) => {
       fs.writeFileSync(`../profiles/${p.ID}/profile.json`, JSON.stringify(p), (err) => {if(err) throw errr;});
    },
    /**
@@ -43,7 +43,7 @@ module.exports ={
        * Displays the basic, general information about the player.
        * @param {Profile} c The player's profile.
        */
-      basic: function(c){
+      basic: (c) =>{
          var result =      `username:           ${c.username}\n`;
          result +=         `level-exp:           ${c.lvl}-${c.xp}\n`;
          result +=         `credits:            ${c.credits}\n`;
@@ -54,14 +54,14 @@ module.exports ={
        * Displays the coordinates and name of the location of the player's current position.
        * @param {Profile} c The player's profile.
        */
-      location: function(c){
+      location: (c) =>{
          return            `location:           ${c.loc}, [${c.coords[0]},${c.coords[1]}]`;
       },
       /**
        * Displays the player's current resource amounts.
        * @param {Profile} c The player's profile.
        */
-      resources: function(c){
+      resources: (c) => {
          var result =      `personnel:          ${c.resources.personnel[0]}/${c.resources.personnel[1]}\n\n`;
 
          result +=         `helium 1:           ${c.resources.heliumI}\n`;
@@ -105,7 +105,7 @@ module.exports ={
        * Displays the player's current skill values.
        * @param {Profile} c The player's profile.
        */
-      skills: function(c){
+      skills: (c) => {
          var result =      `attacking:          ${c.skills.attacking}\n`;
          result +=         `defending:          ${c.skills.defending}\n\n`;
          
@@ -134,7 +134,7 @@ module.exports ={
     * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
     * @param {String} choice The faction the player is choosing to join.
     */
-   chooseFaction: function(userID, choice){
+   chooseFaction: (userID, choice) => {
       var c = this.getprofile(userID);
       choice = choice.toLowerCase();
       switch(choice){
