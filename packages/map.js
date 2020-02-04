@@ -28,7 +28,7 @@ class Galaxy{
       if(this.state.galaxyID == undefined)
          this.state.galaxyID = await this.genID();
       this.state.sectors = await this.genSectors();
-      fs.writeFileSync(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
+      fs.writeFile(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
    }
    /**
     * Generates the galaxy's 10 digit code
@@ -142,11 +142,15 @@ class Sector{
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
       for(let k = 0; k < result.length; k++){
-         result[k] = new Planet(`${sector.x_coord},${sector.y_coord}`);
-         result[k].init();
+         result[k] = this.genPlanet(sector);
       }
       sector.planets = result;
       return sector;
+   }
+   genPlanet(sector){
+      let result = new Planet(`${sector.x_coord},${sector.y_coord}`);
+      result.init();
+      return result;
    }
    /**
     * @returns {Promise} On resolve returns a modified version of the Sector object.
@@ -298,7 +302,7 @@ class Planet{
          4: {l:1, h:8},
          5: {l:1, h:13},
       }
-      let temp = types[this.size];
+      let temp = types[this.state.size];
       let result = new Array(misc.randomnum(temp.l, temp.h));
       for(var k = 0; k < result.length; k++){
          result[k] = new Planetoid(`${this.state.parent_ID}:${this.state.id}`);

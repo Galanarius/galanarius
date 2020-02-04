@@ -49,3 +49,7 @@ Changed all functions in map to be asynchronous to avoid compound data errors.
 Changed planetoid and planet generation to fix a bug which would only generate 1 instead of a randomly generated amount.
 
 Finished rework of map system adding child IDs for planets and planetoids to allow for searching commands to be implemented.
+
+Patched a bug causing map generation to crash when run due to a referencing error to planet size.
+
+Generated 4 different examples of map generation, of sizes 10, 20, 50, and 100.
