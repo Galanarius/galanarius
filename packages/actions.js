@@ -421,7 +421,7 @@ module.exports = {
        */
       sl: (userID, id) => {
          /*var p = profile.getprofile(userID);
-         var dest = map.getItem(userID, id);*/
+         var dest = map.getDest(userID, id);*/
       },
       /**
        * Moves the player's coordinates based off a series of preconditions.
@@ -430,7 +430,7 @@ module.exports = {
        */
       ftl: (userID, id) => {
          /*var p = profile.getprofile(userID);
-         var dest = map.getItem(userID, id);*/
+         var dest = map.getDest(userID, id);*/
       }
    }
 }

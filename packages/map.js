@@ -13,9 +13,9 @@ class Galaxy{
     * @param {Number} y The size of the galaxy on its y-axis.
     * @param {String} id An optional parameter to create a galaxy with a predetermined ID.
     */
-   constructor(x, y, id){
+   constructor(x, y, galaxyID){
       this.state = {
-         galaxyID: id,
+         id: galaxyID,
          x_size: x,
          y_size: y,
          sectors: new Array(),
@@ -25,8 +25,8 @@ class Galaxy{
     * Calls the asynchronous functions to generate the fields of the object.
     */
    async init(){
-      if(this.state.galaxyID == undefined)
-         this.state.galaxyID = await this.genID();
+      if(this.state.id == undefined)
+         this.state.id = await this.genID();
       this.state.sectors = await this.genSectors();
       fs.writeFile(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
    }
@@ -48,7 +48,7 @@ class Galaxy{
     * @returns the galaxy's ID
     */
    getID(){
-      return this.state.galaxyID;
+      return this.state.id;
    }
    /**
     * Creates and stores the sector objects in the galaxy's matrix of sectors.
@@ -718,9 +718,95 @@ module.exports = {
     * @param {String} userID The player's ID. 
     * @param {String} id The ID of the item to be looked up.
     */
-   getItem: (userID, id) => {
-      /*var p = profile.getprofile(userID);
-      var g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));*/
+   getDest: async (userID, id) => {
+      let p = profile.getprofile(userID);
+      let g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));
+      let type = null;
+      let result = null;
+      if(id.indexOf(',') < 0){
+         switch(id.length){
+            case 3:
+               type = 'planet';
+               break;
+            case 5:
+               type = 'planetoid';
+               break;
+            case 8:
+               type = 'resourcenode';
+               break;
+            case 1:
+            case 10:
+               type = 'galaxy';
+               break;
+            default:
+               type = 'ERR';
+         }
+      }
+      else{
+         type = 'sector';
+      }
+      if(type == 'ERR')
+         return 'LENGTH_ERR';
+      else if(type == 'planet'){
+         for(let k = 0; k < g.sectors.length; k++){
+            for(let i = 0; i < g.sectors[0].length; k++){
+               if(g.sectors[k][i].planetIDs.includes(id)){
+                  result = g.sectors[k][i];
+                  //Not yet implemented
+               }
+            }
+         }
+      }
+      else if(type == 'planetoid'){
+         for(let k = 0; k < g.sectors.length; k++){
+            for(let i = 0; i < g.sectors[0].length; k++){
+
+               if(g.sectors[k][i].planetoidIDs.includes(id)){
+                  result = g.sectors[k][i];
+                  //Not yet implemented
+               }
+               for(let j = 0; j < g.sectors[k][i].planets.length; j++){
+                  if(g.sectors[k][i].planets[j].planetoids.includes(id)){
+                     result = g.sectors[k][i].planets[j];
+                     //Not yet implemented
+                  }
+               }
+
+            }
+         }
+      }
+      else if(type == 'resourcenode'){
+         for(let k = 0; k < g.sectors.length; k++){
+            for(let i = 0; i < g.sectors[0].length; k++){
+
+               for(let j = 0; j < g.sectors[k][i].planets.length; j++){
+                  if(g.sectors[k][i].planets[j].nodeIDs.includes(id)){
+                     result = g.sectors[k][i].planets[j];
+                     //Not yet implemented
+                  }
+                  for(let a = 0; a < g.sectors[k][i].planets[j].planetoids.length; a++){
+                     if(g.sectors[k][i].planets[j].planetoids[a].includes(id)){
+                        result = g.sectors[k][i].planets[j].planetoids[a];
+                        //Not yet implemented
+                     }
+                  }
+               }
+               for(let j = 0; j < g.sectors[k][i].planetoids.length; j++){
+                  if(g.sectors[k][i].planetoids[j].nodeIDs.includes(id)){
+                     result = g.sectors[k][i].planetoids[j];
+                     //Not yet implemented
+                  }
+               }
+
+            }
+         }
+      }
+      else if(type == 'galaxy'){
+         //Not yet implemented
+      }
+      else{
+         return g.sectors[id.substring(0,id.indexOf(','))][id.substring(id.indexOf(',')+1)];
+      }
    },
    galaxy: Galaxy,
    sector: Sector,
