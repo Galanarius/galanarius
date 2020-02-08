@@ -1,4 +1,5 @@
 const fs = require('graceful-fs');
+const mkdirp = require('mkdirp');
 
 const misc = require('./misc.js');
 const npc = require('./npc.js');
@@ -27,21 +28,20 @@ class Galaxy{
    async init(){
       if(this.state.id == undefined)
          this.state.id = await this.genID();
+      await mkdirp(`../maps/${this.state.id}`);
       this.state.sectors = await this.genSectors();
-      fs.writeFile(`../maps/${this.getID()}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
+      this.save();
    }
    /**
     * Generates the galaxy's 10 digit code
     * @returns The galaxy's 10 digit code.
     */
    async genID(){
-      var temp = 0;
-      for(var k = 0; k < 10; k++){
-         if(k == 0)
-            temp = `${misc.randomnum(1,10)-1}`;
-         else
-            temp += `${misc.randomnum(1,10)-1}`;
+      var temp = 'g';
+      for(var k = 0; k < 8; k++){
+         temp += `${misc.randomnum(1,10)-1}`;
       }
+      //console.log(temp);
       return temp;
    }
    /**
@@ -60,11 +60,17 @@ class Galaxy{
       }
       for(var k = 0; k < this.state.x_size; k++){
          for(var i = 0; i < this.state.x_size; i++){
-            s[k][i] = new Sector(k-(this.state.x_size/2), i-(this.state.y_size/2));
+            s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
             await s[k][i].init();
          }
       }
       return s;
+   }
+   async save(){
+      let temp = this.state;
+      delete temp.nodes;
+      delete temp.inhabitants;
+      fs.writeFileSync(`../maps/${this.state.id}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
@@ -75,8 +81,9 @@ class Sector{
     * @param {Number} x The x-coordinate of the sector in its galaxy. 
     * @param {Number} y The y-coordinate of the sector in its galaxy.
     */
-   constructor(x, y){
+   constructor(par_id, x, y){
       this.state = {
+         parent_ID: par_id,
          x_coord: x,
          y_coord: y,
          classif: new String(),
@@ -142,15 +149,12 @@ class Sector{
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
       for(let k = 0; k < result.length; k++){
-         result[k] = this.genPlanet(sector);
+         result[k] = new Planet(`${sector.parent_ID}:[${sector.x_coord},${sector.y_coord}]`);
+         await result[k].init();
+         await result[k].save();
       }
       sector.planets = result;
       return sector;
-   }
-   genPlanet(sector){
-      let result = new Planet(`${sector.x_coord},${sector.y_coord}`);
-      result.init();
-      return result;
    }
    /**
     * @returns {Promise} On resolve returns a modified version of the Sector object.
@@ -180,7 +184,9 @@ class Sector{
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
       for(let k = 0; k < result.length; k++){
-         result[k] = new Planetoid(`${sector.x_coord},${sector.y_coord}`);
+         result[k] = new Planetoid(`${sector.parent_ID}:[${sector.x_coord},${sector.y_coord}]`);
+         await result[k].init();
+         await result[k].save();
       }
       sector.planetoids = result;
       return sector;
@@ -196,6 +202,12 @@ class Sector{
       }
       sector.planetoidIDs = temp;
       return sector;
+   }
+   async save(){
+      let temp = this.state;
+      delete temp.planets;
+      delete temp.planetoids;
+      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
@@ -259,12 +271,9 @@ class Planet{
     * @returns {String} The planet's 3 digit ID.
     */
    async genID(){
-      var result = null;
-      for(var k = 0; k < 3; k++){
-         if(k == 0)
-            result = `${misc.randomnum(1,10)-1}`;
-         else
-            result += `${misc.randomnum(1,10)-1}`;
+      var result = 'p';
+      for(var k = 0; k < 8; k++){
+         result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
    }
@@ -306,16 +315,18 @@ class Planet{
       let result = new Array(misc.randomnum(temp.l, temp.h));
       for(var k = 0; k < result.length; k++){
          result[k] = new Planetoid(`${this.state.parent_ID}:${this.state.id}`);
+         await result[k].init();
+         await result[k].save();
       }
       return result;
    }
    /**
     * @returns {Array} All the sector's planetoid's IDs.
     */
-   async getPlanetoidIDs(planet){
-         let temp = new Array(planet.state.planetoids.length);
-         for(let k = 0; k < planet.state.planetoids.length; k++){
-            temp[k] = planet.state.planetoids[k].state.id;
+   async getPlanetoidIDs(){
+         let temp = new Array(this.state.planetoids.length);
+         for(let k = 0; k < this.state.planetoids.length; k++){
+            temp[k] = this.state.planetoids[k].state.id;
          }
          return temp;
    }
@@ -394,9 +405,17 @@ class Planet{
       }
       var result = new Array(temp);
       for(var k = 0; k < result.length; k++){
-         result[k] = new ResourceNode(this.state.id, this.state.type, this.state.node_base);
+         result[k] = new ResourceNode(`${this.state.parent_ID}:${this.state.id}`, this.state.type, this.state.node_base);
+         await result[k].save();
       }
       return result;
+   }
+   async save(){
+      let temp = this.state;
+      delete temp.planetoids;
+      delete temp.nodes;
+      delete temp.inhabitants;
+      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
@@ -416,24 +435,23 @@ class Planetoid{
          nodes: new Array(),
          inhabitants: new Array(),
       }
-      this.state.id = this.genID();
-      this.state.size = this.genSize();
-      this.state.type = this.genType();
-      this.state.node_base = this.genNodeBase();
-      this.state.nodes = this.genNodes();
+   }
+   async init(){
+      this.state.id = await this.genID();
+      this.state.size = await this.genSize();
+      this.state.type = await this.genType();
+      this.state.node_base = await this.genNodeBase();
+      this.state.nodes = await this.genNodes();
       //this.state.inhabitants = this.genInhabitants();
    }
    /**
     * Generates the planetoid's 5 digit ID.
     * @returns The planetoid's 5 digit ID.
     */
-   genID(){
-      var result = null;
-      for(var k = 0; k < 5; k++){
-         if(k == 0)
-            result = `${misc.randomnum(1,10)-1}`;
-         else
-            result += `${misc.randomnum(1,10)-1}`;
+   async genID(){
+      var result = 'pd';
+      for(var k = 0; k < 8; k++){
+         result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
    }
@@ -441,7 +459,7 @@ class Planetoid{
     * Uses a weighted generation algorithm to determine the size of the planetoid.
     * @returns The size ID of the planetoid.
     */
-   genSize(){
+   async genSize(){
       var temp = misc.randomnum(1,100);
       if(temp <= 20)
          return 3;
@@ -458,7 +476,7 @@ class Planetoid{
     * Randomly selects the type of the planetoid.
     * @returns {String} the type of the planetoid.
     */
-   genType(){
+   async genType(){
       switch(misc.randomnum(1,5)){
          case 1:
             return 'asteroid_belt';
@@ -476,7 +494,7 @@ class Planetoid{
     * Randomly generates the number of nodes the planetoid has, and then generates the nodes.
     * @returns {Array} The Array of the planetoid's nodes.
     */
-   genNodes(){
+   async genNodes(){
       var temp = 0;
       switch(this.state.size){
          case 1:
@@ -493,14 +511,15 @@ class Planetoid{
       }
       var result = new Array(temp);
       for(var k = 0; k < result.length; k++){
-         result[k] = new ResourceNode(this.state.id, this.state.type, this.state.node_base);
+         result[k] = new ResourceNode(`${this.state.parent_ID}:${this.state.id}`, this.state.type, this.state.node_base);
+         await result[k].save();
       }
       return result;
    }
    /**
     * Determines the node_base based off of the planetoid's size.
     */
-   genNodeBase(){
+   async genNodeBase(){
       switch(this.state.size){
          case 3:
             return 21;
@@ -515,8 +534,14 @@ class Planetoid{
    /**
     * NOT YET IMPLEMENTED
     */
-   genInhabitants(){
+   async genInhabitants(){
       //See Planet.genInhabitants for current partial implementation.
+   }
+   async save(){
+      let temp = this.state;
+      delete temp.nodes;
+      delete temp.inhabitants;
+      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
@@ -544,12 +569,9 @@ class ResourceNode{
     * @returns {String} The node's 8 digit ID.
     */
    genID(){
-      var result = null;
+      var result = 'n';
       for(var k = 0; k < 8; k++){
-         if(k == 0)
-            result = `${misc.randomnum(1,10)-1}`;
-         else
-            result += `${misc.randomnum(1,10)-1}`;
+         result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
    }
@@ -710,6 +732,9 @@ class ResourceNode{
             break;
       }
    }
+   async save(){
+      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(this.state), (err) =>{if(err) throw err;});
+   }
 }
 
 module.exports = {
@@ -721,92 +746,7 @@ module.exports = {
    getDest: async (userID, id) => {
       let p = profile.getprofile(userID);
       let g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));
-      let type = null;
-      let result = null;
-      if(id.indexOf(',') < 0){
-         switch(id.length){
-            case 3:
-               type = 'planet';
-               break;
-            case 5:
-               type = 'planetoid';
-               break;
-            case 8:
-               type = 'resourcenode';
-               break;
-            case 1:
-            case 10:
-               type = 'galaxy';
-               break;
-            default:
-               type = 'ERR';
-         }
-      }
-      else{
-         type = 'sector';
-      }
-      if(type == 'ERR')
-         return 'LENGTH_ERR';
-      else if(type == 'planet'){
-         for(let k = 0; k < g.sectors.length; k++){
-            for(let i = 0; i < g.sectors[0].length; k++){
-               if(g.sectors[k][i].planetIDs.includes(id)){
-                  result = g.sectors[k][i];
-                  //Not yet implemented
-               }
-            }
-         }
-      }
-      else if(type == 'planetoid'){
-         for(let k = 0; k < g.sectors.length; k++){
-            for(let i = 0; i < g.sectors[0].length; k++){
-
-               if(g.sectors[k][i].planetoidIDs.includes(id)){
-                  result = g.sectors[k][i];
-                  //Not yet implemented
-               }
-               for(let j = 0; j < g.sectors[k][i].planets.length; j++){
-                  if(g.sectors[k][i].planets[j].planetoids.includes(id)){
-                     result = g.sectors[k][i].planets[j];
-                     //Not yet implemented
-                  }
-               }
-
-            }
-         }
-      }
-      else if(type == 'resourcenode'){
-         for(let k = 0; k < g.sectors.length; k++){
-            for(let i = 0; i < g.sectors[0].length; k++){
-
-               for(let j = 0; j < g.sectors[k][i].planets.length; j++){
-                  if(g.sectors[k][i].planets[j].nodeIDs.includes(id)){
-                     result = g.sectors[k][i].planets[j];
-                     //Not yet implemented
-                  }
-                  for(let a = 0; a < g.sectors[k][i].planets[j].planetoids.length; a++){
-                     if(g.sectors[k][i].planets[j].planetoids[a].includes(id)){
-                        result = g.sectors[k][i].planets[j].planetoids[a];
-                        //Not yet implemented
-                     }
-                  }
-               }
-               for(let j = 0; j < g.sectors[k][i].planetoids.length; j++){
-                  if(g.sectors[k][i].planetoids[j].nodeIDs.includes(id)){
-                     result = g.sectors[k][i].planetoids[j];
-                     //Not yet implemented
-                  }
-               }
-
-            }
-         }
-      }
-      else if(type == 'galaxy'){
-         //Not yet implemented
-      }
-      else{
-         return g.sectors[id.substring(0,id.indexOf(','))][id.substring(id.indexOf(',')+1)];
-      }
+      
    },
    galaxy: Galaxy,
    sector: Sector,
