@@ -8,15 +8,17 @@ const actions = require('./actions.js');
 
 class Galaxy{
    /**
-    * Procedurally generates an entire galaxy heirarchy.
+    * Procedurally generates a galaxy heirarchy.
     * @constructor
-    * @param {Number} x The size of the galaxy on its x-axis. 
-    * @param {Number} y The size of the galaxy on its y-axis.
+    * @param {Number} x The size of the galaxy on its x-axis. Must be even.
+    * @param {Number} y The size of the galaxy on its y-axis. Must be even.
+    * @param {Boolean} part An optional parameter which determines if the galaxy is partially generated.
     * @param {String} id An optional parameter to create a galaxy with a predetermined ID.
     */
-   constructor(x, y, galaxyID){
+   constructor(x, y, part, galaxyID,){
       this.state = {
          id: galaxyID,
+         partial: part,
          x_size: x,
          y_size: y,
          sectors: new Array(),
@@ -29,7 +31,9 @@ class Galaxy{
       if(this.state.id == undefined)
          this.state.id = await this.genID();
       await mkdirp(`../maps/${this.state.id}`);
-      this.state.sectors = await this.genSectors();
+      if(this.state.partial == undefined)
+         this.state.partial = false;
+      this.state.sectors = await this.genSectors(this.state.partial);
       this.save();
    }
    /**
@@ -51,25 +55,82 @@ class Galaxy{
       return this.state.id;
    }
    /**
-    * Creates and stores the sector objects in the galaxy's matrix of sectors.
+    * Creates and stores the sector objects in the galaxy's matrix of sectors for later generation reference.
+    * @param {Boolean} partial When true the galaxy only generates the first 10x10 area of sectors, or the entire galaxy if it is greater or equal to these dimensions. 
     */
-   async genSectors(){
-      var s = new Array(this.state.x_size);
-      for(var k = 0; k < this.state.x_size; k++){
-         s[k] = new Array(this.state.y_size);
+   async genSectors(partial){
+      if(!partial){
+         let s = new Array(this.state.x_size);
+         for(let k = 0; k < this.state.x_size; k++){
+            s[k] = new Array(this.state.y_size);
+         }
+         for(let k = 0; k < this.state.x_size; k++){
+            for(let i = 0; i < this.state.y_size; i++){
+               s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
+               await s[k][i].init();
+            }
+         }
+         return s;
       }
-      for(var k = 0; k < this.state.x_size; k++){
-         for(var i = 0; i < this.state.x_size; i++){
-            s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
-            await s[k][i].init();
+      else{
+         if(this.state.x_size >= 10){
+            let s = new Array(this.state.x_size);
+            for(let k = 0; k < 10; k++){
+               s[k] = new Array(this.state.y_size);
+            }
+            if(this.state.y_size >= 10){
+               for(let k = 0; k < 10; k++){
+                  for(let i = 0; i < 10; i++){
+                     s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
+                     await s[k][i].init();
+                  }
+               }
+            }
+            else{
+               for(let k = 0; k < 10; k++){
+                  for(let i = 0; i < this.state.y_size; i++){
+                     s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
+                     await s[k][i].init();
+                  }
+               }
+            }
+         }
+         else{
+            let s = new Array(this.state.x_size);
+            for(let k = 0; k < this.state.x_size; k++){
+               s[k] = new Array(this.state.y_size);
+            }
+            if(this.state.y_size >= 10){
+               for(let k = 0; k < 10; k++){
+                  for(let i = 0; i < 10; i++){
+                     s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
+                     await s[k][i].init();
+                  }
+               }
+            }
+            else{
+               for(let k = 0; k < 10; k++){
+                  for(let i = 0; i < this.state.y_size; i++){
+                     s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
+                     await s[k][i].init();
+                  }
+               }
+            }
          }
       }
-      return s;
+   }
+   /**
+    * Creates and stores a sector object.
+    * @param x The x coordinate of the sector to be generated.
+    * @param y The y coordinate of the sector to be generated. 
+    */
+   async genSector(x, y){
+      if(this.state.sector[x][y] != undefined)
+         this.state.sectors[x][y] = new Sector(this.state.id, x, y);
    }
    async save(){
       let temp = this.state;
-      delete temp.nodes;
-      delete temp.inhabitants;
+      delete temp.sectors;
       fs.writeFileSync(`../maps/${this.state.id}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
@@ -103,6 +164,7 @@ class Sector{
       this.state = await this.getPlanetIDs(this.state);
       this.state = await this.genPlanetoids(this.state);
       this.state = await this.getPlanetoidIDs(this.state);
+      this.save();
    }
    /**
     * Uses a weighted generation algorithm to generate the size-classificaiton of the Sector.
@@ -138,13 +200,13 @@ class Sector{
     */
    async genPlanets(sector){
       let types = {
-         M: {l: 3, h: 10},
-         K: {l: 5, h: 16},
-         G: {l: 8, h: 26},
-         F: {l: 13, h: 42},
-         A: {l: 21, h: 68},
-         B: {l: 34, h: 110},
-         O: {l: 55, h: 178},
+         M: {l: 0, h: 3},
+         K: {l: 1, h: 5},
+         G: {l: 1, h: 8},
+         F: {l: 2, h: 13},
+         A: {l: 3, h: 17},
+         B: {l: 5, h: 21},
+         O: {l: 8, h: 34},
       }
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
@@ -173,13 +235,13 @@ class Sector{
     */
    async genPlanetoids(sector){
       let types = {
-         M: {l: 1, h: 10},
-         K: {l: 3, h: 26},
-         G: {l: 6, h: 42},
-         F: {l: 8, h: 68},
-         A: {l: 13, h: 110},
-         B: {l: 21, h: 178},
-         O: {l: 34, h: 288},
+         M: {l: 0, h: 5},
+         K: {l: 0, h: 8},
+         G: {l: 1, h: 13},
+         F: {l: 1, h: 21},
+         A: {l: 3, h: 34},
+         B: {l: 3, h: 55},
+         O: {l: 5, h: 89},
       }
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
@@ -207,7 +269,7 @@ class Sector{
       let temp = this.state;
       delete temp.planets;
       delete temp.planetoids;
-      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
+      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
@@ -229,6 +291,7 @@ class Planet{
          accomodations: new Array(),
          node_base: -1,
          nodes: new Array(),
+         nodeIDs: new Array(),
          inhabitants: new Array(),
       }
    }
@@ -282,22 +345,11 @@ class Planet{
     * @returns the type of the planet.
     */
    async genType(){
-      switch(misc.randomnum(1,7)){
-         case 1:
-            return 'barren';
-         case 2:
-            return 'lush';
-         case 3:
-            return 'aquatic';
-         case 4:
-            return 'gas';
-         case 5:
-            return 'rocky';
-         case 6:
-            return 'plains';
-         case 7:
-            return 'polis';
+      let result = ['barren', 'lush', 'aquatic', 'gas', 'rocky', 'plains', 'polis'];
+      for(var k = 0; k < misc.randomnum(500,5000); k++){
+         result.sort(() => Math.random() - 0.5);
       }
+      return result[0];
    }
    /**
     * Creates an randomly sized Array, based of the sector's classification, of generated planetoid objects.
@@ -305,11 +357,11 @@ class Planet{
     */
    async genPlanetoids(){
       let types = {
-         1: {l:1, h:2},
-         2: {l:1, h:3},
-         3: {l:1, h:5},
-         4: {l:1, h:8},
-         5: {l:1, h:13},
+         1: {l:0, h:2},
+         2: {l:0, h:3},
+         3: {l:1, h:4},
+         4: {l:1, h:5},
+         5: {l:2, h:6},
       }
       let temp = types[this.state.size];
       let result = new Array(misc.randomnum(temp.l, temp.h));
@@ -324,11 +376,11 @@ class Planet{
     * @returns {Array} All the sector's planetoid's IDs.
     */
    async getPlanetoidIDs(){
-         let temp = new Array(this.state.planetoids.length);
-         for(let k = 0; k < this.state.planetoids.length; k++){
-            temp[k] = this.state.planetoids[k].state.id;
-         }
-         return temp;
+      let temp = new Array(this.state.planetoids.length);
+      for(let k = 0; k < this.state.planetoids.length; k++){
+         temp[k] = this.state.planetoids[k].state.id;
+      }
+      return temp;
    }
    /**
     * NOT YET FULLY IMPLEMENTED
@@ -395,10 +447,10 @@ class Planet{
             temp = misc.randomnum(5,13);
             break;
          case 4:
-            temp = misc.randomnum(8,21);
+            temp = misc.randomnum(8,17);
             break;
          case 5:
-            temp = misc.randomnum(13,34);
+            temp = misc.randomnum(13,21);
             break;
          default:
             temp = 1;
@@ -409,6 +461,13 @@ class Planet{
          await result[k].save();
       }
       return result;
+   }
+   async getNodeIDs(){
+      let temp = new Array(this.state.nodes.length);
+      for(let k = 0; k < this.state.nodes.length; k++){
+         temp[k] = this.state.nodes[k].state.id;
+      }
+      return temp;
    }
    async save(){
       let temp = this.state;
@@ -433,6 +492,7 @@ class Planetoid{
          type: new String(),
          node_base: -1,
          nodes: new Array(),
+         nodeIDs: new Array(),
          inhabitants: new Array(),
       }
    }
@@ -442,6 +502,7 @@ class Planetoid{
       this.state.type = await this.genType();
       this.state.node_base = await this.genNodeBase();
       this.state.nodes = await this.genNodes();
+      this.state.nodeIDs = await this.getNodeIDs();
       //this.state.inhabitants = this.genInhabitants();
    }
    /**
@@ -477,18 +538,11 @@ class Planetoid{
     * @returns {String} the type of the planetoid.
     */
    async genType(){
-      switch(misc.randomnum(1,5)){
-         case 1:
-            return 'asteroid_belt';
-         case 2:
-            return 'comet';
-         case 3:
-            return 'asteroid';
-         case 4:
-            return 'moon';
-         case 5:
-            return 'ring';
+      let result = ['asteroid_belt', 'comet', 'asteroid', 'moon', 'ring'];
+      for(var k = 0; k < misc.randomnum(500,5000); k++){
+         result.sort(() => Math.random() - 0.5);
       }
+      return result[0];
    }
    /**
     * Randomly generates the number of nodes the planetoid has, and then generates the nodes.
@@ -498,13 +552,13 @@ class Planetoid{
       var temp = 0;
       switch(this.state.size){
          case 1:
-            temp =misc.randomnum(1,3);
+            temp =misc.randomnum(1,2);
             break;
          case 2:
-            temp = misc.randomnum(2,5);
+            temp = misc.randomnum(1,3);
             break;
          case 3:
-            temp = misc.randomnum(3,8);
+            temp = misc.randomnum(2,5);
             break;
          default:
             temp = 1;
@@ -530,6 +584,13 @@ class Planetoid{
          default:
             return 1;
       }
+   }
+   async getNodeIDs(){
+      let temp = new Array(this.state.nodes.length);
+      for(let k = 0; k < this.state.nodes.length; k++){
+         temp[k] = this.state.nodes[k].state.id;
+      }
+      return temp;
    }
    /**
     * NOT YET IMPLEMENTED
@@ -609,14 +670,14 @@ class ResourceNode{
                return 'ruin';
             else if(temp <= 30)
                return 'city';
-            else if(temp <= 70)
+            else if(temp <= 80)
                return 'ocean';
             else if(temp <= 90)
                return 'cave';
             else
             return 'oil_field';
          case 'gas':
-            if(temp <= 30)
+            if(temp <= 40)
                return 'city';
             else
                return 'gas_cloud';
@@ -630,7 +691,7 @@ class ResourceNode{
             else
                return 'oil_field';
          case 'plains':
-            if(temp <= 50)
+            if(temp <= 60)
                return 'field';
             else if(temp <= 70)
                return 'city';
@@ -642,7 +703,7 @@ class ResourceNode{
             if(temp <= 80)
                return 'city';
             else
-               return 'ruins';
+               return 'plains';
          case 'asteroid_belt':
             if(temp <= 90)
                return 'cave';

@@ -59,3 +59,11 @@ Continued implementation of former getItem funciton in map.js, now getDest.
 Continued map rework, by redeveloping and implementing all ID generation, and parentID passing.
 
 Reworked map data saving from single json file to a file for each individual child object, holding its own fields and any reference IDs, but no child objects.
+
+Significantly reduced the number of planets, planetoids, and nodes to reduce workload for map generation and better balance the distribution of resources.
+
+Modified the planet and planetoid type generation algorithm to be better randomized, and reduce large gaps between the number of different types of nodes.
+
+Modified the node selection chances to better balance the appearances of different node types.
+
+Fixed the bug causing sectors to not save.
