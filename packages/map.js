@@ -153,7 +153,6 @@ class Sector{
          planetoids: new Array(),
          planetoidIDs: new Array(),
       }
-      this.init();
    }
    /**
     * Calls the asynchronous functions to generate the fields of the object.
@@ -269,7 +268,7 @@ class Sector{
       let temp = this.state;
       delete temp.planets;
       delete temp.planetoids;
-      fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
+      fs.writeFileSync(`../maps/${this.state.parent_ID}/[${this.state.x_coord},${this.state.y_coord}].json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
 
