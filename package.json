@@ -2,10 +2,10 @@
   "name": "galanarius",
   "version": "0.0.2",
   "description": "A compound RPG system utilizing a desktop application and discord utility to be accessible nearly anywhere.",
-  "main": "start.js",
+  "main": "",
   "scripts": {
     "di": "cd di && node bot.js",
-    "da": "cd da && electron .",
+    "da": "cd da && electron main.js",
     "test": "cd packages && node test.js"
   },
   "repository": {
@@ -35,9 +35,6 @@
   "dependencies": {
     "copy-dir": "^1.2.0",
     "graceful-fs": "^4.2.3",
-    "mkdirp": "^0.5.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "mkdirp": "^0.5.1"
   }
 }
