@@ -12,6 +12,10 @@ Implemented stock starting electron app.
 
 Removed react dependencies from package.json to be replaced with some js game engine.
 
+Created a folder titled pages for the various pages of the desktop app, and an html file for each page as well.
+
+Added custom menu to electron app to allow for movement between pages.
+
 ## DI
 
 ## Overall
