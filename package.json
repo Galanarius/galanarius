@@ -30,7 +30,8 @@
   "devDependencies": {
     "discord.js": "^11.5.1",
     "electron": "^7.1.7",
-    "node-cmd": "^3.0.0"
+    "node-cmd": "^3.0.0",
+    "nodemon": "^2.0.2"
   },
   "dependencies": {
     "copy-dir": "^1.2.0",

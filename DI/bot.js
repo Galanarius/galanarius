@@ -122,12 +122,10 @@ function msgprecon(msg){
   if(msg.content.charAt(0) != '?'){
     return null;
   }
-  else if(!whitelist(msg)){
+  if(!whitelist(msg)){
     return null;
   }
-  else{
     return msg.content.substring(1);
-  }
 }
 
 function whitelist(msg){

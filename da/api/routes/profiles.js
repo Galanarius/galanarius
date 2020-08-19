@@ -2,42 +2,60 @@ const express = require('express');
 const router = express.Router();
 const fs = require('graceful-fs');
 
+
+//GET
 router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling GET requests to /profiles'
-    });
+    //Return some statistics about all profiles (i.e. number of profiles, average lvl, members of each faction, etc).
 });
 
-router.post('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling POST requests to /profiles'
-    });
+router.get('/admin/:key', (req, res, next) => {
+    //Return a more detailed version of the route above.
 });
 
-router.get('/:profileID', (req, res, next) => {
-    const id = req.params.profileID;
-    if(fs.existsSync(`../profiles/${id}`))
-        res.status(200).json({
-            message: JSON.stringify(JSON.parse(fs.readFileSync(`../profiles/${id}/profile.json`))),
-            id: id
-        });
-    else
-        res.status(200).json({
-            message: `No profile found for the ID '${id}'.`,
-            id: id
-        });
+
+//GET: id
+router.get('/:id', (req, res, next) => {
+    //Return the profile found with the given ID.
 });
 
-router.patch('/:profileID', (req, res, next) => {
-    res.status(200).json({
-        message: 'Profile updated!'
-    });
+router.get('/admin/:key/:id', (req, res, next) => {
+    //Return a more detailed version of the route above.
 });
 
-router.delete('/:profileID', (req, res, next) => {
-    res.status(200).json({
-        message: 'Profile deleted!'
-    });
+
+//GET: id, attribute
+router.get('/:id/:attribute', (req, res, next) => {
+    //Return the given attribute for the profile found with the given ID.
+});
+
+router.get('/admin/:key/:id/:attribute', (req, res, next) => {
+    //Return a more detailed version of the route above.
+});
+
+
+//POST: id/profile
+router.post('/:id', (req, res, next) =>{
+    //Return a confirmation message that the character was made, and a reference to log in.
+});
+
+router.post('/admin/:key/:profile', (req, res, next) => {
+    //Return a more detailed version of the route above.
+});
+
+
+//PATCH: profile
+router.patch('/:profile', (req, res, next) => {
+    //Return a confirmation message that the character was updated, and a reference to getting 
+});
+
+router.patch('/admin/:key/:profile', (req, res, next) => {
+    //Return a more detailed version of the route above.
+});
+
+
+//DELETE: id
+router.delete('/admin/:key/:id', (req, res, next) => {
+    //Deletes the profile associated with the ID and returns a confirmation message.
 });
 
 

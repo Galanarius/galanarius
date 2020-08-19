@@ -276,7 +276,7 @@ module.exports = {
          return Math.round(misc.randomnum(1,5)*10*Math.log(p.skills.researching+p.skills.filtering+1));
       }
    },
-   purifying:{
+   purifying: {
       /**
        * Used to determine the purifying Function needed to be called, and returns the products of that Function.
        * @param {Profile} p The edited profile.
@@ -321,10 +321,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       smelt: (p, amt) => {
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.smelting+1));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         let temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         let temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         let temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.smelting+1));
+         let temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.smelting+1));
          p.resources.oreI += amt*temp1/100;
          p.resources.oreII += amt*temp2/100;
          p.resources.oreIII += amt*temp3/100;
@@ -341,10 +341,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       synthesize: (p, amt) => {
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         let temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         let temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         let temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
+         let temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.synthesizing+1));
          p.resources.synthI += amt*temp1/100;
          p.resources.synthII += amt*temp2/100;
          p.resources.synthIII += amt*temp3/100;
@@ -361,10 +361,10 @@ module.exports = {
        * @returns {Profile} A modified version of the given profile.
        */
       sift: (p, amt) => {
-         var temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
-         var temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
-         var temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.sifting+1));
-         var temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         let temp1 = Math.round(100-(100/Math.pow(2,(1+Math.random())/1.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         let temp2 = Math.round((100-temp1)/Math.pow(2,(1+Math.random()/2.5))) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         let temp3 = Math.round((100-temp1-temp2)/Math.pow(2,(1+Math.random())/2)) * (Math.random()*10*Math.log(p.skills.sifting+1));
+         let temp4 = Math.round(100-temp3-temp2-temp1) * (Math.random()*10*Math.log(p.skills.sifting+1));
          p.resources.oreI += amt*temp1/100;
          p.resources.oreII += amt*temp2/100;
          p.resources.oreIII += amt*temp3/100;
@@ -413,15 +413,15 @@ module.exports = {
          }
       }
    },
-   move:{
+   move: {
       /**
        * Moves the player's location based off a series of preconditions.
        * @param {String} userID The user being moved.
        * @param {String} id Where they wish to be moved.
        */
       sl: (userID, id) => {
-         /*var p = profile.getprofile(userID);
-         var dest = map.getDest(userID, id);*/
+         let p = profile.getprofile(userID);
+         let dest = map.getDest(userID, id);
       },
       /**
        * Moves the player's coordinates based off a series of preconditions.
@@ -429,8 +429,35 @@ module.exports = {
        * @param {String} id Where they wish to be moved.
        */
       ftl: (userID, id) => {
-         /*var p = profile.getprofile(userID);
-         var dest = map.getDest(userID, id);*/
+         let p = profile.getprofile(userID);
+         let dest = map.getDest(userID, id);
+      }
+   },
+   profile: {
+      /**
+       * Determines which faction the player is joining, then assigns the appropriate value to their profile.json file.
+       * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
+       * @param {String} choice The faction the player is choosing to join.
+       */
+      chooseFaction: (userID, choice) => {
+         profile.chooseFaction(userID, choice);
+      },
+      displayprofile: {
+         basic: (c) => {return profile.displayprofile.basic(c);},
+         location: (c) => {return profile.displayprofile.location(c);},
+         resources: (c) => {return profile.displayprofile.resources(c);},
+         skills: (c) => {return profile.displayprofile.skills(c);},
+         all: (c) => {
+            let result = `
+            ${profile.displayprofile.basic(c)}
+
+            ${profile.displayprofile.location(c)}
+            
+            ${profile.displayprofile.resources(c)}
+
+            ${profile.displayprofile.skills(c)}
+            `;
+         }
       }
    }
 }

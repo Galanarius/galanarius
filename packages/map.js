@@ -6,7 +6,7 @@ const npc = require('./npc.js');
 const profile = require('./profile.js');
 const actions = require('./actions.js');
 
-class Galaxy{
+class Galaxy {
    /**
     * Procedurally generates a galaxy heirarchy.
     * @constructor
@@ -135,7 +135,7 @@ class Galaxy{
    }
 }
 
-class Sector{
+class Sector {
    /**
     * Procedurally generates an entire sector heirarchy.
     * @constructor
@@ -272,7 +272,7 @@ class Sector{
    }
 }
 
-class Planet{
+class Planet {
    /**
     * Procedurally generates a planet and it's nodes.
     * @constructor
@@ -477,7 +477,7 @@ class Planet{
    }
 }
 
-class Planetoid{
+class Planetoid {
    /**
     * Procedurally generates a planetoid and it's nodes.
     * @constructor
@@ -605,7 +605,7 @@ class Planetoid{
    }
 }
 
-class ResourceNode{
+class ResourceNode {
    /**
     * Procedurally generates a node for its parent planet or planetoid.
     * @constructor
@@ -805,8 +805,11 @@ module.exports = {
     */
    getDest: async (userID, id) => {
       let p = profile.getprofile(userID);
-      let g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) throw err;}));
-      
+      let g = JSON.parse(fs.readFileSync('../maps/0.json', (err) => {if(err) print(null);}));
+      if(g != undefined)
+         return g;
+      else
+         return null;
    },
    galaxy: Galaxy,
    sector: Sector,

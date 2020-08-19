@@ -8,16 +8,17 @@ module.exports ={
     * @param {String} userID A numerical 14 digit value that is the reference to the player for the system. 
     */
    create: (user, userID) => {
-      copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err;}});
-      setTimeout(() => {
-      var c = JSON.parse(fs.readFileSync(`../ref/player-template/profile.json`));
-      c.username = user;
-      c.ID = userID;
-      setTimeout(() => {
-         fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
-      }, 1000);
-      }, 1000);
-      
+      if(!fs.exists(`../profiles/${userID}`)) {
+         copydir('../ref/player-template', `../profiles/${userID}`,{utimes: true, mode: true, cover: true},(err)=>{if(err){throw err;}});
+         setTimeout(() => {
+         var c = JSON.parse(fs.readFileSync(`../ref/player-template/profile.json`));
+         c.username = user;
+         c.ID = userID;
+         setTimeout(() => {
+            fs.writeFileSync(`../profiles/${userID}/profile.json`, JSON.stringify(c), (err) => {if(err) throw err});
+         }, 1000);
+         }, 1000);
+      }
    },
    /**
     * Retrieves the profile.json file from the referenced user's files.
@@ -43,7 +44,7 @@ module.exports ={
        * Displays the basic, general information about the player.
        * @param {Profile} c The player's profile.
        */
-      basic: (c) =>{
+      basic: (c) => {
          var result =      `username:           ${c.username}\n`;
          result +=         `level-exp:           ${c.lvl}-${c.xp}\n`;
          result +=         `credits:            ${c.credits}\n`;
@@ -54,7 +55,7 @@ module.exports ={
        * Displays the coordinates and name of the location of the player's current position.
        * @param {Profile} c The player's profile.
        */
-      location: (c) =>{
+      location: (c) => {
          return            `location:           ${c.loc}, [${c.coords[0]},${c.coords[1]}]`;
       },
       /**

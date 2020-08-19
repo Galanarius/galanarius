@@ -1,33 +1,51 @@
 # To Do
 
-## Implement map generation updates to allow for resource gathering to be dependent on current system and planet/planetoid
+## Implement storing reference data for NPCs at a planet or planetoid in the planet or planetoid's json file
 
-## Add help command
+## Refamiliarize yourself with the project
 
-## Begin implementation of icons
+### Refamiliarize yourself with resources
 
-## Begin encryption and anti-tampering scripts
+### Refamiliarize yourself with NPCs
 
-## Begin react implementation
+#### Refamiliarize yourself with NPCs and their automated action system
 
-### Implement text content for home page
+#### Refamiliarize yourself with Commanders, and how they are similar and dissimilar to other NPCs
 
-### Style home page in react
+### Refamiliarize yourself with map generation
 
-### Implement other page components
+### Refamiliarize yourself with storage system
 
-### Implement a navigation feature
+## Begin bot development
 
-### Implement text content and outline to other pages
+### Implement help command
 
-### Style other pages
+### Reimplement character creation
 
-## Begin widget development
+#### Reimplement a character creation command
 
-### Develop UI prefabs
+#### Reimplement a faction choice command
 
-### Implement profile control panel
+### Reimplement profile display
 
-### Develop profile display functions
+### Reimplement profile interactions
 
-### Implement profile display functions with UI prefabs
+### Implement action commands
+
+#### Implement a move command
+
+#### Implement a gathering command
+
+#### Implement a synthesizing command
+
+#### Implement a use command
+
+### Implement crafting
+
+#### Develop crafting recipes
+
+#### Implement a crafting list command
+
+#### Implement a crafting command
+
+#### Develop and implement more crafting recipes
