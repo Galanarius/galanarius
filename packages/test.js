@@ -10,4 +10,6 @@ const actions = require('./actions.js');
 const map = require('./map.js');
 
 //var p = profile.getprofile('327925541556453398');
-var test = new map.galaxy(100, 100);
+const test = new map.galaxy(2,2);
+test.init();
+//var test = map.getItem('327925541556453398', 0);

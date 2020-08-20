@@ -1,51 +1,51 @@
 # To Do
 
-## Implement resource gathering scripts
+## Implement storing reference data for NPCs at a planet or planetoid in the planet or planetoid's json file
 
-### Test purifying functions
+## Refamiliarize yourself with the project
 
-### Implement resource gathering and purifying scripts to a DI command call
+### Refamiliarize yourself with resources
 
-## Update NPC generation and display functions with new resources and skills
+### Refamiliarize yourself with NPCs
 
-## Begin implementation of star system generation scripts
+#### Refamiliarize yourself with NPCs and their automated action system
 
-### Finish brainstorming node types
+#### Refamiliarize yourself with Commanders, and how they are similar and dissimilar to other NPCs
 
-### Finish brainstorming terrain types of planets
+### Refamiliarize yourself with map generation
 
-### Finish brainstorming types of planetoids
+### Refamiliarize yourself with storage system
 
-### Finish generation of remaining fields for planets
+## Begin bot development
 
-### Finish generation of remaining fields for planetoids
+### Implement help command
 
-### Finish implementation of resource node type generation
+### Reimplement character creation
 
-## Begin implementation of icons
+#### Reimplement a character creation command
 
-## Begin encryption and anti-tampering scripts
+#### Reimplement a faction choice command
 
-## Begin react implementation
+### Reimplement profile display
 
-### Implement text content for home page
+### Reimplement profile interactions
 
-### Style home page in react
+### Implement action commands
 
-### Implement other page components
+#### Implement a move command
 
-### Implement a navigation feature
+#### Implement a gathering command
 
-### Implement text content and outline to other pages
+#### Implement a synthesizing command
 
-### Style other pages
+#### Implement a use command
 
-## Begin widget development
+### Implement crafting
 
-### Develop UI prefabs
+#### Develop crafting recipes
 
-### Implement profile control panel
+#### Implement a crafting list command
 
-### Develop profile display functions
+#### Implement a crafting command
 
-### Implement profile display functions with UI prefabs
+#### Develop and implement more crafting recipes
