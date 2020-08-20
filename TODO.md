@@ -1,5 +1,7 @@
 # To Do
 
+## Document bot.js
+
 ## Implement storing reference data for NPCs at a planet or planetoid in the planet or planetoid's json file
 
 ## Refamiliarize yourself with the project
