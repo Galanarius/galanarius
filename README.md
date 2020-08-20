@@ -1,6 +1,6 @@
 # Galanarius
 
-![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
+![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
 A scifi RPG Resource Management Game.
 
 ## About this program
@@ -13,15 +13,15 @@ but that will change with continued development.
 
 ### Discord Bot
 
-The Discord Bot (DI) is a portal to access the Galanarius system in a basic form anywhere 
-thanks to Discord's versatility. The actions taken using this access are limited to purely text based 
-commands and actions. These actions include things such as creating your character, choosing a faction, 
+The Discord Bot (DI) is a portal to access the Galanarius system in a basic form anywhere
+thanks to Discord's versatility. The actions taken using this access are limited to purely text based
+commands and actions. These actions include things such as creating your character, choosing a faction,
 moving your character or commanders, and basic actions such as gathering or refining resources.
 
 ### Desktop Application
 
-The Desktop Application (DA) gives the full experience of the Galanarius system, 
-with an accompanying GUI, allowing for more complex actions such as battles, and crafting. 
+The Desktop Application (DA) gives the full experience of the Galanarius system,
+with an accompanying GUI, allowing for more complex actions such as battles, and crafting.
 This platform has not yet been fully developed, and is still in its beginning stages as a feature.
 
 ## About the developer
@@ -33,13 +33,10 @@ Any feedback is welcome, as I only have a few close friends reviewing the code w
 Any contribution is accepted gladly, though it may not be used if it does not align with
 the overall vision of the project.
 
-
-
-
 ## Miscellaneous Info
 
-*Last commit: 1/30/2019*
+* Last commit: 8/19/2020*
 
-*Updated: 1/27/2019*
+* Updated: 8/19/2020*
 
 [![DeepScan grade](https://deepscan.io/api/teams/7180/projects/9329/branches/119609/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=7180&pid=9329&bid=119609)

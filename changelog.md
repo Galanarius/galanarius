@@ -6,18 +6,15 @@ master 1.0
 
 ## DA
 
-Began beginnings of implementation.
-
-Implemented stock starting electron app.
-
-Removed react dependencies from package.json to be replaced with some js game engine.
-
-Created a folder titled pages for the various pages of the desktop app, and an html file for each page as well.
-
-Added custom menu to electron app to allow for movement between pages.
-
-Removed all pages and running script from the repo to move to new dedicated repo.
-
 ## DI
 
 ## Overall
+
+Shifting focus away from DA implementation to DI implementation.
+The scope of DI is possibly being changed to allow for the
+implementation of other botting platforms as access points for
+the commands.
+
+After not touching the project for about 8 months, a reintroduction
+is required on my part, including some minor refactoring of code to
+facilitate uniformity throughout the project.
