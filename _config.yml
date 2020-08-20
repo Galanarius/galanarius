@@ -1,15 +1,1 @@
 theme: jekyll-theme-minimal
-- name: JSDoc Action
-  uses: andstor/jsdoc-action@v1.2.0
-  with:
-    source_dir: ./packages
-    recurse: true
-    output_dir: ./doc
-  with:
-    source_dir: ./da
-    recurse: true
-    output_dir: ./doc
-  with:
-    source_dir: ./di
-    recurse: true
-    output_dir: ./doc
