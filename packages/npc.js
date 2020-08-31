@@ -102,6 +102,8 @@ class NPC{
             n.lvl = 0;
          
       }
+      n.xp = misc.lvlTOxp(n.lvl) + misc.randomnum(0, misc.lvlTOxp(n.lvl+1)-misc.lvlTOxp(n.lvl));
+      n.credits = Math.round(1000*(Math.pow(1.1,n.lvl)+misc.randomnum(1,n.lvl)));
       //console.log(`lvl: ${n.lvl}`);
       //Skills
       this.state.n = n;
@@ -170,8 +172,8 @@ class NPC{
 
       //Sub Commanders
       for(var k = 0; k < Math.ceil(n.lvl/8); k++){
-         var temp = null;
-         if(misc.randomnum(1,100)+n.skills.recruiting >= 20*(5/this.state.tier)){
+         var temp = misc.randomnum(1,100)+n.skills.recruiting;
+         if(temp >= 20*(5/this.state.tier)){
             temp = misc.randomnum(1,100)+n.skills.recruiting/16;
 
             if(temp >= 210+16*(this.state.tier/2))
@@ -182,8 +184,11 @@ class NPC{
                temp = await this.genSubCom(n, this.state.tier-2);
             else if(temp >= 50)
                temp = await this.genSubCom(n, this.state.tier-3);
-            
+            else
+               temp = null;
          }
+         else
+            temp = null;
          if(temp != null){
             if(n.commanders == null){
                n.commanders = new Array(1);
@@ -206,7 +211,7 @@ class NPC{
       if(t == 0)
          t = 1;
       else if(t < 0)
-         return;
+         return null;
       var temp = new NPC(n.coords[0], n.coords[1], n.loc, n.ID, t);
       return temp.state.n.ID;
    }
@@ -391,6 +396,7 @@ class NPC{
    }
 
    //---Resources---
+
    //--Personnel--
    /**
     * Generates the number of personnel based of the previously generated level and recruiting skill.

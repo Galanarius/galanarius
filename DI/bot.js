@@ -26,16 +26,27 @@ client.on('message', msg => {
   if(msg.content == 'test'){
     msg.reply(`\`\`\`I here you loud and clear!\`\`\``);
   }
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'help' || msg.content.toLowerCase() == 'help') {
+    msg.channel.send(`
+__**Commands:**__
+  -help: *Displays this message.*
+  -roll: *Rolls a number of dice with the given number of sides.* **(i.e. roll 1d6; roll 3d12)**
+  -create: *Creates a character if you do not already have one.*
+  -profile/display: *Displays your character's stats, resources, and skills.*
+  -whereami/location/wai/loc: *Displays your current in-game location.* **(WARNING: Use in public channels sparingly to avoid giving other factions an advantage)**
+  -choose: *Prompts you to choose which in-game faction to join.* **(i.e. choose Symbic; choose Regalia; choose Empirus)**
+    `);
+  }
   //roll (number of dice)d(number of sides)
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'roll'){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'roll') {
     roll(msg, msg.content.substring(5, msg.content.indexOf('d')), msg.content.substring(msg.content.indexOf('d')+1));
   }
-  else if(msg.content.toLowerCase() == 'roll'){
+  else if(msg.content.toLowerCase() == 'roll' ){
     msg.reply(`you need to specify a number of dice and sides (i.e. 1d6).`);
   }
   //character create
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'create' || msg.content.toLowerCase() == 'create'){
-    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'create' || msg.content.toLowerCase() == 'create') {
+    if(fs.existsSync(`../profiles/${msg.author.id}`)) {
       msg.channel.send(`You already have a character!`);
       return;
     }
@@ -43,30 +54,30 @@ client.on('message', msg => {
     msg.reply(`character made successfully!`);
   }
   //display character
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'profile' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'display' || msg.content.toLowerCase() == 'profile' || msg.content.toLowerCase() == 'display'){
-    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'profile' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'display' || msg.content.toLowerCase() == 'profile' || msg.content.toLowerCase() == 'display') {
+    if(fs.existsSync(`../profiles/${msg.author.id}`)) {
       var c = profile.getprofile(msg.author.id);
       msg.channel.send(`**Profile:**\n\n\n**Basic:**\n\`\`\`${profile.displayprofile.basic(c)}\`\`\`\n\n**Resources:**\n\`\`\`${profile.displayprofile.resources(c)}\`\`\`\n\n**Skills:**\n\`\`\`${profile.displayprofile.skills(c)}\`\`\``);
     }
-    else{
+    else {
       msg.channel.send(`You need to make a character first`);
     }
   }
   //where am I/location
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'whereami' || msg.content.toLowerCase() == 'whereami' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'location' || msg.content.toLowerCase() == 'location'){
-    if(fs.existsSync(`../profiles/${msg.author.id}`)){
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'whereami' || msg.content.toLowerCase() == 'whereami' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'location' || msg.content.toLowerCase() == 'location' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'wai' || msg.content.toLowerCase() == 'wai') {
+    if(fs.existsSync(`../profiles/${msg.author.id}`)) {
       var c = profile.getprofile(msg.author.id);
       msg.channel.send(profile.displayprofile.location(c));
     }
-    else{
+    else {
       msg.reply(`you need to make a character to be able to use this command.`);
     }
   }
   //faction choice
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'faction' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'choose'){
-    if(fs.existsSync(`../profiles/${msg.author.id}`)){ 
+  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'faction' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'choose') {
+    if(fs.existsSync(`../profiles/${msg.author.id}`)) { 
       var c = profile.getprofile(msg.author.id);
-      if(c.faction == 'undecided'){
+      if(c.faction == 'undecided') {
         var temp = profile.chooseFaction(msg.author.id, msg.content.substring(msg.content.indexOf(' ')+1));
         if(temp == 'ERR')
           msg.channel.send(`There are no factions under the alias \`${msg.content.substring(msg.content.indexOf(' '))}\`.`);
@@ -79,14 +90,14 @@ client.on('message', msg => {
     else
       msg.reply(`you need to make a character to be able to use this command.`);
   }
-  else if(msg.content.toLowerCase() == 'faction' || msg.content.toLowerCase() == 'choose'){
+  else if(msg.content.toLowerCase() == 'faction' || msg.content.toLowerCase() == 'choose') {
     if(fs.existsSync(`../profiles/${msg.author.id}`))
       msg.channel.send(`You must specify a faction to join (\`Empirus\`, \`Regalia\`, or \`Symbic\`)`);
     else
       msg.reply(`you need to make a character to be able to use this command.`);
   }
   //gather
-  else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'gather' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'get'){
+  /*else if(msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'gather' || msg.content.substring(0, msg.content.indexOf(' ')).toLowerCase() == 'get'){
     if(fs.existsSync(`../profiles/${msg.author.id}`)){
       let temp = actions.gather.gather(
         profile.getprofile(msg.author.id), 
@@ -106,15 +117,15 @@ client.on('message', msg => {
     else{
       msg.reply(`you need to make a character to be able to use this command.`);
     }
-  }
-  else if(msg.content.toLowerCase() == 'gather' || msg.content.toLowerCase() == 'get'){
+  }*/
+  /*else if(msg.content.toLowerCase() == 'gather' || msg.content.toLowerCase() == 'get'){
     if(fs.existsSync(`../profiles/${msg.author.id}`))
       msg.channel.send(`You must specify a resource to gather.`);
     else
       msg.reply(`you need to make a character to be able to use this command.`);
-  }
+  }*/
   //no command found
-  else{
+  else {
     if(msg.content.indexOf(' ') >= 0)
       msg.channel.send(`Command \`${msg.content.substring(0, msg.content.indexOf(' '))}\` not found`);
     else

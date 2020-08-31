@@ -303,7 +303,7 @@ class Planet {
       //this.state.restrictions = await this.genRestrictions();
       this.state.node_base = await this.genNodeBase();
       this.state.nodes = await this.genNodes();
-      //this.state.inhabitants = await this.genInhabitants();
+      this.state.inhabitants = await this.genInhabitants();
       this.state.planetoidIDs = await this.getPlanetoidIDs(this);
    }
    /**
@@ -461,6 +461,10 @@ class Planet {
       }
       return result;
    }
+   /**
+    * Returns the IDs of the planet's nodes
+    * @returns {Array} A String Array of the IDs of the nodes.
+    */
    async getNodeIDs(){
       let temp = new Array(this.state.nodes.length);
       for(let k = 0; k < this.state.nodes.length; k++){
@@ -468,11 +472,46 @@ class Planet {
       }
       return temp;
    }
+   /**
+    * Determine and generate the appropriate number of NPCs based off the planet's size.
+    * @returns {Array} Returns a String Array containing the IDs of the NPCs on the planet.
+    */
+   async genInhabitants(){
+      let num = 0;
+      switch(this.state.size){
+         case 1:
+            num = misc.randomnum(1,3);
+            break;
+         case 2:
+            num = misc.randomnum(2,8);
+            break;
+         case 3:
+            num = misc.randomnum(3,21);
+            break;
+         case 4:
+            num = misc.randomnum(5,34);
+            break;
+         case 5:
+            num = misc.randomnum(8,55);
+         default:
+            return new Error("Unknown Planet size during inhabitant generation - " + this.state.id);
+      }
+      let result = new Array(num); 
+      for(let k = 0; k < num; k++){
+         let coords = this.state.parent_ID.substring(this.state.indexOf("[")+1, this.state.indexOf("]"));
+         coords = coords.split(',').map(x=>+x)
+         result[0] = new npc.npc(coords[0], coords[1], this.state.id, null, null).state.ID;
+      }
+      return result;
+   }
+   /**
+    * Creates and modifies a temporary object, holding all the data of the planet, and saves it to a json file in root/maps.
+    */
    async save(){
       let temp = this.state;
       delete temp.planetoids;
       delete temp.nodes;
-      delete temp.inhabitants;
+      //temp.inhabitants;
       fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
@@ -502,7 +541,7 @@ class Planetoid {
       this.state.node_base = await this.genNodeBase();
       this.state.nodes = await this.genNodes();
       this.state.nodeIDs = await this.getNodeIDs();
-      //this.state.inhabitants = this.genInhabitants();
+      this.state.inhabitants = this.genInhabitants();
    }
    /**
     * Generates the planetoid's 5 digit ID.
@@ -592,15 +631,37 @@ class Planetoid {
       return temp;
    }
    /**
-    * NOT YET IMPLEMENTED
+    * Determine and generate the appropriate number of NPCs based off the planetoid's size.
+    * 
+    * @returns {Array} Returns a String Array containing the IDs of the NPCs on the planetoid.
     */
    async genInhabitants(){
-      //See Planet.genInhabitants for current partial implementation.
+      let num = 0;
+      switch(this.state.size){
+         case 1:
+            num = misc.randomnum(1,3);
+            break;
+         case 2:
+            num = misc.randomnum(2,8);
+            break;
+         case 3:
+            num = misc.randomnum(3,21);
+            break;
+         default:
+            return new Error("Unknown Planetoid size during inhabitant generation - " + this.state.id);
+      }
+      let result = new Array(num); 
+      for(let k = 0; k < num; k++){
+         let coords = this.state.parent_ID.substring(this.state.indexOf("[")+1, this.state.indexOf("]"));
+         coords = coords.split(',').map(x=>+x)
+         result[0] = new npc.npc(coords[0], coords[1], this.state.id, null, null).state.ID;
+      }
+      return result;
    }
    async save(){
       let temp = this.state;
       delete temp.nodes;
-      delete temp.inhabitants;
+      //delete temp.inhabitants;
       fs.writeFileSync(`../maps/${this.state.parent_ID.substring(0,this.state.parent_ID.indexOf(':'))}/${this.state.id}.json`, JSON.stringify(temp), (err) =>{if(err) throw err;});
    }
 }
