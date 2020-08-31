@@ -1,6 +1,6 @@
 # Galanarius
 
-![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
+![logo_img](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/LetterG.svg/120px-LetterG.svg.png)
 A scifi RPG Resource Management Game.
 
 ## About this program
@@ -35,7 +35,7 @@ the overall vision of the project.
 
 ## Miscellaneous Info
 
-*Last commit: 8/19/2020*
+*Last commit: 8/26/2020*
 
 *Updated 8/19/2019*
 

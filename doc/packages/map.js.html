@@ -1,4 +1,32 @@
-const fs = require('graceful-fs');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: map.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: map.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const fs = require('graceful-fs');
 const mkdirp = require('mkdirp');
 
 const misc = require('./misc.js');
@@ -42,7 +70,7 @@ class Galaxy {
     */
    async genID(){
       var temp = 'g';
-      for(var k = 0; k < 8; k++){
+      for(var k = 0; k &lt; 8; k++){
          temp += `${misc.randomnum(1,10)-1}`;
       }
       //console.log(temp);
@@ -61,11 +89,11 @@ class Galaxy {
    async genSectors(partial){
       if(!partial){
          let s = new Array(this.state.x_size);
-         for(let k = 0; k < this.state.x_size; k++){
+         for(let k = 0; k &lt; this.state.x_size; k++){
             s[k] = new Array(this.state.y_size);
          }
-         for(let k = 0; k < this.state.x_size; k++){
-            for(let i = 0; i < this.state.y_size; i++){
+         for(let k = 0; k &lt; this.state.x_size; k++){
+            for(let i = 0; i &lt; this.state.y_size; i++){
                s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
                await s[k][i].init();
             }
@@ -75,20 +103,20 @@ class Galaxy {
       else{
          if(this.state.x_size >= 10){
             let s = new Array(this.state.x_size);
-            for(let k = 0; k < 10; k++){
+            for(let k = 0; k &lt; 10; k++){
                s[k] = new Array(this.state.y_size);
             }
             if(this.state.y_size >= 10){
-               for(let k = 0; k < 10; k++){
-                  for(let i = 0; i < 10; i++){
+               for(let k = 0; k &lt; 10; k++){
+                  for(let i = 0; i &lt; 10; i++){
                      s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
                      await s[k][i].init();
                   }
                }
             }
             else{
-               for(let k = 0; k < 10; k++){
-                  for(let i = 0; i < this.state.y_size; i++){
+               for(let k = 0; k &lt; 10; k++){
+                  for(let i = 0; i &lt; this.state.y_size; i++){
                      s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
                      await s[k][i].init();
                   }
@@ -97,20 +125,20 @@ class Galaxy {
          }
          else{
             let s = new Array(this.state.x_size);
-            for(let k = 0; k < this.state.x_size; k++){
+            for(let k = 0; k &lt; this.state.x_size; k++){
                s[k] = new Array(this.state.y_size);
             }
             if(this.state.y_size >= 10){
-               for(let k = 0; k < 10; k++){
-                  for(let i = 0; i < 10; i++){
+               for(let k = 0; k &lt; 10; k++){
+                  for(let i = 0; i &lt; 10; i++){
                      s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
                      await s[k][i].init();
                   }
                }
             }
             else{
-               for(let k = 0; k < 10; k++){
-                  for(let i = 0; i < this.state.y_size; i++){
+               for(let k = 0; k &lt; 10; k++){
+                  for(let i = 0; i &lt; this.state.y_size; i++){
                      s[k][i] = new Sector(this.state.id, k-(this.state.x_size/2), i-(this.state.y_size/2));
                      await s[k][i].init();
                   }
@@ -171,19 +199,19 @@ class Sector {
     */
    async genClassif(sector){
       let temp = misc.randomnum(1,100);
-      if(temp <= 1)
+      if(temp &lt;= 1)
          temp = 'O';
-      else if(temp <= 4)
+      else if(temp &lt;= 4)
          temp = 'B';
-      else if(temp <= 9)
+      else if(temp &lt;= 9)
          temp = 'A';
-      else if(temp <= 17)
+      else if(temp &lt;= 17)
          temp = 'F';
-      else if(temp <= 41)
+      else if(temp &lt;= 41)
          temp = 'G';
-      else if(temp <= 84)
+      else if(temp &lt;= 84)
          temp = 'K';
-      else if(temp <= 100)
+      else if(temp &lt;= 100)
          temp = 'M';
       else{
          let temp2 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -209,7 +237,7 @@ class Sector {
       }
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
-      for(let k = 0; k < result.length; k++){
+      for(let k = 0; k &lt; result.length; k++){
          result[k] = new Planet(`${sector.parent_ID}:[${sector.x_coord},${sector.y_coord}]`);
          await result[k].init();
          await result[k].save();
@@ -222,7 +250,7 @@ class Sector {
     */
    async getPlanetIDs(sector){
       let temp = new Array(sector.planets.length);
-      for(let k = 0; k < sector.planets.length; k++){
+      for(let k = 0; k &lt; sector.planets.length; k++){
          temp[k] = sector.planets[k].state.id;
       }
       sector.planetIDs = temp;
@@ -244,7 +272,7 @@ class Sector {
       }
       let temp = types[sector.classif];
       let result = new Array(misc.randomnum(temp.l, temp.h));
-      for(let k = 0; k < result.length; k++){
+      for(let k = 0; k &lt; result.length; k++){
          result[k] = new Planetoid(`${sector.parent_ID}:[${sector.x_coord},${sector.y_coord}]`);
          await result[k].init();
          await result[k].save();
@@ -258,7 +286,7 @@ class Sector {
     */
    async getPlanetoidIDs(sector){
       let temp = new Array(sector.planetoids.length);
-      for(let k = 0; k < sector.planetoids.length; k++){
+      for(let k = 0; k &lt; sector.planetoids.length; k++){
          temp[k] = sector.planetoids[k].state.id;
       }
       sector.planetoidIDs = temp;
@@ -312,15 +340,15 @@ class Planet {
     */
    async genSize(){
       var temp = misc.randomnum(1,100);
-      if(temp <= 5)
+      if(temp &lt;= 5)
          return 5;
-      if(temp <= 15)
+      if(temp &lt;= 15)
          return 4;
-      if(temp <= 30)
+      if(temp &lt;= 30)
          return 3;
-      if(temp <= 80)
+      if(temp &lt;= 80)
          return 2;
-      if(temp <= 100)
+      if(temp &lt;= 100)
          return 1;
       else{
          var temp2 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -334,7 +362,7 @@ class Planet {
     */
    async genID(){
       var result = 'p';
-      for(var k = 0; k < 8; k++){
+      for(var k = 0; k &lt; 8; k++){
          result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
@@ -345,7 +373,7 @@ class Planet {
     */
    async genType(){
       let result = ['barren', 'lush', 'aquatic', 'gas', 'rocky', 'plains', 'polis'];
-      for(var k = 0; k < misc.randomnum(500,5000); k++){
+      for(var k = 0; k &lt; misc.randomnum(500,5000); k++){
          result.sort(() => Math.random() - 0.5);
       }
       return result[0];
@@ -364,7 +392,7 @@ class Planet {
       }
       let temp = types[this.state.size];
       let result = new Array(misc.randomnum(temp.l, temp.h));
-      for(var k = 0; k < result.length; k++){
+      for(var k = 0; k &lt; result.length; k++){
          result[k] = new Planetoid(`${this.state.parent_ID}:${this.state.id}`);
          await result[k].init();
          await result[k].save();
@@ -376,7 +404,7 @@ class Planet {
     */
    async getPlanetoidIDs(){
       let temp = new Array(this.state.planetoids.length);
-      for(let k = 0; k < this.state.planetoids.length; k++){
+      for(let k = 0; k &lt; this.state.planetoids.length; k++){
          temp[k] = this.state.planetoids[k].state.id;
       }
       return temp;
@@ -389,7 +417,7 @@ class Planet {
       var temp = misc.randomnum(1,100);
       if(temp >= 30){
          var c = new Array(this.state.size*misc.randomnum(1,5));
-         for(var k = 0; k < c.length; k++){
+         for(var k = 0; k &lt; c.length; k++){
             c[k] = new npc.npc(this.state.parent_id.substring(0, this.state.parent_id.indexOf(',')), this.state.parent_id.subtring(this.state.parent_id.indexOf(',')+1), this.state.id);
          }
       }
@@ -455,7 +483,7 @@ class Planet {
             temp = 1;
       }
       var result = new Array(temp);
-      for(var k = 0; k < result.length; k++){
+      for(var k = 0; k &lt; result.length; k++){
          result[k] = new ResourceNode(`${this.state.parent_ID}:${this.state.id}`, this.state.type, this.state.node_base);
          await result[k].save();
       }
@@ -467,7 +495,7 @@ class Planet {
     */
    async getNodeIDs(){
       let temp = new Array(this.state.nodes.length);
-      for(let k = 0; k < this.state.nodes.length; k++){
+      for(let k = 0; k &lt; this.state.nodes.length; k++){
          temp[k] = this.state.nodes[k].state.id;
       }
       return temp;
@@ -497,7 +525,7 @@ class Planet {
             return new Error("Unknown Planet size during inhabitant generation - " + this.state.id);
       }
       let result = new Array(num); 
-      for(let k = 0; k < num; k++){
+      for(let k = 0; k &lt; num; k++){
          let coords = this.state.parent_ID.substring(this.state.indexOf("[")+1, this.state.indexOf("]"));
          coords = coords.split(',').map(x=>+x)
          result[0] = new npc.npc(coords[0], coords[1], this.state.id, null, null).state.ID;
@@ -549,7 +577,7 @@ class Planetoid {
     */
    async genID(){
       var result = 'pd';
-      for(var k = 0; k < 8; k++){
+      for(var k = 0; k &lt; 8; k++){
          result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
@@ -560,11 +588,11 @@ class Planetoid {
     */
    async genSize(){
       var temp = misc.randomnum(1,100);
-      if(temp <= 20)
+      if(temp &lt;= 20)
          return 3;
-      if(temp <= 70)
+      if(temp &lt;= 70)
          return 2;
-      if(temp <= 100)
+      if(temp &lt;= 100)
          return 1;
       //else
       var temp2 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -577,7 +605,7 @@ class Planetoid {
     */
    async genType(){
       let result = ['asteroid_belt', 'comet', 'asteroid', 'moon', 'ring'];
-      for(var k = 0; k < misc.randomnum(500,5000); k++){
+      for(var k = 0; k &lt; misc.randomnum(500,5000); k++){
          result.sort(() => Math.random() - 0.5);
       }
       return result[0];
@@ -602,7 +630,7 @@ class Planetoid {
             temp = 1;
       }
       var result = new Array(temp);
-      for(var k = 0; k < result.length; k++){
+      for(var k = 0; k &lt; result.length; k++){
          result[k] = new ResourceNode(`${this.state.parent_ID}:${this.state.id}`, this.state.type, this.state.node_base);
          await result[k].save();
       }
@@ -625,7 +653,7 @@ class Planetoid {
    }
    async getNodeIDs(){
       let temp = new Array(this.state.nodes.length);
-      for(let k = 0; k < this.state.nodes.length; k++){
+      for(let k = 0; k &lt; this.state.nodes.length; k++){
          temp[k] = this.state.nodes[k].state.id;
       }
       return temp;
@@ -651,7 +679,7 @@ class Planetoid {
             return new Error("Unknown Planetoid size during inhabitant generation - " + this.state.id);
       }
       let result = new Array(num); 
-      for(let k = 0; k < num; k++){
+      for(let k = 0; k &lt; num; k++){
          let coords = this.state.parent_ID.substring(this.state.indexOf("[")+1, this.state.indexOf("]"));
          coords = coords.split(',').map(x=>+x)
          result[0] = new npc.npc(coords[0], coords[1], this.state.id, null, null).state.ID;
@@ -691,7 +719,7 @@ class ResourceNode {
     */
    genID(){
       var result = 'n';
-      for(var k = 0; k < 8; k++){
+      for(var k = 0; k &lt; 8; k++){
          result += `${misc.randomnum(1,10)-1}`;
       }
       return result;
@@ -706,96 +734,96 @@ class ResourceNode {
       let temp = misc.randomnum(1,100);
       switch(ter){
          case 'barren':
-            if(temp <= 40)
+            if(temp &lt;= 40)
                return 'cave';
-            else if(temp <= 60)
+            else if(temp &lt;= 60)
                return 'oil_field';
             else
                return 'ruin';
          case 'lush':
-            if(temp <= 40)
+            if(temp &lt;= 40)
                return 'wood';
-            else if(temp <= 50)
+            else if(temp &lt;= 50)
                return 'city';
-            else if(temp <= 60)
+            else if(temp &lt;= 60)
                return 'field';
-            else if(temp <= 70)
+            else if(temp &lt;= 70)
                return 'cave';
-            else if(temp <= 80)
+            else if(temp &lt;= 80)
                return 'ruin';
             else
                return 'oil_field';
          case 'aquatic':
-            if(temp <= 10)
+            if(temp &lt;= 10)
                return 'ruin';
-            else if(temp <= 30)
+            else if(temp &lt;= 30)
                return 'city';
-            else if(temp <= 80)
+            else if(temp &lt;= 80)
                return 'ocean';
-            else if(temp <= 90)
+            else if(temp &lt;= 90)
                return 'cave';
             else
             return 'oil_field';
          case 'gas':
-            if(temp <= 40)
+            if(temp &lt;= 40)
                return 'city';
             else
                return 'gas_cloud';
          case 'rocky':
-            if(temp <= 50)
+            if(temp &lt;= 50)
                return 'cave';
-            else if(temp <= 60)
+            else if(temp &lt;= 60)
                return 'city';
-            else if(temp <= 80)
+            else if(temp &lt;= 80)
                return 'ruin';
             else
                return 'oil_field';
          case 'plains':
-            if(temp <= 60)
+            if(temp &lt;= 60)
                return 'field';
-            else if(temp <= 70)
+            else if(temp &lt;= 70)
                return 'city';
-            else if(temp <= 80)
+            else if(temp &lt;= 80)
                return 'wood';
             else
                return 'lake';
          case 'polis':
-            if(temp <= 80)
+            if(temp &lt;= 80)
                return 'city';
             else
                return 'plains';
          case 'asteroid_belt':
-            if(temp <= 90)
+            if(temp &lt;= 90)
                return 'cave';
-            else if(temp <= 95)
+            else if(temp &lt;= 95)
                return 'city';
             else
                return 'ruin';
          case 'comet':
-            if(temp <= 20)
+            if(temp &lt;= 20)
                return 'cave';
-            else if(temp <= 60)
+            else if(temp &lt;= 60)
                return 'gas_cloud';
             else
                return 'oil_field';
          case 'asteroid':
-            if(temp <= 80)
+            if(temp &lt;= 80)
                return 'cave';
             else
                return 'oil_field';
          case 'moon':
-            if(temp <= 40)
+            if(temp &lt;= 40)
                return 'cave';
-            else if(temp <= 70)
+            else if(temp &lt;= 70)
                return 'oil_field';
-            else if(temp <= 90)
+            else if(temp &lt;= 90)
                return 'city';
             else
                return 'ruins';
          case 'ring':
-            if(temp <= 40)
+            if(temp &lt;= 40)
                return 'gas_cloud';
-            else if(temp <= 80)
+            else if(temp &lt;= 80)
                return 'oil_field';
             else
                return 'cave';
@@ -877,4 +905,26 @@ module.exports = {
    planet: Planet,
    planetoid: Planetoid,
    resource_node: ResourceNode
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Galaxy.html">Galaxy</a></li><li><a href="NPC.html">NPC</a></li><li><a href="Planet.html">Planet</a></li><li><a href="Planetoid.html">Planetoid</a></li><li><a href="ResourceNode.html">ResourceNode</a></li><li><a href="Sector.html">Sector</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Aug 26 2020 13:34:16 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

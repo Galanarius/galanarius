@@ -6,7 +6,8 @@
   "scripts": {
     "da-start": "cd da && node server.js",
     "di": "cd di && node bot.js",
-    "test": "cd packages && node test.js"
+    "test": "cd packages && node test.js",
+    "document": "jsdoc packages --destination doc/packages && jsdoc di --destination doc/discordbot"
   },
   "repository": {
     "type": "git",
